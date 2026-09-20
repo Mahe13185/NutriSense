@@ -504,17 +504,38 @@ to create an accessible nutrition-awareness experience.
 
 ---
 
+# 🔐 Supabase Authentication & PostgreSQL Storage
+
+NutriSense integrates **Supabase** for secure user authentication and persistent cloud storage of profiles and assessment history:
+
+* **Authentication**: Email & password authentication with session persistence and React Context (`useAuth`).
+* **Database Tables**:
+  - `profiles`: User demographics and baseline dietary preferences.
+  - `assessments`: Timestamped snapshots of completed assessment input data (`assessment_data`) and rule engine output (`result_data`).
+* **Row Level Security (RLS)**: Enforced on all tables to ensure users can only read, write, and manage their own records. Cross-account access is strictly prevented.
+* **Client-Side Assessment Engine**: The rule-based assessment engine remains completely client-side and is informed by documented nutrition references including ICMR-NIN (2024).
+
+### Environment Setup
+
+Create `.env.local` in the project root:
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://<your-project-id>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-anon-key>
+```
+
+For complete database schema and setup instructions, see [SUPABASE_SETUP.md](./SUPABASE_SETUP.md) and [`supabase/schema.sql`](./supabase/schema.sql).
+
+---
+
 # 🔮 Future Scope
 
-The current implementation intentionally focuses on a lightweight prototype.
+The current implementation provides a complete interactive prototype with cloud authentication and persistence.
 
-A production-oriented version could introduce:
+A future version could introduce:
 
 * 🤖 Machine-learning-based risk prediction
-* 🔐 Secure user authentication
-* 🗄️ Backend database
 * 📱 Progressive Web App / mobile application
-* 📈 Long-term nutrition tracking
+* 📈 Long-term multi-month nutrition trend analysis
 * 🧪 Integration with verified laboratory data
 * 👨‍⚕️ Professional consultation workflows
 * 🌐 Regional language support

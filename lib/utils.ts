@@ -18,3 +18,21 @@ export function formatBmi(weightKg: number, heightCm: number): { bmi: number; ca
 
   return { bmi, category };
 }
+
+/**
+ * Validates that a redirect path is a safe internal application route.
+ * Prevents open-redirect vulnerabilities (e.g., //evil.com, https://attacker.com).
+ */
+export function getSafeRedirect(redirectParam: string | null | undefined, fallback = '/dashboard'): string {
+  if (!redirectParam) return fallback;
+  const trimmed = redirectParam.trim();
+  if (
+    trimmed.startsWith('/') &&
+    !trimmed.startsWith('//') &&
+    !trimmed.includes('\\') &&
+    !trimmed.includes(':')
+  ) {
+    return trimmed;
+  }
+  return fallback;
+}

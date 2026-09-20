@@ -134,3 +134,28 @@ export interface GuidelineSection {
   keyPoints: string[];
   practicalTips: string[];
 }
+
+// ============================================================
+// Supabase Database Models & Auth Types
+// ============================================================
+
+export interface UserProfile {
+  id: string;
+  name: string | null;
+  age: number | null;
+  sex: Sex | null;
+  height: number | null; // height in cm
+  weight: number | null; // weight in kg
+  activity_level: ActivityLevel | null;
+  dietary_preference: DietaryPreference | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SavedAssessmentRecord {
+  id: string;
+  user_id: string;
+  created_at: string;
+  assessment_data: AssessmentFormData;
+  result_data: AssessmentResult;
+}

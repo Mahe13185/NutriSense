@@ -100,20 +100,44 @@ const ICON_MAP: Record<string, any> = {
   Moon,
 };
 
+import { useAuth } from '@/lib/auth-context';
+import { saveAssessmentToSupabase } from '@/lib/supabaseStorage';
+
 export default function AssessmentPage() {
   const router = useRouter();
+  const { user, profile, loading } = useAuth();
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [formData, setFormData] = useState<AssessmentFormData>(INITIAL_FORM_DATA);
   const [errors, setErrors] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  // Load draft if available
+  // Protect route against unauthenticated access
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login?redirect=/assessment');
+    }
+  }, [user, loading, router]);
+
+  // Load draft or prefill from profile
   useEffect(() => {
     const draft = getDraftFormData();
     if (draft) {
       setFormData(draft);
+    } else if (profile) {
+      setFormData((prev) => ({
+        ...prev,
+        basicInfo: {
+          ...prev.basicInfo,
+          age: profile.age ?? '',
+          sex: profile.sex ?? '',
+          heightCm: profile.height ?? '',
+          weightKg: profile.weight ?? '',
+          activityLevel: profile.activity_level ?? '',
+          dietaryPreference: profile.dietary_preference ?? '',
+        },
+      }));
     }
-  }, []);
+  }, [profile]);
 
   // Save draft on change
   useEffect(() => {
@@ -195,21 +219,43 @@ export default function AssessmentPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validateStep(1) || !validateStep(2) || !validateStep(3)) {
       return;
     }
 
     setIsSubmitting(true);
     try {
-      // Evaluate assessment through rule engine
+      // 1. Evaluate assessment through client-side rule engine
       const evaluation = evaluateAssessment(formData);
-      // Persist to localStorage
+      // 2. Persist to localStorage for fallback & instant display
       saveAssessmentResult(evaluation);
-      // Navigate to results
-      setTimeout(() => {
+
+      // 3. If authenticated, await Supabase save with graceful error handling
+      let cloudId: string | null = null;
+      if (user) {
+        try {
+          const { data: savedRecord, error: saveErr } = await saveAssessmentToSupabase(
+            user.id,
+            formData,
+            evaluation
+          );
+          if (saveErr) {
+            console.warn('Cloud assessment save warning:', saveErr.message);
+          } else if (savedRecord?.id) {
+            cloudId = savedRecord.id;
+          }
+        } catch (cloudErr) {
+          console.warn('Could not save assessment to cloud:', cloudErr);
+        }
+      }
+
+      // 4. Redirect to results
+      if (cloudId) {
+        router.push(`/results?id=${cloudId}`);
+      } else {
         router.push('/results');
-      }, 400);
+      }
     } catch (e) {
       console.error('Evaluation error:', e);
       setIsSubmitting(false);
@@ -223,6 +269,17 @@ export default function AssessmentPage() {
       setErrors([]);
     }
   };
+
+  if (loading || !user) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="text-center space-y-3">
+          <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-sm text-slate-500 font-medium">Loading assessment wizard...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">

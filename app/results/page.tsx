@@ -1,15 +1,16 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { AssessmentResult } from '@/types';
 import { getLatestAssessmentResult } from '@/lib/storage';
+import { getAssessmentById } from '@/lib/supabaseStorage';
 import { evaluateAssessment } from '@/lib/assessmentEngine';
 import { ResultCard } from '@/components/ResultCard';
 import { NutritionRadarChart } from '@/components/NutritionRadarChart';
 import { NutrientDistributionBar } from '@/components/NutrientDistributionBar';
 import { DisclaimerBanner } from '@/components/DisclaimerBanner';
-import { RiskBadge } from '@/components/RiskBadge';
 import confetti from 'canvas-confetti';
 import {
   Sparkles,
@@ -19,73 +20,89 @@ import {
   BookOpen,
   ArrowRight,
   ShieldCheck,
-  Activity,
-  AlertTriangle,
   Lightbulb,
   CheckCircle2,
   Share2,
 } from 'lucide-react';
 
-export default function ResultsPage() {
+function ResultsContent() {
+  const searchParams = useSearchParams();
+  const assessmentId = searchParams.get('id');
+
   const [result, setResult] = useState<AssessmentResult | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [copied, setCopied] = useState<boolean>(false);
 
   useEffect(() => {
-    // Attempt to load latest result from localStorage
-    const saved = getLatestAssessmentResult();
-    if (saved) {
-      setResult(saved);
-      // Trigger a light celebratory confetti burst
-      try {
-        confetti({
-          particleCount: 40,
-          spread: 60,
-          origin: { y: 0.7 },
-          colors: ['#10b981', '#0d9488', '#059669', '#3b82f6'],
-        });
-      } catch (e) {
-        // Ignore in environments without canvas
+    async function loadResult() {
+      setLoading(true);
+
+      // 1. If an assessment ID was provided in the query string, fetch from Supabase
+      if (assessmentId) {
+        const { data: cloudRecord, error } = await getAssessmentById(assessmentId);
+        if (cloudRecord?.result_data) {
+          setResult(cloudRecord.result_data);
+          setLoading(false);
+          return;
+        }
       }
-    } else {
-      // Create a default sample assessment if accessed directly without submission
-      const sampleEvaluation = evaluateAssessment({
-        basicInfo: {
-          age: 26,
-          sex: 'female',
-          heightCm: 165,
-          weightKg: 58,
-          activityLevel: 'moderately_active',
-          dietaryPreference: 'vegetarian',
-        },
-        dietaryHabits: {
-          fruits: '1-3_per_week',
-          vegetables: '4-6_per_week',
-          greenLeafy: '1-3_per_week',
-          pulsesLegumes: '4-6_per_week',
-          dairyOrAlternatives: '1-3_per_week',
-          eggsMeatFish: 'never',
-          nutsSeeds: 'rarely',
-          wholeGrainsMillets: '4-6_per_week',
-          fortifiedFoods: 'rarely',
-        },
-        symptomsLifestyle: {
-          frequentFatigue: 'frequently',
-          generalWeakness: 'sometimes',
-          difficultyConcentrating: 'sometimes',
-          paleAppearance: 'sometimes',
-          muscleCrampsWeakness: 'sometimes',
-          hairSkinChanges: 'sometimes',
-          poorAppetite: 'rarely',
-          sunExposure: 'minimal_rare',
-          teaCoffeeWithMeals: 'often',
-          sleepQuality: 'average',
-        },
-      });
-      setResult(sampleEvaluation);
+
+      // 2. Attempt to load latest result from localStorage
+      const saved = getLatestAssessmentResult();
+      if (saved) {
+        setResult(saved);
+        try {
+          confetti({
+            particleCount: 40,
+            spread: 60,
+            origin: { y: 0.7 },
+            colors: ['#10b981', '#0d9488', '#059669', '#3b82f6'],
+          });
+        } catch (e) {
+          // Ignore in environments without canvas
+        }
+      } else {
+        // 3. Fallback sample assessment if accessed directly without submission
+        const sampleEvaluation = evaluateAssessment({
+          basicInfo: {
+            age: 26,
+            sex: 'female',
+            heightCm: 165,
+            weightKg: 58,
+            activityLevel: 'moderately_active',
+            dietaryPreference: 'vegetarian',
+          },
+          dietaryHabits: {
+            fruits: '1-3_per_week',
+            vegetables: '4-6_per_week',
+            greenLeafy: '1-3_per_week',
+            pulsesLegumes: '4-6_per_week',
+            dairyOrAlternatives: '1-3_per_week',
+            eggsMeatFish: 'never',
+            nutsSeeds: 'rarely',
+            wholeGrainsMillets: '4-6_per_week',
+            fortifiedFoods: 'rarely',
+          },
+          symptomsLifestyle: {
+            frequentFatigue: 'frequently',
+            generalWeakness: 'sometimes',
+            difficultyConcentrating: 'sometimes',
+            paleAppearance: 'sometimes',
+            muscleCrampsWeakness: 'sometimes',
+            hairSkinChanges: 'sometimes',
+            poorAppetite: 'rarely',
+            sunExposure: 'minimal_rare',
+            teaCoffeeWithMeals: 'often',
+            sleepQuality: 'average',
+          },
+        });
+        setResult(sampleEvaluation);
+      }
+      setLoading(false);
     }
-    setLoading(false);
-  }, []);
+
+    loadResult();
+  }, [assessmentId]);
 
   if (loading) {
     return (
@@ -112,7 +129,6 @@ export default function ResultsPage() {
 
   const handleCopySummary = () => {
     const text = `NutriSense Assessment Report:
-Estimated Overall Dietary Adequacy: ${result.overallDietaryScore}/100
 Flagged Focus Areas: ${result.topRiskAreas.join(', ')}
 Total Evaluated Nutrients: 7
 (Preliminary educational indication - Not a medical diagnosis)`;
@@ -143,7 +159,7 @@ Total Evaluated Nutrients: 7
             Nutritional Risk & Dietary Awareness Profile
           </h1>
           <p className="text-xs sm:text-sm text-slate-500">
-            Self-assessment synthesis based on ICMR-NIN (2024) Recommended Dietary Allowances.
+            Self-assessment synthesis informed by documented nutrition references including ICMR-NIN (2024).
           </p>
         </div>
 
@@ -178,18 +194,15 @@ Total Evaluated Nutrients: 7
 
       {/* OVERVIEW METRIC TILES */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Score Card */}
+        {/* Risk Breakdown Summary */}
         <div className="p-6 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 text-white shadow-md flex flex-col justify-between space-y-4">
           <div className="space-y-1">
             <span className="text-xs uppercase tracking-wider font-semibold text-slate-400">
-              Estimated Dietary Adequacy
+              Nutritional Risk Overview
             </span>
-            <div className="flex items-baseline gap-2">
-              <span className="text-4xl sm:text-5xl font-extrabold text-emerald-400">
-                {result.overallDietaryScore}
-              </span>
-              <span className="text-slate-400 font-medium text-lg">/ 100</span>
-            </div>
+            <h3 className="text-xl font-bold text-emerald-400">
+              Status Summary
+            </h3>
           </div>
           <p className="text-xs text-slate-300 leading-relaxed">
             {result.overallRiskSummary}
@@ -263,7 +276,7 @@ Total Evaluated Nutrients: 7
           </div>
 
           <div className="p-3 rounded-2xl bg-emerald-50/70 border border-emerald-200/60 text-xs text-emerald-900 space-y-1">
-            <span className="font-bold block">Quick ICMR Action Tip:</span>
+            <span className="font-bold block">Quick Reference Tip:</span>
             <p className="text-slate-700 leading-snug">
               Enhance meal diversity with sprouted pulses, daily leafy greens, and midday sunlight exposure.
             </p>
@@ -316,7 +329,7 @@ Total Evaluated Nutrients: 7
             What You Can Do Next: Building Sustainable Nutrition Habits
           </h3>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-3xl">
-            Practical lifestyle and dietary steps recommended by ICMR-NIN 2024 to systematically improve nutrient density and absorption.
+            Practical lifestyle and dietary steps informed by documented references including ICMR-NIN (2024) to systematically improve nutrient density and absorption.
           </p>
         </div>
 
@@ -380,5 +393,19 @@ Total Evaluated Nutrients: 7
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ResultsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-[60vh] flex items-center justify-center">
+          <div className="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <ResultsContent />
+    </Suspense>
   );
 }
