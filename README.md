@@ -579,3 +579,7 @@ NutriSense aims to turn everyday dietary information into meaningful nutritional
 <p align="center">
   Built as an academic CSP project with ❤️ using Next.js & TypeScript.
 </p>
+
+## Team Workflow
+
+This project follows a collaborative Git workflow using feature branches and pull requests.
