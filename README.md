@@ -561,7 +561,7 @@ git push origin feature/your-feature
 ```
 
 ---
-
+//update for Pull
 # ⭐ Project Vision
 
 > **Nutrition awareness should be simple, understandable, and accessible.**
