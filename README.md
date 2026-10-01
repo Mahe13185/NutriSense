@@ -457,7 +457,7 @@ Primary reference for Indian dietary guidance and nutrition awareness.
 
 ### 🌍 World Health Organization
 
-Supporting reference for healthy-diet principles and general nutrition guidance.
+Supporting reference for healthy-diet principles and general  nutrition guidance.
 
 [WHO — Healthy Diet](https://www.who.int/news-room/fact-sheets/detail/healthy-diet)
 
