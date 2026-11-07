@@ -85,29 +85,29 @@ export function evaluateAssessment(formData: AssessmentFormData): AssessmentResu
     const symptomIndicators: string[] = [];
 
     if (dietaryHabits.greenLeafy === 'rarely' || dietaryHabits.greenLeafy === 'never') {
-      reasons.push('Infrequent consumption of dark green leafy vegetables (rich source of plant iron).');
-      dietaryFactors.push('Dark Green Leafy Vegetables: Low frequency');
+      reasons.push('Infrequent consumption of green leafy vegetables (rich source of plant iron).');
+      dietaryFactors.push('Green Leafy Vegetables: Low frequency');
     }
     if (dietaryHabits.pulsesLegumes === 'rarely' || dietaryHabits.pulsesLegumes === 'never') {
       reasons.push('Low intake of legumes, dals, and sprouted pulses.');
       dietaryFactors.push('Pulses/Legumes: Low frequency');
     }
     if (symptomsLifestyle.teaCoffeeWithMeals === 'often') {
-      reasons.push('Drinking tea or coffee right with meals introduces tannins that inhibit plant-based iron absorption by up to 60%.');
-      dietaryFactors.push('Mealtime Tea/Coffee: High frequency inhibitor');
+      reasons.push('Drinking tea or coffee with or right after meals can reduce how well your body absorbs iron from plant foods.');
+      dietaryFactors.push('Mealtime tea or coffee: Frequent');
     }
     if (isFemale) {
-      reasons.push('Biological women have elevated physiological iron requirements (ICMR RDA: 29 mg/day).');
+      reasons.push('Women have higher physiological iron requirements (ICMR RDA: 29 mg/day).');
     }
 
     if (symptomsLifestyle.frequentFatigue === 'frequently') {
-      symptomIndicators.push('Self-reported persistent fatigue');
+      symptomIndicators.push('Self-reported persistent fatigue or low energy');
     }
     if (symptomsLifestyle.paleAppearance === 'frequently' || symptomsLifestyle.paleAppearance === 'sometimes') {
       symptomIndicators.push('Self-reported pale complexion or brittle nails');
     }
     if (symptomsLifestyle.difficultyConcentrating === 'frequently') {
-      symptomIndicators.push('Self-reported cognitive sluggishness/brain fog');
+      symptomIndicators.push('Self-reported trouble concentrating or mental fatigue');
     }
 
     if (reasons.length === 0) {
@@ -130,12 +130,12 @@ export function evaluateAssessment(formData: AssessmentFormData): AssessmentResu
         : ['Moringa leaves & Spinach', 'Whole eggs with yolk', 'Lean poultry & fish', 'Sprouted lentils', 'Double Fortified Salt (DFS)'],
       icmrRDA: isFemale ? '29 mg/day (Women, ICMR-NIN 2024)' : '19 mg/day (Men, ICMR-NIN 2024)',
       awarenessTips: [
-        'Always pair plant iron sources with Vitamin C (Amla, Lemon juice, Guava) to maximize non-heme absorption.',
+        'Pair plant iron sources (such as spinach and lentils) with Vitamin C rich foods (amla, lemon, guava) to improve iron absorption.',
         'Allow a minimum 45–60 minute window between meal consumption and drinking tea/coffee.',
         'Use cast iron cookware for cooking gravies and dals to naturally enrich meals with trace iron.',
       ],
       absorptionTips: [
-        'Soaking dals and sprouting pulses significantly degrades phytates.',
+        'Soaking dals and sprouting pulses helps improve nutrient absorption.',
         'Avoid taking high-dose calcium supplements at the exact same meal as high-iron dishes.',
       ],
     });
@@ -175,18 +175,18 @@ export function evaluateAssessment(formData: AssessmentFormData): AssessmentResu
     const symptomIndicators: string[] = [];
 
     if (isVegan) {
-      reasons.push('Strict plant-based diets naturally contain negligible active Vitamin B12 without deliberate fortified food intake.');
+      reasons.push('Strict plant-based diets naturally contain very little Vitamin B12 unless fortified foods or supplements are consumed.');
       dietaryFactors.push('Dietary pattern: Strict Vegan');
     } else if (isVegetarian && (dietaryHabits.dairyOrAlternatives === 'rarely' || dietaryHabits.dairyOrAlternatives === 'never')) {
-      reasons.push('Vegetarian diet with low or infrequent consumption of dairy products (curd, milk, paneer).');
+      reasons.push('Vegetarian diet with low or infrequent consumption of dairy foods (curd, milk, paneer).');
       dietaryFactors.push('Dairy consumption: Low/Infrequent');
     }
 
     if (symptomsLifestyle.frequentFatigue === 'frequently') {
-      symptomIndicators.push('Self-reported frequent fatigue / low energy');
+      symptomIndicators.push('Self-reported tiredness or low energy');
     }
     if (symptomsLifestyle.difficultyConcentrating === 'frequently' || symptomsLifestyle.difficultyConcentrating === 'sometimes') {
-      symptomIndicators.push('Self-reported mental fogginess or focus challenges');
+      symptomIndicators.push('Self-reported trouble concentrating or mental fatigue');
     }
 
     if (reasons.length === 0) {
@@ -195,7 +195,7 @@ export function evaluateAssessment(formData: AssessmentFormData): AssessmentResu
 
     nutrients.push({
       nutrientId: 'vitamin_b12',
-      name: 'Vitamin B12 (Cobalamin)',
+      name: 'Vitamin B12',
       category: 'vitamin',
       riskLevel,
       riskScore: finalRiskScore,
@@ -211,7 +211,7 @@ export function evaluateAssessment(formData: AssessmentFormData): AssessmentResu
         : ['Whole eggs (with yolk)', 'Fish (Rohu, Sardines, Salmon)', 'Curd & Paneer', 'Lean poultry'],
       icmrRDA: '2.5 mcg/day (ICMR-NIN 2024)',
       awarenessTips: [
-        'Vitamin B12 is stored in the liver, meaning deficiency develops insidiously over months or years.',
+        'Vitamin B12 is stored in the liver, meaning deficiency develops gradually over months or years.',
         'Curd and yogurt offer superior digestibility and natural probiotic synergy for gut flora.',
         'Strict vegans should consider periodic serum B12 blood tests under professional medical guidance.',
       ],
@@ -252,19 +252,19 @@ export function evaluateAssessment(formData: AssessmentFormData): AssessmentResu
     const symptomIndicators: string[] = [];
 
     if (symptomsLifestyle.sunExposure === 'minimal_rare') {
-      reasons.push('Minimal direct midday sunlight exposure (primary biological driver of Vitamin D synthesis).');
-      dietaryFactors.push('Sunlight Exposure: Minimal / Indoor Lifestyle');
+      reasons.push('Limited time spent outdoors in daylight (the body’s main way to produce Vitamin D).');
+      dietaryFactors.push('Sunlight Exposure: Limited time outdoors');
     } else if (symptomsLifestyle.sunExposure === 'moderate_weekly') {
-      reasons.push('Suboptimal weekly sunlight exposure with limited consumption of fortified foods.');
+      reasons.push('Occasional daylight exposure with limited intake of fortified foods.');
       dietaryFactors.push('Sunlight Exposure: Moderate');
     }
 
     if (dietaryHabits.fortifiedFoods === 'rarely' || dietaryHabits.fortifiedFoods === 'never') {
-      reasons.push('Infrequent consumption of FSSAI +F certified fortified milk or edible oils.');
+      reasons.push('Infrequent consumption of fortified foods such as fortified milk or oils.');
     }
 
     if (symptomsLifestyle.muscleCrampsWeakness === 'frequently' || symptomsLifestyle.muscleCrampsWeakness === 'sometimes') {
-      symptomIndicators.push('Self-reported muscle aches, cramps, or dull bone heaviness');
+      symptomIndicators.push('Self-reported muscle cramps, spasms, or bone discomfort');
     }
 
     if (reasons.length === 0) {
@@ -273,7 +273,7 @@ export function evaluateAssessment(formData: AssessmentFormData): AssessmentResu
 
     nutrients.push({
       nutrientId: 'vitamin_d',
-      name: 'Vitamin D3 (Cholecalciferol)',
+      name: 'Vitamin D',
       category: 'vitamin',
       riskLevel,
       riskScore: finalRiskScore,
@@ -286,11 +286,11 @@ export function evaluateAssessment(formData: AssessmentFormData): AssessmentResu
         'FSSAI +F Fortified Milk and Fortified Edible Vegetable Oils',
         'Sun-exposed wild mushrooms',
         isVegetarian ? 'Fortified plant-based milks' : 'Egg yolks (2 whole eggs) and oily fish (Sardines, Salmon, Mackerel)',
-        'Direct midday sunlight exposure (15–20 minutes, 11 AM – 2 PM)',
+        'Direct daylight exposure outdoors (15–20 minutes)',
       ],
       icmrRDA: '600–800 IU/day (15–20 mcg/day, ICMR-NIN 2024)',
       awarenessTips: [
-        'Spend 15–20 minutes in midday sunlight with arms and face exposed for natural synthesis.',
+        'Spend 15–20 minutes outdoors in daylight with arms or face exposed to support natural synthesis.',
         'Vitamin D is fat-soluble: always consume dietary sources or fortified foods with meals containing healthy fats.',
         'Due to urban indoor lifestyles, routine 25-OH Vitamin D screening is recommended by physicians.',
       ],
@@ -328,18 +328,18 @@ export function evaluateAssessment(formData: AssessmentFormData): AssessmentResu
     const symptomIndicators: string[] = [];
 
     if (!isVegan && (dietaryHabits.dairyOrAlternatives === 'rarely' || dietaryHabits.dairyOrAlternatives === 'never')) {
-      reasons.push('Low frequency of dairy products (milk, curd, paneer) which provide high-bioavailability calcium.');
+      reasons.push('Low frequency of dairy foods (milk, curd, paneer), which are major sources of easily absorbed calcium.');
       dietaryFactors.push('Dairy Products: Infrequent');
     }
     if (dietaryHabits.wholeGrainsMillets === 'rarely' || dietaryHabits.wholeGrainsMillets === 'never') {
       reasons.push('Infrequent consumption of traditional calcium-dense millets like Ragi (Finger Millet).');
     }
     if (dietaryHabits.nutsSeeds === 'rarely' || dietaryHabits.nutsSeeds === 'never') {
-      reasons.push('Low intake of calcium-rich seeds such as white and black sesame seeds (Til).');
+      reasons.push('Low intake of calcium-rich seeds such as white and black sesame seeds (til).');
     }
 
     if (symptomsLifestyle.muscleCrampsWeakness === 'frequently' || symptomsLifestyle.muscleCrampsWeakness === 'sometimes') {
-      symptomIndicators.push('Self-reported involuntary muscle twitches or calf cramps');
+      symptomIndicators.push('Self-reported muscle cramps, spasms, or bone discomfort');
     }
 
     if (reasons.length === 0) {
@@ -403,15 +403,15 @@ export function evaluateAssessment(formData: AssessmentFormData): AssessmentResu
     const symptomIndicators: string[] = [];
 
     if (dietaryHabits.vegetables === 'rarely' || dietaryHabits.vegetables === 'never') {
-      reasons.push('Low frequency of colorful vegetables (carrots, pumpkin, sweet potato) rich in Provitamin A beta-carotene.');
+      reasons.push('Low intake of colorful vegetables (carrots, pumpkin, sweet potato) that provide Vitamin A.');
       dietaryFactors.push('Colorful Vegetables: Low intake');
     }
     if (dietaryHabits.greenLeafy === 'rarely' || dietaryHabits.greenLeafy === 'never') {
-      reasons.push('Low intake of dark green leafy vegetables which supply vital lutein and carotenoids.');
+      reasons.push('Low intake of green leafy vegetables that supply vital plant nutrients.');
     }
 
     if (symptomsLifestyle.hairSkinChanges === 'frequently' || symptomsLifestyle.hairSkinChanges === 'sometimes') {
-      symptomIndicators.push('Self-reported dry rough skin or slow wound repair');
+      symptomIndicators.push('Self-reported dry skin or slow wound healing');
     }
 
     if (reasons.length === 0) {
@@ -420,7 +420,7 @@ export function evaluateAssessment(formData: AssessmentFormData): AssessmentResu
 
     nutrients.push({
       nutrientId: 'vitamin_a',
-      name: 'Vitamin A (Retinol & Beta-Carotene)',
+      name: 'Vitamin A',
       category: 'vitamin',
       riskLevel,
       riskScore: finalRiskScore,
@@ -438,8 +438,8 @@ export function evaluateAssessment(formData: AssessmentFormData): AssessmentResu
       ],
       icmrRDA: isFemale ? '840 mcg RE/day (Women)' : '1000 mcg RE/day (Men, ICMR-NIN 2024)',
       awarenessTips: [
-        'Carotenoids are fat-soluble: cook carrots and greens with a teaspoon of healthy oil or ghee for optimal uptake.',
-        'Light steaming of vegetables softens plant cell walls and dramatically liberates bioavailable beta-carotene.',
+        'Vitamin A from plant foods is fat-soluble: cook carrots and greens with a small amount of oil or ghee to support absorption.',
+        'Lightly cooking or steaming vegetables helps your body absorb Vitamin A more effectively.',
       ],
     });
   }
@@ -471,7 +471,7 @@ export function evaluateAssessment(formData: AssessmentFormData): AssessmentResu
     const symptomIndicators: string[] = [];
 
     if (dietaryHabits.greenLeafy === 'rarely' || dietaryHabits.greenLeafy === 'never') {
-      reasons.push('Low frequency of fresh leafy vegetables (primary natural dietary reservoir of folates).');
+      reasons.push('Low frequency of green leafy vegetables (primary dietary source of folates).');
       dietaryFactors.push('Leafy Greens: Low intake');
     }
     if (dietaryHabits.pulsesLegumes === 'rarely' || dietaryHabits.pulsesLegumes === 'never') {
@@ -480,7 +480,7 @@ export function evaluateAssessment(formData: AssessmentFormData): AssessmentResu
     }
 
     if (symptomsLifestyle.frequentFatigue === 'frequently') {
-      symptomIndicators.push('Self-reported persistent tiredness');
+      symptomIndicators.push('Self-reported persistent tiredness or low energy');
     }
 
     if (reasons.length === 0) {
@@ -549,15 +549,15 @@ export function evaluateAssessment(formData: AssessmentFormData): AssessmentResu
     const symptomIndicators: string[] = [];
 
     if (dietaryHabits.pulsesLegumes === 'rarely' || dietaryHabits.pulsesLegumes === 'never') {
-      reasons.push('Low frequency of pulses, dals, or legumes (the backbone of plant protein in Indian diets).');
-      dietaryFactors.push('Pulses/Dals: Infrequent');
+      reasons.push('Low frequency of pulses, dals, or legumes (a core source of protein in Indian diets).');
+      dietaryFactors.push('Dal & Pulses: Low frequency');
     }
     if (isVegetarian && (dietaryHabits.dairyOrAlternatives === 'rarely' || dietaryHabits.dairyOrAlternatives === 'never')) {
-      reasons.push('Vegetarian diet without consistent dairy (paneer, curd, milk) reduces complete amino acid variety.');
+      reasons.push('Vegetarian diet without consistent dairy foods (paneer, curd, milk) reduces protein diversity.');
     }
 
     if (symptomsLifestyle.generalWeakness === 'frequently' || symptomsLifestyle.generalWeakness === 'sometimes') {
-      symptomIndicators.push('Self-reported muscle fatigue or slow exercise recovery');
+      symptomIndicators.push('Self-reported muscle fatigue or tiring easily');
     }
     if (symptomsLifestyle.hairSkinChanges === 'frequently' || symptomsLifestyle.hairSkinChanges === 'sometimes') {
       symptomIndicators.push('Self-reported hair shedding or brittle nail texture');
@@ -569,7 +569,7 @@ export function evaluateAssessment(formData: AssessmentFormData): AssessmentResu
 
     nutrients.push({
       nutrientId: 'protein',
-      name: 'Dietary Protein & Essential Amino Acids',
+      name: 'Protein',
       category: 'macronutrient',
       riskLevel,
       riskScore: finalRiskScore,
