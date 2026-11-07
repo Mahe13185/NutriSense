@@ -373,7 +373,7 @@ export default function AssessmentPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             {/* Age */}
             <QuestionCard
-              title="How old are you?"
+              title="Age:"
               subtitle="Age helps determine your daily nutrient needs."
               required
             >
@@ -398,7 +398,7 @@ export default function AssessmentPage() {
 
             {/* Biological Sex */}
             <QuestionCard
-              title="What is your biological sex?"
+              title="Gender:"
               subtitle="Accounts for differences in nutrient requirements like iron."
               required
             >
@@ -427,7 +427,7 @@ export default function AssessmentPage() {
 
             {/* Height */}
             <QuestionCard
-              title="What is your height?"
+              title="Height:"
               subtitle="Enter your height in centimeters (cm)."
               required
             >
@@ -452,7 +452,7 @@ export default function AssessmentPage() {
 
             {/* Weight & BMI Info */}
             <QuestionCard
-              title="What is your weight?"
+              title="Weight:"
               subtitle="Enter your body weight in kilograms (kg)."
               required
             >
