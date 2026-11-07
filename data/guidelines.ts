@@ -119,7 +119,7 @@ export const WORKFLOW_STEPS = [
   {
     step: '4',
     title: 'Rule-Based Pattern Synthesis',
-    description: 'Cross-evaluates dietary intake deficits against reported indicator weights using transparent, academic prototype scoring algorithms.',
+    description: 'Cross-evaluates dietary intake deficits against reported indicator weights using transparent, rule-based scoring algorithms.',
     icon: 'Cpu',
   },
   {
@@ -133,7 +133,7 @@ export const WORKFLOW_STEPS = [
 export const METHODOLOGY_LIMITATIONS = [
   {
     title: 'Strictly Non-Diagnostic Scope',
-    description: 'NutriSense is an academic educational prototype developed to foster dietary awareness. It does NOT provide clinical diagnoses or replace professional laboratory blood work (such as serum ferritin, 25-OH Vitamin D, or serum B12 tests).',
+    description: 'NutriSense is an educational nutritional awareness platform developed to foster dietary awareness. It does NOT provide clinical diagnoses or replace professional laboratory blood work (such as serum ferritin, 25-OH Vitamin D, or serum B12 tests).',
   },
   {
     title: 'Self-Reported Data Reliance',

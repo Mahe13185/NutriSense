@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     'vitamin D sunshine',
     'calcium food sources',
     'dietary habit assessment',
-    'CSP academic prototype',
+    'nutrition awareness platform',
   ],
   authors: [{ name: 'NutriSense Team' }],
 };

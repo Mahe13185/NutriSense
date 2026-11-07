@@ -631,6 +631,6 @@ export function evaluateAssessment(formData: AssessmentFormData): AssessmentResu
     topRiskAreas,
     lifestyleAdvice,
     disclaimer:
-      'NutriSense is an academic educational prototype. This report is NOT a medical diagnosis and should not replace clinical evaluation or laboratory blood tests. Consult a qualified healthcare professional or registered dietitian for clinical guidance.',
+      'NutriSense is a nutritional awareness platform. This report is NOT a medical diagnosis and should not replace clinical evaluation or laboratory blood tests. Consult a qualified healthcare professional or registered dietitian for clinical guidance.',
   };
 }

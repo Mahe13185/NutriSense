@@ -20,10 +20,6 @@ export function Footer() {
             <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
               A Smart Nutritional Deficiency Detection and Awareness Portal. Helping individuals evaluate dietary habits, understand micronutrient synergy, and identify possible risk patterns based on evidence-backed nutritional benchmarks.
             </p>
-            <div className="pt-2 flex items-center gap-2 text-xs text-emerald-400 font-medium">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-              <span>Academic Prototype for Computer Science Project (CSP)</span>
-            </div>
           </div>
 
           {/* Core Modules */}
@@ -123,23 +119,23 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Global Academic Health Disclaimer Banner */}
+        {/* Global Health Disclaimer Banner */}
         <div className="mt-12 pt-8 border-t border-slate-800">
           <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/60 border border-amber-500/20 flex flex-col sm:flex-row items-start sm:items-center gap-3.5">
             <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400 shrink-0">
               <ShieldAlert className="w-5 h-5" />
             </div>
             <div className="text-xs text-slate-300 leading-relaxed">
-              <span className="font-semibold text-amber-300">Academic Disclaimer & Non-Diagnostic Notice:</span> NutriSense is an educational research prototype created for a Computer Science Project (CSP). It provides general nutritional awareness and preliminary risk indications based on user-entered answers. It does <strong className="text-white">NOT</strong> constitute medical diagnosis, clinical advice, or a substitute for laboratory testing. Always consult a qualified physician or registered dietitian for medical evaluation.
+              <span className="font-semibold text-amber-300">Important Health & Non-Diagnostic Notice:</span> NutriSense is a nutritional awareness platform. It provides general dietary insights and preliminary risk indications based on user-entered answers. It does <strong className="text-white">NOT</strong> constitute medical diagnosis, clinical advice, or a substitute for laboratory testing. Always consult a qualified physician or registered dietitian for medical evaluation.
             </div>
           </div>
 
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
             <p>© {new Date().getFullYear()} NutriSense — Smart Nutritional Deficiency Detection and Awareness Portal.</p>
             <div className="flex items-center gap-1 text-slate-400">
-              <span>Crafted for academic demonstration with</span>
+              <span>Crafted with</span>
               <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 mx-0.5" />
-              <span>and evidence-based nutrition science</span>
+              <span>evidence-based nutrition science</span>
             </div>
           </div>
         </div>

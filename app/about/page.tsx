@@ -23,21 +23,21 @@ export default function AboutPage() {
       {/* Header */}
       <div className="space-y-4">
         <SectionHeader
-          badge="Academic Project Architecture"
+          badge="Platform Architecture"
           title="About NutriSense: Objectives & Methodology"
-          subtitle="A functional Computer Science Project (CSP) prototype designed to explore rule-based nutritional risk indication and raise public dietary awareness."
+          subtitle="An evidence-informed platform designed to evaluate nutritional risk patterns and raise public dietary awareness through transparent, rule-based analysis."
         />
         <DisclaimerBanner variant="subtle" />
       </div>
 
-      {/* 1. PROJECT OBJECTIVE & PROBLEM STATEMENT */}
+      {/* 1. PLATFORM OBJECTIVE & PURPOSE */}
       <section className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-6">
         <div className="space-y-2">
           <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">
             Overview
           </span>
           <h2 className="text-2xl font-bold text-slate-900">
-            Project Objective & Problem Statement
+            Platform Objective & Purpose
           </h2>
         </div>
 

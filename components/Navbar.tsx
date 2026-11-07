@@ -64,14 +64,9 @@ export function Navbar() {
               <Activity className="w-5 h-5" />
             </div>
             <div>
-              <div className="flex items-center gap-1.5">
-                <span className="text-xl font-bold tracking-tight text-slate-900 group-hover:text-emerald-700 transition-colors">
-                  Nutri<span className="text-emerald-600">Sense</span>
-                </span>
-                <span className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider bg-emerald-50 text-emerald-700 rounded border border-emerald-200">
-                  CSP Prototype
-                </span>
-              </div>
+              <span className="text-xl font-bold tracking-tight text-slate-900 group-hover:text-emerald-700 transition-colors">
+                Nutri<span className="text-emerald-600">Sense</span>
+              </span>
               <p className="text-[11px] text-slate-500 hidden sm:block">
                 Nutritional Risk Awareness Portal
               </p>
@@ -232,7 +227,7 @@ export function Navbar() {
 
           <div className="flex items-center gap-2 pt-2 text-[11px] text-slate-500 px-3">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-            <span>Academic CSP Prototype • Non-Diagnostic</span>
+            <span>Nutritional Awareness • Non-Diagnostic</span>
           </div>
         </div>
       )}

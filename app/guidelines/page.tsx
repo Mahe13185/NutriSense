@@ -41,7 +41,7 @@ export default function GuidelinesPage() {
         <SectionHeader
           badge="Evidence-Based Foundations"
           title="Nutrition Guidelines & Methodology"
-          subtitle="Explore the scientific references, rule-based inference models, Recommended Dietary Allowances (RDA), and academic methodology powering the NutriSense portal."
+          subtitle="Explore the scientific references, rule-based inference models, Recommended Dietary Allowances (RDA), and evidence-based methodology powering the NutriSense portal."
         />
         <DisclaimerBanner variant="full" />
       </div>
@@ -272,7 +272,7 @@ export default function GuidelinesPage() {
             System Limitations & Ethical Disclaimers
           </h2>
           <p className="text-xs sm:text-sm text-slate-500">
-            Essential boundaries regarding prototype capabilities and medical non-diagnostic framing.
+            Essential boundaries regarding system capabilities and medical non-diagnostic framing.
           </p>
         </div>
 

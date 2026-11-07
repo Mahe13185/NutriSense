@@ -16,7 +16,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5+-3178C6?style=for-the-badge\&logo=typescript\&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3+-06B6D4?style=for-the-badge\&logo=tailwindcss\&logoColor=white)
 ![Recharts](https://img.shields.io/badge/Recharts-Data_Visualization-22C55E?style=for-the-badge)
-![License](https://img.shields.io/badge/License-Academic_Prototype-orange?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 
 </p>
 
@@ -24,7 +24,7 @@
 
 ## 🌱 About NutriSense
 
-**NutriSense** is an academic prototype developed to address the lack of simple, accessible nutrition-awareness tools for individuals.
+**NutriSense** is a web-based nutrition-awareness platform developed to address the lack of simple, accessible nutrition-awareness tools for individuals.
 
 Many people may not recognize that their dietary habits can be associated with inadequate intake of essential nutrients such as:
 
@@ -141,9 +141,9 @@ and supporting guidance from:
 
 ---
 
-### 🔒 Privacy-First Prototype
+### 🔒 Privacy-First Architecture
 
-The current prototype does not require:
+The application offers client-side evaluation without requiring external tracking:
 
 * User accounts
 * Login
@@ -206,7 +206,7 @@ Assessment information is handled locally in the browser using `localStorage`.
 
 # 🏗️ Architecture
 
-NutriSense is intentionally designed as a lightweight frontend-first prototype.
+NutriSense is intentionally designed with a lightweight, responsive architecture.
 
 ```text
 ┌─────────────────────────────────────────────┐
@@ -421,7 +421,7 @@ Selected self-reported indicators are collected to provide additional context.
 
 ### 4. Rule-Based Analysis
 
-Responses are evaluated against predefined prototype assessment rules.
+Responses are evaluated against predefined, explainable assessment rules.
 
 ### 5. Risk Indication
 
@@ -465,7 +465,7 @@ Supporting reference for healthy-diet principles and general  nutrition guidance
 
 # ⚠️ Important Disclaimer
 
-NutriSense is an **academic prototype for nutrition awareness and preliminary nutritional risk indication**.
+NutriSense is a **platform for nutrition awareness and preliminary nutritional risk indication**.
 
 It:
 
@@ -480,11 +480,11 @@ If a user has persistent or concerning symptoms, they should seek appropriate pr
 
 ---
 
-# 🎓 Academic Context
+# 🎯 Purpose & Methodology
 
 **Project:** NutriSense — Smart Nutritional Deficiency Detection and Awareness Portal
 
-**Purpose:** Academic / CSP Prototype
+**Purpose:** Nutritional Risk Awareness & Evidence-Informed Guidance
 
 The project demonstrates how a web-based system can combine:
 
@@ -529,7 +529,7 @@ For complete database schema and setup instructions, see [SUPABASE_SETUP.md](./S
 
 # 🔮 Future Scope
 
-The current implementation provides a complete interactive prototype with cloud authentication and persistence.
+The current implementation provides a complete interactive platform with cloud authentication and persistence.
 
 A future version could introduce:
 
@@ -549,7 +549,7 @@ Any future ML/clinical functionality would require appropriate datasets, validat
 
 # 🤝 Contributing
 
-This project is currently being developed as an academic prototype.
+NutriSense is an evolving open-source nutrition awareness platform.
 
 Suggestions, improvements, and contributions are welcome.
 
@@ -577,7 +577,7 @@ NutriSense aims to turn everyday dietary information into meaningful nutritional
 </p>
 
 <p align="center">
-  Built as an academic CSP project with ❤️ using Next.js & TypeScript.
+  Built with ❤️ using Next.js & TypeScript.
 </p>
 
 ## Team Workflow
