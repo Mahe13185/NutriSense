@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { NutrientRiskAssessment } from '@/types';
 import { RiskBadge } from '@/components/RiskBadge';
@@ -12,12 +14,14 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslation } from '@/lib/language-context';
 
 interface ResultCardProps {
   nutrient: NutrientRiskAssessment;
 }
 
 export function ResultCard({ nutrient }: ResultCardProps) {
+  const { t } = useTranslation();
   const [expanded, setExpanded] = useState(nutrient.riskLevel !== 'low');
 
   const cardBorder =
@@ -34,6 +38,8 @@ export function ResultCard({ nutrient }: ResultCardProps) {
       ? 'bg-amber-50 text-amber-800'
       : 'bg-emerald-50 text-emerald-700';
 
+  const localizedName = t(`nutrients.${nutrient.nutrientId}`) || nutrient.name;
+
   return (
     <div
       className={`rounded-2xl border ${cardBorder} shadow-xs transition-all overflow-hidden`}
@@ -44,14 +50,14 @@ export function ResultCard({ nutrient }: ResultCardProps) {
           <div className="space-y-1">
             <div className="flex flex-wrap items-center gap-2">
               <h3 className="text-lg sm:text-xl font-bold text-slate-900">
-                {nutrient.name}
+                {localizedName}
               </h3>
               <span className={`px-2 py-0.5 rounded text-[11px] font-semibold uppercase tracking-wider ${accentBadgeBg}`}>
                 {nutrient.category}
               </span>
             </div>
             <p className="text-xs text-slate-500 font-medium">
-              ICMR Benchmark Target: {nutrient.icmrRDA}
+              {t('results.benchmark')} {nutrient.icmrRDA}
             </p>
           </div>
 
@@ -60,7 +66,7 @@ export function ResultCard({ nutrient }: ResultCardProps) {
             <button
               onClick={() => setExpanded(!expanded)}
               className="p-2 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors"
-              aria-label={expanded ? 'Collapse details' : 'Expand details'}
+              aria-label={expanded ? t('common.close') : t('common.view')}
             >
               {expanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
             </button>
@@ -72,7 +78,7 @@ export function ResultCard({ nutrient }: ResultCardProps) {
           <div className="flex items-start gap-2">
             <AlertCircle className="w-4 h-4 text-slate-500 shrink-0 mt-0.5" />
             <div>
-              <span className="font-semibold text-slate-900">Why this area was flagged: </span>
+              <span className="font-semibold text-slate-900">{t('results.whyFlagged')} </span>
               <span>{nutrient.reasons.join(' ')}</span>
             </div>
           </div>
@@ -82,7 +88,7 @@ export function ResultCard({ nutrient }: ResultCardProps) {
         <div className="flex flex-wrap items-center gap-1.5 pt-1">
           <span className="text-xs font-semibold text-slate-500 mr-1 flex items-center gap-1">
             <Utensils className="w-3.5 h-3.5 text-emerald-600" />
-            Top Foods:
+            {t('results.topFoods')}
           </span>
           {nutrient.foodRecommendations.slice(0, 3).map((food, i) => (
             <span
@@ -94,7 +100,7 @@ export function ResultCard({ nutrient }: ResultCardProps) {
           ))}
           {nutrient.foodRecommendations.length > 3 && (
             <span className="text-xs text-slate-400 font-medium">
-              +{nutrient.foodRecommendations.length - 3} more
+              {t('results.moreFoods', { count: nutrient.foodRecommendations.length - 3 })}
             </span>
           )}
         </div>
@@ -108,7 +114,7 @@ export function ResultCard({ nutrient }: ResultCardProps) {
             {nutrient.dietaryFactors.length > 0 && (
               <div className="p-3 rounded-xl bg-white border border-slate-200 space-y-1">
                 <span className="font-bold text-slate-700 uppercase tracking-wider text-[10px]">
-                  Relevant Dietary Inputs
+                  {t('results.contributingFactors')}
                 </span>
                 <ul className="list-disc list-inside space-y-0.5 text-slate-600">
                   {nutrient.dietaryFactors.map((df, i) => (
@@ -121,7 +127,7 @@ export function ResultCard({ nutrient }: ResultCardProps) {
             {nutrient.symptomIndicators.length > 0 && (
               <div className="p-3 rounded-xl bg-white border border-slate-200 space-y-1">
                 <span className="font-bold text-slate-700 uppercase tracking-wider text-[10px]">
-                  Self-Reported Indicators Linked
+                  {t('results.reportedSymptoms')}
                 </span>
                 <ul className="list-disc list-inside space-y-0.5 text-slate-600">
                   {nutrient.symptomIndicators.map((si, i) => (
@@ -136,7 +142,7 @@ export function ResultCard({ nutrient }: ResultCardProps) {
           <div className="space-y-2">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-              ICMR Recommended Food Sources
+              {t('results.foodRecommendations')}
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {nutrient.foodRecommendations.map((food, i) => (
@@ -156,7 +162,7 @@ export function ResultCard({ nutrient }: ResultCardProps) {
             <div className="p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200/80 text-xs space-y-2">
               <div className="flex items-center gap-1.5 text-emerald-900 font-bold">
                 <Lightbulb className="w-4 h-4 text-emerald-700" />
-                <span>NutriSense Awareness & Absorption Tips</span>
+                <span>{t('results.practicalTips')}</span>
               </div>
               <ul className="space-y-1 text-emerald-900/90 list-disc list-inside">
                 {nutrient.awarenessTips.map((tip, i) => (
@@ -172,13 +178,13 @@ export function ResultCard({ nutrient }: ResultCardProps) {
           <div className="flex items-center justify-between pt-2">
             <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
               <ShieldAlert className="w-3.5 h-3.5 text-amber-600" />
-              <span>Educational guidance only. Not a prescription.</span>
+              <span>{t('common.disclaimerCompact')}</span>
             </div>
             <Link
               href={`/foods?nutrient=${nutrient.nutrientId}`}
               className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 hover:text-emerald-800 hover:underline"
             >
-              <span>Explore Foods Rich in {nutrient.name.split(' ')[0]}</span>
+              <span>{t('results.exploreAllFoods')}</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>

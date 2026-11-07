@@ -1,5 +1,8 @@
+'use client';
+
 import React from 'react';
 import { User, Utensils, Activity, CheckCircle2 } from 'lucide-react';
+import { useTranslation } from '@/lib/language-context';
 
 interface AssessmentProgressProps {
   currentStep: number; // 1 to 4
@@ -7,11 +10,11 @@ interface AssessmentProgressProps {
   maxAccessibleStep?: number;
 }
 
-const STEPS = [
-  { step: 1, title: 'Basic Info', subtitle: 'Demographics & Diet Type', icon: User },
-  { step: 2, title: 'Dietary Habits', subtitle: 'Food Group Frequency', icon: Utensils },
-  { step: 3, title: 'Symptoms & Lifestyle', subtitle: 'Self-Reported Indicators', icon: Activity },
-  { step: 4, title: 'Review & Analyze', subtitle: 'Verify Answers', icon: CheckCircle2 },
+const STEP_DEFS = [
+  { step: 1, titleKey: 'assessment.steps.step1Title', icon: User },
+  { step: 2, titleKey: 'assessment.steps.step2Title', icon: Utensils },
+  { step: 3, titleKey: 'assessment.steps.step3Title', icon: Activity },
+  { step: 4, titleKey: 'assessment.steps.step4Title', icon: CheckCircle2 },
 ];
 
 export function AssessmentProgress({
@@ -19,17 +22,19 @@ export function AssessmentProgress({
   onStepClick,
   maxAccessibleStep = 4,
 }: AssessmentProgressProps) {
-  const progressPercent = ((currentStep - 1) / (STEPS.length - 1)) * 100;
+  const { t } = useTranslation();
+  const progressPercent = ((currentStep - 1) / (STEP_DEFS.length - 1)) * 100;
 
   return (
     <div className="w-full space-y-4">
       {/* Visual Step Cards for Desktop & Tablet */}
       <div className="hidden sm:grid grid-cols-4 gap-3">
-        {STEPS.map((s) => {
+        {STEP_DEFS.map((s) => {
           const Icon = s.icon;
           const isCurrent = currentStep === s.step;
           const isCompleted = currentStep > s.step;
           const isClickable = onStepClick && s.step <= maxAccessibleStep;
+          const stepTitle = t(s.titleKey);
 
           return (
             <button
@@ -60,7 +65,7 @@ export function AssessmentProgress({
                 <div className="min-w-0">
                   <div className="flex items-center gap-1.5">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                      Step {s.step}
+                      {t('assessment.step')} {s.step}
                     </span>
                     {isCompleted && (
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
@@ -71,7 +76,7 @@ export function AssessmentProgress({
                       isCurrent ? 'text-emerald-900' : isCompleted ? 'text-slate-900' : 'text-slate-500'
                     }`}
                   >
-                    {s.title}
+                    {stepTitle}
                   </h4>
                 </div>
               </div>
@@ -84,7 +89,7 @@ export function AssessmentProgress({
       <div className="sm:hidden space-y-2">
         <div className="flex items-center justify-between text-xs">
           <span className="font-semibold text-emerald-700">
-            Step {currentStep} of 4: {STEPS[currentStep - 1].title}
+            {t('assessment.step')} {currentStep} {t('assessment.of')} 4: {t(STEP_DEFS[currentStep - 1].titleKey)}
           </span>
           <span className="text-slate-500 font-medium">{Math.round(progressPercent)}%</span>
         </div>

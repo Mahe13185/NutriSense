@@ -4,6 +4,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
+import { useTranslation } from '@/lib/language-context';
 import { getSafeRedirect } from '@/lib/utils';
 import {
   Sparkles,
@@ -22,6 +23,7 @@ function SignUpForm() {
   const rawRedirect = searchParams.get('redirect');
   const redirectPath = getSafeRedirect(rawRedirect, '/dashboard');
   const { user, signUp, isConfigured } = useAuth();
+  const { t } = useTranslation();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -40,19 +42,19 @@ function SignUpForm() {
 
   const validateForm = (): boolean => {
     if (!name.trim()) {
-      setError('Please enter your full name.');
+      setError(t('auth.validation.enterName'));
       return false;
     }
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      setError('Please enter a valid email address.');
+      setError(t('auth.validation.validEmail'));
       return false;
     }
     if (password.length < 6) {
-      setError('Password must be at least 6 characters long.');
+      setError(t('auth.validation.passwordLength'));
       return false;
     }
     if (password !== confirmPassword) {
-      setError('Passwords do not match. Please verify and try again.');
+      setError(t('auth.validation.passwordMismatch'));
       return false;
     }
     return true;
@@ -70,15 +72,15 @@ function SignUpForm() {
     setIsSubmitting(false);
 
     if (authError) {
-      setError(authError.message || 'Failed to create account. Please try again.');
+      setError(authError.message || t('auth.validation.invalidCredentials'));
       return;
     }
 
     if (signedUpUser) {
-      setSuccessMessage('Account created successfully! Redirecting...');
+      setSuccessMessage(t('auth.successSignUp'));
       setTimeout(() => {
         router.push(redirectPath);
-      }, 800);
+      }, 1000);
     }
   };
 
@@ -93,15 +95,13 @@ function SignUpForm() {
         <div className="text-center space-y-2">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold">
             <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Create Your Account</span>
+            <span>{t('auth.signupTitle')}</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
-            Join NutriSense
+            {t('nav.signup')}
           </h1>
           <p className="text-xs sm:text-sm text-slate-500">
-            {redirectPath === '/assessment'
-              ? 'Create your free account to begin your personal dietary assessment.'
-              : 'Track your dietary assessments and maintain your personal nutritional risk awareness profile.'}
+            {t('auth.signupSubtitle')}
           </p>
         </div>
 
@@ -138,7 +138,7 @@ function SignUpForm() {
             {/* Full Name */}
             <div className="space-y-1.5">
               <label htmlFor="name" className="block text-xs font-bold text-slate-700">
-                Full Name
+                {t('auth.nameLabel')}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -148,7 +148,7 @@ function SignUpForm() {
                   id="name"
                   type="text"
                   required
-                  placeholder="e.g. Priya Sharma"
+                  placeholder={t('auth.namePlaceholder')}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 text-sm font-medium text-slate-900 transition-all"
@@ -159,7 +159,7 @@ function SignUpForm() {
             {/* Email Address */}
             <div className="space-y-1.5">
               <label htmlFor="email" className="block text-xs font-bold text-slate-700">
-                Email Address
+                {t('auth.emailLabel')}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -169,7 +169,7 @@ function SignUpForm() {
                   id="email"
                   type="email"
                   required
-                  placeholder="name@example.com"
+                  placeholder={t('auth.emailPlaceholder')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 text-sm font-medium text-slate-900 transition-all"
@@ -180,7 +180,7 @@ function SignUpForm() {
             {/* Password */}
             <div className="space-y-1.5">
               <label htmlFor="password" className="block text-xs font-bold text-slate-700">
-                Password
+                {t('auth.passwordLabel')}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -190,7 +190,7 @@ function SignUpForm() {
                   id="password"
                   type="password"
                   required
-                  placeholder="Minimum 6 characters"
+                  placeholder={t('auth.passwordPlaceholder')}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 text-sm font-medium text-slate-900 transition-all"
@@ -201,7 +201,7 @@ function SignUpForm() {
             {/* Confirm Password */}
             <div className="space-y-1.5">
               <label htmlFor="confirmPassword" className="block text-xs font-bold text-slate-700">
-                Confirm Password
+                {t('auth.confirmPasswordLabel')}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -211,7 +211,7 @@ function SignUpForm() {
                   id="confirmPassword"
                   type="password"
                   required
-                  placeholder="Re-enter your password"
+                  placeholder={t('auth.confirmPasswordPlaceholder')}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 text-sm font-medium text-slate-900 transition-all"
@@ -225,16 +225,16 @@ function SignUpForm() {
               disabled={isSubmitting}
               className="w-full mt-2 inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 shadow-sm shadow-emerald-600/20 transition-all active:scale-98 disabled:opacity-50"
             >
-              <span>{isSubmitting ? 'Creating Account...' : 'Create Account'}</span>
+              <span>{isSubmitting ? t('auth.signingUp') : t('auth.signUpButton')}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
 
           {/* Links */}
           <div className="pt-4 border-t border-slate-100 text-center text-xs text-slate-500">
-            Already have an account?{' '}
+            {t('auth.alreadyHaveAccount')}{' '}
             <Link href={loginHref} className="font-bold text-emerald-700 hover:text-emerald-800 hover:underline">
-              Log in here
+              {t('nav.login')}
             </Link>
           </div>
         </div>
@@ -242,7 +242,7 @@ function SignUpForm() {
         {/* Privacy Note */}
         <div className="flex items-center justify-center gap-2 text-[11px] text-slate-400 text-center">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-          <span>Nutritional Awareness Platform • Non-Diagnostic • Secure Cloud Storage</span>
+          <span>{t('common.badge')}</span>
         </div>
       </div>
     </div>

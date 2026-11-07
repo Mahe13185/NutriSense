@@ -1,5 +1,8 @@
+'use client';
+
 import React from 'react';
 import { LucideIcon } from 'lucide-react';
+import { useTranslation } from '@/lib/language-context';
 
 interface QuestionCardProps {
   icon?: LucideIcon;
@@ -24,6 +27,8 @@ export function QuestionCard({
   children,
   className = '',
 }: QuestionCardProps) {
+  const { t } = useTranslation();
+
   return (
     <div
       className={`p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xs hover:shadow-subtle transition-all space-y-4 ${className}`}
@@ -52,7 +57,7 @@ export function QuestionCard({
             )}
             {examples && (
               <p className="text-xs text-slate-400">
-                <span className="font-semibold text-slate-500">Key examples:</span> {examples}
+                <span className="font-semibold text-slate-500">{t('common.keyExamples')}</span> {examples}
               </p>
             )}
           </div>

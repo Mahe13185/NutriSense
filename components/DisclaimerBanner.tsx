@@ -1,5 +1,8 @@
+'use client';
+
 import React from 'react';
 import { AlertTriangle, Info, ShieldCheck } from 'lucide-react';
+import { useTranslation } from '@/lib/language-context';
 
 interface DisclaimerBannerProps {
   variant?: 'compact' | 'full' | 'subtle';
@@ -7,6 +10,8 @@ interface DisclaimerBannerProps {
 }
 
 export function DisclaimerBanner({ variant = 'full', className = '' }: DisclaimerBannerProps) {
+  const { t } = useTranslation();
+
   if (variant === 'compact') {
     return (
       <div
@@ -14,7 +19,7 @@ export function DisclaimerBanner({ variant = 'full', className = '' }: Disclaime
       >
         <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
         <p className="leading-tight">
-          <strong className="font-semibold">Notice:</strong> Preliminary nutritional risk indication only — not a clinical medical diagnosis.
+          <strong className="font-semibold">{t('common.notice')}:</strong> {t('common.disclaimerCompact')}
         </p>
       </div>
     );
@@ -27,9 +32,9 @@ export function DisclaimerBanner({ variant = 'full', className = '' }: Disclaime
       >
         <Info className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
         <div className="space-y-0.5">
-          <p className="font-medium text-slate-800">Health Notice & Scope</p>
+          <p className="font-medium text-slate-800">{t('common.disclaimerSubtleTitle')}</p>
           <p className="text-slate-500 leading-relaxed">
-            NutriSense provides dietary habit analysis and preliminary risk indications. All recommendations are derived from ICMR-NIN 2024 guidelines and do not replace laboratory testing or professional medical advice.
+            {t('common.disclaimerSubtleText')}
           </p>
         </div>
       </div>
@@ -47,18 +52,18 @@ export function DisclaimerBanner({ variant = 'full', className = '' }: Disclaime
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <h4 className="text-sm font-bold text-amber-950">
-              Important Health Notice
+              {t('common.disclaimerTitle')}
             </h4>
             <span className="px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-amber-200/80 text-amber-900">
-              Non-Diagnostic
+              {t('common.disclaimerNonDiagnostic')}
             </span>
           </div>
           <p className="text-xs text-amber-900/90 leading-relaxed">
-            NutriSense is a rule-based nutritional awareness portal. It maps self-reported dietary habits and symptoms to general nutrition science benchmarks. It <strong className="font-semibold">does NOT medically diagnose</strong> nutritional deficiencies, prescribe therapeutic doses, or replace blood tests (e.g. Ferritin, Vitamin D, or B12 panels). If you experience persistent symptoms, consult a qualified physician or registered dietitian.
+            {t('common.disclaimerText')}
           </p>
           <div className="pt-1.5 flex items-center gap-2 text-[11px] text-amber-800 font-medium">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
-            <span>Aligned with ICMR-NIN (2024) Dietary Guidelines for Indians</span>
+            <span>{t('home.heroBadge')}</span>
           </div>
         </div>
       </div>

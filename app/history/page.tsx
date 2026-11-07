@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
+import { useTranslation } from '@/lib/language-context';
 import { getUserAssessments, deleteAssessment } from '@/lib/supabaseStorage';
 import { SavedAssessmentRecord } from '@/types';
 import { DisclaimerBanner } from '@/components/DisclaimerBanner';
@@ -13,9 +14,7 @@ import {
   ArrowRight,
   Sparkles,
   Trash2,
-  AlertCircle,
   CheckCircle2,
-  AlertTriangle,
   ArrowLeft,
   ChevronRight,
 } from 'lucide-react';
@@ -23,6 +22,7 @@ import {
 export default function HistoryPage() {
   const router = useRouter();
   const { user, loading } = useAuth();
+  const { t } = useTranslation();
   const [assessments, setAssessments] = useState<SavedAssessmentRecord[]>([]);
   const [fetching, setFetching] = useState(true);
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -40,7 +40,7 @@ export default function HistoryPage() {
     async function loadAssessments() {
       if (user) {
         setFetching(true);
-        const { data, error } = await getUserAssessments(user.id);
+        const { data } = await getUserAssessments(user.id);
         if (data) {
           setAssessments(data);
         }
@@ -53,7 +53,7 @@ export default function HistoryPage() {
   }, [user]);
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this historical assessment? This action cannot be undone.')) {
+    if (!confirm(t('history.deleteConfirm'))) {
       return;
     }
 
@@ -75,7 +75,7 @@ export default function HistoryPage() {
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="text-center space-y-3">
           <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-sm text-slate-500 font-medium">Loading assessment history...</p>
+          <p className="text-sm text-slate-500 font-medium">{t('common.loading')}</p>
         </div>
       </div>
     );
@@ -96,17 +96,17 @@ export default function HistoryPage() {
               className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-emerald-700"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Dashboard</span>
+              <span>{t('nav.dashboard')}</span>
             </Link>
             <span className="text-slate-300">•</span>
-            <span className="text-xs text-slate-400">Account History</span>
+            <span className="text-xs text-slate-400">{t('history.title')}</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2.5">
             <History className="w-7 h-7 text-emerald-600" />
-            <span>Assessment History</span>
+            <span>{t('history.title')}</span>
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Review past dietary evaluations and track how your nutritional risk indications have evolved.
+            {t('history.subtitle')}
           </p>
         </div>
 
@@ -115,7 +115,7 @@ export default function HistoryPage() {
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white text-xs font-bold shadow-xs transition-all active:scale-98"
         >
           <Sparkles className="w-3.5 h-3.5" />
-          <span>New Assessment</span>
+          <span>{t('history.takeNewBtn')}</span>
         </Link>
       </div>
 
@@ -131,8 +131,7 @@ export default function HistoryPage() {
       {assessments.length > 0 ? (
         <div className="space-y-4">
           <div className="flex items-center justify-between text-xs text-slate-500 px-1">
-            <span>Showing {assessments.length} saved assessment{assessments.length > 1 ? 's' : ''}</span>
-            <span>Sorted by most recent</span>
+            <span>{assessments.length} {t('history.title')}</span>
           </div>
 
           <div className="space-y-4">
@@ -163,7 +162,7 @@ export default function HistoryPage() {
                       <div>
                         <span className="text-xs font-bold text-slate-900 block">{dateFormatted}</span>
                         <span className="text-[11px] text-slate-500">
-                          Diet: {record.assessment_data?.basicInfo?.dietaryPreference?.replace('_', ' ') || 'General'}
+                          {t('assessment.step1.dietLabel')}: {record.assessment_data?.basicInfo?.dietaryPreference ? t(`assessment.step1.dietTypes.${record.assessment_data.basicInfo.dietaryPreference}.label`).split(' ')[0] : '—'}
                         </span>
                       </div>
                     </div>
@@ -173,13 +172,13 @@ export default function HistoryPage() {
                         href={`/results?id=${record.id}`}
                         className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 hover:bg-emerald-100 text-xs font-bold transition-all border border-emerald-200"
                       >
-                        <span>View Full Report</span>
+                        <span>{t('history.viewResults')}</span>
                         <ChevronRight className="w-3.5 h-3.5" />
                       </Link>
                       <button
                         onClick={() => handleDelete(record.id)}
                         disabled={deletingId === record.id}
-                        aria-label="Delete assessment"
+                        aria-label={t('history.deleteBtn')}
                         className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-all"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -190,23 +189,23 @@ export default function HistoryPage() {
                   {/* Risk Overview Breakdown */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
                     <div className="p-2.5 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-between">
-                      <span className="font-semibold text-rose-800">Elevated Indication:</span>
-                      <span className="font-extrabold text-rose-900">{elevated.length} areas</span>
+                      <span className="font-semibold text-rose-800">{t('common.riskLevels.elevated')}:</span>
+                      <span className="font-extrabold text-rose-900">{elevated.length}</span>
                     </div>
                     <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-between">
-                      <span className="font-semibold text-amber-800">Moderate Indication:</span>
-                      <span className="font-extrabold text-amber-900">{moderate.length} areas</span>
+                      <span className="font-semibold text-amber-800">{t('common.riskLevels.moderate')}:</span>
+                      <span className="font-extrabold text-amber-900">{moderate.length}</span>
                     </div>
                     <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-between">
-                      <span className="font-semibold text-emerald-800">Low Indication:</span>
-                      <span className="font-extrabold text-emerald-900">{low.length} areas</span>
+                      <span className="font-semibold text-emerald-800">{t('common.riskLevels.low')}:</span>
+                      <span className="font-extrabold text-emerald-900">{low.length}</span>
                     </div>
                   </div>
 
                   {/* Flagged Areas summary */}
                   {res?.topRiskAreas && res.topRiskAreas.length > 0 && (
                     <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                      <span className="text-[11px] font-bold text-slate-500 mr-1">Focus Areas:</span>
+                      <span className="text-[11px] font-bold text-slate-500 mr-1">{t('history.elevatedHeader')}:</span>
                       {res.topRiskAreas.map((area, i) => (
                         <span
                           key={i}
@@ -229,16 +228,16 @@ export default function HistoryPage() {
             <History className="w-6 h-6" />
           </div>
           <div className="space-y-1 max-w-md mx-auto">
-            <h3 className="text-lg font-bold text-slate-900">No Assessment History</h3>
+            <h3 className="text-lg font-bold text-slate-900">{t('history.noHistoryTitle')}</h3>
             <p className="text-xs sm:text-sm text-slate-500">
-              When you complete and save dietary assessments while logged in, your preliminary nutritional risk indications will appear here.
+              {t('history.noHistoryDesc')}
             </p>
           </div>
           <Link
             href="/assessment"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition-all"
           >
-            <span>Take Your First Assessment</span>
+            <span>{t('history.takeNewBtn')}</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

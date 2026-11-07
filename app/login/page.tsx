@@ -4,6 +4,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
+import { useTranslation } from '@/lib/language-context';
 import { getSafeRedirect } from '@/lib/utils';
 import {
   Activity,
@@ -20,6 +21,7 @@ function LoginForm() {
   const rawRedirect = searchParams.get('redirect');
   const redirectPath = getSafeRedirect(rawRedirect, '/dashboard');
   const { user, signIn, isConfigured } = useAuth();
+  const { t } = useTranslation();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,7 +40,7 @@ function LoginForm() {
     setError(null);
 
     if (!email.trim() || !password) {
-      setError('Please enter both your email and password.');
+      setError(t('auth.validation.fillCredentials'));
       return;
     }
 
@@ -47,7 +49,7 @@ function LoginForm() {
     setIsSubmitting(false);
 
     if (authError) {
-      setError(authError.message || 'Invalid email or password. Please try again.');
+      setError(authError.message || t('auth.validation.invalidCredentials'));
       return;
     }
 
@@ -67,15 +69,13 @@ function LoginForm() {
         <div className="text-center space-y-2">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold">
             <Activity className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Welcome Back</span>
+            <span>{t('auth.loginTitle')}</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
-            Log in to NutriSense
+            {t('nav.login')}
           </h1>
           <p className="text-xs sm:text-sm text-slate-500">
-            {redirectPath === '/assessment'
-              ? 'Please log in to your account to begin your personalized dietary assessment.'
-              : 'Access your personalized dietary assessments and nutrition risk awareness history.'}
+            {t('auth.loginSubtitle')}
           </p>
         </div>
 
@@ -105,7 +105,7 @@ function LoginForm() {
             {/* Email Address */}
             <div className="space-y-1.5">
               <label htmlFor="email" className="block text-xs font-bold text-slate-700">
-                Email Address
+                {t('auth.emailLabel')}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -115,7 +115,7 @@ function LoginForm() {
                   id="email"
                   type="email"
                   required
-                  placeholder="name@example.com"
+                  placeholder={t('auth.emailPlaceholder')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 text-sm font-medium text-slate-900 transition-all"
@@ -126,7 +126,7 @@ function LoginForm() {
             {/* Password */}
             <div className="space-y-1.5">
               <label htmlFor="password" className="block text-xs font-bold text-slate-700">
-                Password
+                {t('auth.passwordLabel')}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -136,7 +136,7 @@ function LoginForm() {
                   id="password"
                   type="password"
                   required
-                  placeholder="Enter your password"
+                  placeholder={t('auth.passwordPlaceholder')}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 text-sm font-medium text-slate-900 transition-all"
@@ -150,16 +150,16 @@ function LoginForm() {
               disabled={isSubmitting}
               className="w-full mt-2 inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 shadow-sm shadow-emerald-600/20 transition-all active:scale-98 disabled:opacity-50"
             >
-              <span>{isSubmitting ? 'Logging in...' : 'Log In'}</span>
+              <span>{isSubmitting ? t('auth.signingIn') : t('auth.signInButton')}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
 
           {/* Links */}
           <div className="pt-4 border-t border-slate-100 text-center text-xs text-slate-500">
-            Don&apos;t have an account yet?{' '}
+            {t('auth.dontHaveAccount')}{' '}
             <Link href={signupHref} className="font-bold text-emerald-700 hover:text-emerald-800 hover:underline">
-              Create an account
+              {t('nav.signup')}
             </Link>
           </div>
         </div>
@@ -167,7 +167,7 @@ function LoginForm() {
         {/* Privacy Note */}
         <div className="flex items-center justify-center gap-2 text-[11px] text-slate-400 text-center">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-          <span>Non-Diagnostic Educational Portal • Privacy Protected</span>
+          <span>{t('common.badge')}</span>
         </div>
       </div>
     </div>

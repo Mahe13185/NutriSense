@@ -1,8 +1,13 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { Activity, ShieldAlert, Heart, ExternalLink, Sparkles, BookOpen } from 'lucide-react';
+import { useTranslation } from '@/lib/language-context';
 
 export function Footer() {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-slate-900 text-slate-300 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
@@ -18,41 +23,41 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
-              A Smart Nutritional Deficiency Detection and Awareness Portal. Helping individuals evaluate dietary habits, understand micronutrient synergy, and identify possible risk patterns based on evidence-backed nutritional benchmarks.
+              {t('footer.description')}
             </p>
           </div>
 
           {/* Core Modules */}
           <div>
             <h4 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
-              Explore Portal
+              {t('footer.explorePortal')}
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link href="/assessment" className="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
-                  <span>Start Assessment</span>
+                  <span>{t('footer.startAssessment')}</span>
                 </Link>
               </li>
               <li>
                 <Link href="/results" className="hover:text-emerald-400 transition-colors">
-                  Results Dashboard
+                  {t('footer.resultsDashboard')}
                 </Link>
               </li>
               <li>
                 <Link href="/foods" className="hover:text-emerald-400 transition-colors">
-                  Food & Nutrient Explorer
+                  {t('footer.foodExplorer')}
                 </Link>
               </li>
               <li>
                 <Link href="/guidelines" className="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
                   <BookOpen className="w-3.5 h-3.5 text-teal-400" />
-                  <span>ICMR & WHO Guidelines</span>
+                  <span>{t('footer.icmrGuidelines')}</span>
                 </Link>
               </li>
               <li>
                 <Link href="/about" className="hover:text-emerald-400 transition-colors">
-                  System Architecture & About
+                  {t('footer.systemArch')}
                 </Link>
               </li>
             </ul>
@@ -61,7 +66,7 @@ export function Footer() {
           {/* Primary Evidence Sources */}
           <div>
             <h4 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
-              Reference Sources
+              {t('footer.referenceSources')}
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
@@ -71,7 +76,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="hover:text-emerald-400 transition-colors inline-flex items-center gap-1.5"
                 >
-                  <span>ICMR-NIN Guidelines (2024)</span>
+                  <span>{t('footer.icmrReference')}</span>
                   <ExternalLink className="w-3 h-3 text-slate-500" />
                 </a>
               </li>
@@ -82,7 +87,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="hover:text-emerald-400 transition-colors inline-flex items-center gap-1.5"
                 >
-                  <span>WHO Healthy Diet (Factsheet 394)</span>
+                  <span>{t('footer.whoReference')}</span>
                   <ExternalLink className="w-3 h-3 text-slate-500" />
                 </a>
               </li>
@@ -93,13 +98,13 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="hover:text-emerald-400 transition-colors inline-flex items-center gap-1.5"
                 >
-                  <span>FSSAI +F Fortification Standards</span>
+                  <span>{t('footer.fssaiReference')}</span>
                   <ExternalLink className="w-3 h-3 text-slate-500" />
                 </a>
               </li>
               <li>
                 <span className="text-xs text-slate-400 block pt-1">
-                  Mapped to 2024 Recommended Dietary Allowances (RDA) for Indians.
+                  {t('footer.rdaBenchmark')}
                 </span>
               </li>
             </ul>
@@ -108,13 +113,13 @@ export function Footer() {
           {/* Technical Scope */}
           <div>
             <h4 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
-              Local Architecture
+              {t('footer.localArchitecture')}
             </h4>
             <p className="text-xs text-slate-400 leading-relaxed mb-3">
-              Built using Next.js 14, TypeScript, Tailwind CSS, and Recharts. All rule evaluation executes locally in your browser with zero external server or database tracking.
+              {t('footer.localArchDesc')}
             </p>
             <div className="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 text-[11px] text-slate-300">
-              <span className="font-semibold text-emerald-400">Zero Cloud Leakage:</span> Assessment data is retained only in your browser&apos;s localStorage.
+              <span className="font-semibold text-emerald-400">{t('footer.zeroCloud')}</span> {t('footer.zeroCloudDesc')}
             </div>
           </div>
         </div>
@@ -126,16 +131,16 @@ export function Footer() {
               <ShieldAlert className="w-5 h-5" />
             </div>
             <div className="text-xs text-slate-300 leading-relaxed">
-              <span className="font-semibold text-amber-300">Important Health & Non-Diagnostic Notice:</span> NutriSense is a nutritional awareness platform. It provides general dietary insights and preliminary risk indications based on user-entered answers. It does <strong className="text-white">NOT</strong> constitute medical diagnosis, clinical advice, or a substitute for laboratory testing. Always consult a qualified physician or registered dietitian for medical evaluation.
+              <span className="font-semibold text-amber-300">{t('footer.healthNotice')} </span>
+              {t('footer.healthNoticeDesc')}
             </div>
           </div>
 
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-            <p>© {new Date().getFullYear()} NutriSense — Smart Nutritional Deficiency Detection and Awareness Portal.</p>
+            <p>© {new Date().getFullYear()} {t('footer.copyright')}</p>
             <div className="flex items-center gap-1 text-slate-400">
-              <span>Crafted with</span>
+              <span>{t('footer.craftedWith')}</span>
               <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 mx-0.5" />
-              <span>evidence-based nutrition science</span>
             </div>
           </div>
         </div>

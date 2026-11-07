@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
+import { useTranslation } from '@/lib/language-context';
 import {
   Sex,
   ActivityLevel,
@@ -28,6 +29,7 @@ import Link from 'next/link';
 export default function ProfilePage() {
   const router = useRouter();
   const { user, profile, loading, updateProfile } = useAuth();
+  const { t } = useTranslation();
 
   const [name, setName] = useState('');
   const [age, setAge] = useState<number | ''>('');
@@ -72,15 +74,15 @@ export default function ProfilePage() {
     setStatusMessage(null);
 
     if (age !== '' && (Number(age) < 10 || Number(age) > 110)) {
-      setStatusMessage({ type: 'error', text: 'Please enter a valid age between 10 and 110.' });
+      setStatusMessage({ type: 'error', text: t('assessment.validation.age') });
       return;
     }
     if (height !== '' && (Number(height) < 80 || Number(height) > 250)) {
-      setStatusMessage({ type: 'error', text: 'Please enter a valid height in cm (80–250 cm).' });
+      setStatusMessage({ type: 'error', text: t('assessment.validation.height') });
       return;
     }
     if (weight !== '' && (Number(weight) < 20 || Number(weight) > 300)) {
-      setStatusMessage({ type: 'error', text: 'Please enter a valid weight in kg (20–300 kg).' });
+      setStatusMessage({ type: 'error', text: t('assessment.validation.weight') });
       return;
     }
 
@@ -97,9 +99,9 @@ export default function ProfilePage() {
     setIsSaving(false);
 
     if (error) {
-      setStatusMessage({ type: 'error', text: error.message || 'Failed to update profile.' });
+      setStatusMessage({ type: 'error', text: error.message || t('profile.saveError') });
     } else {
-      setStatusMessage({ type: 'success', text: 'Profile updated successfully! Basic information will prefill in new assessments.' });
+      setStatusMessage({ type: 'success', text: t('profile.savedSuccess') });
     }
   };
 
@@ -108,7 +110,7 @@ export default function ProfilePage() {
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="text-center space-y-3">
           <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-sm text-slate-500 font-medium">Loading profile...</p>
+          <p className="text-sm text-slate-500 font-medium">{t('common.loading')}</p>
         </div>
       </div>
     );
@@ -125,17 +127,17 @@ export default function ProfilePage() {
               className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-emerald-700"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Dashboard</span>
+              <span>{t('nav.dashboard')}</span>
             </Link>
             <span className="text-slate-300">•</span>
-            <span className="text-xs text-slate-400">Settings</span>
+            <span className="text-xs text-slate-400">{t('profile.title')}</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2.5">
             <User className="w-7 h-7 text-emerald-600" />
-            <span>Profile & Baseline Information</span>
+            <span>{t('profile.title')}</span>
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Keep your demographic and dietary profile up to date to easily prefill future assessments.
+            {t('profile.subtitle')}
           </p>
         </div>
       </div>
@@ -165,10 +167,10 @@ export default function ProfilePage() {
           <div className="border-b border-slate-100 pb-3">
             <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-emerald-600" />
-              Demographics & Anthropometrics
+              {t('profile.personalSection')}
             </h2>
             <p className="text-xs text-slate-500">
-              Used to contextualize dietary recommendations with ICMR-NIN (2024) guidelines.
+              {t('assessment.step1.subtitle')}
             </p>
           </div>
 
@@ -176,7 +178,7 @@ export default function ProfilePage() {
             {/* Full Name */}
             <div className="space-y-1.5 sm:col-span-2">
               <label htmlFor="fullName" className="block text-xs font-bold text-slate-700">
-                Full Name
+                {t('auth.nameLabel')}
               </label>
               <input
                 id="fullName"
@@ -184,7 +186,7 @@ export default function ProfilePage() {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Priya Sharma"
+                placeholder={t('auth.namePlaceholder')}
                 className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 text-sm font-medium text-slate-900"
               />
             </div>
@@ -192,7 +194,7 @@ export default function ProfilePage() {
             {/* Email (Read only) */}
             <div className="space-y-1.5 sm:col-span-2">
               <label htmlFor="userEmail" className="block text-xs font-bold text-slate-700">
-                Account Email <span className="text-[10px] text-slate-400">(Managed via Supabase Auth)</span>
+                {t('auth.emailLabel')} <span className="text-[10px] text-slate-400">({t('footer.zeroCloud')})</span>
               </label>
               <input
                 id="userEmail"
@@ -206,7 +208,7 @@ export default function ProfilePage() {
             {/* Age */}
             <div className="space-y-1.5">
               <label htmlFor="userAge" className="block text-xs font-bold text-slate-700">
-                Age (years)
+                {t('assessment.step1.ageLabel')}
               </label>
               <input
                 id="userAge"
@@ -215,14 +217,14 @@ export default function ProfilePage() {
                 max={110}
                 value={age}
                 onChange={(e) => setAge(e.target.value === '' ? '' : Number(e.target.value))}
-                placeholder="e.g. 25"
+                placeholder={t('assessment.step1.agePlaceholder')}
                 className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 text-sm font-medium text-slate-900"
               />
             </div>
 
             {/* Biological Sex */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-slate-700">Biological Sex</label>
+              <label className="block text-xs font-bold text-slate-700">{t('assessment.step1.genderLabel')}</label>
               <div className="grid grid-cols-3 gap-2">
                 {(['female', 'male', 'other'] as Sex[]).map((s) => (
                   <button
@@ -235,7 +237,7 @@ export default function ProfilePage() {
                         : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                     }`}
                   >
-                    {s}
+                    {t(`assessment.step1.genders.${s}`)}
                   </button>
                 ))}
               </div>
@@ -244,7 +246,7 @@ export default function ProfilePage() {
             {/* Height */}
             <div className="space-y-1.5">
               <label htmlFor="userHeight" className="block text-xs font-bold text-slate-700">
-                Height (cm)
+                {t('assessment.step1.heightLabel')}
               </label>
               <input
                 id="userHeight"
@@ -253,7 +255,7 @@ export default function ProfilePage() {
                 max={250}
                 value={height}
                 onChange={(e) => setHeight(e.target.value === '' ? '' : Number(e.target.value))}
-                placeholder="e.g. 165"
+                placeholder={t('assessment.step1.heightPlaceholder')}
                 className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 text-sm font-medium text-slate-900"
               />
             </div>
@@ -261,7 +263,7 @@ export default function ProfilePage() {
             {/* Weight */}
             <div className="space-y-1.5">
               <label htmlFor="userWeight" className="block text-xs font-bold text-slate-700">
-                Weight (kg)
+                {t('assessment.step1.weightLabel')}
               </label>
               <input
                 id="userWeight"
@@ -270,7 +272,7 @@ export default function ProfilePage() {
                 max={300}
                 value={weight}
                 onChange={(e) => setWeight(e.target.value === '' ? '' : Number(e.target.value))}
-                placeholder="e.g. 60"
+                placeholder={t('assessment.step1.weightPlaceholder')}
                 className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 text-sm font-medium text-slate-900"
               />
             </div>
@@ -281,7 +283,7 @@ export default function ProfilePage() {
             <div className="p-3.5 rounded-2xl bg-emerald-50/80 border border-emerald-200/60 text-xs flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Activity className="w-4 h-4 text-emerald-600" />
-                <span className="text-slate-700 font-medium">Estimated Body Mass Index (BMI):</span>
+                <span className="text-slate-700 font-medium">{t('assessment.step1.bmiLabel')}</span>
               </div>
               <span className="font-bold text-emerald-900">
                 {bmiInfo.bmi} kg/m² ({bmiInfo.category})
@@ -294,61 +296,71 @@ export default function ProfilePage() {
         <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs space-y-6">
           {/* Activity Level */}
           <div className="space-y-3">
-            <h3 className="text-sm font-bold text-slate-900">Typical Physical Activity Level</h3>
+            <h3 className="text-sm font-bold text-slate-900">{t('assessment.step1.activityLabel')}</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {ACTIVITY_LEVEL_OPTIONS.map((opt) => (
-                <label
-                  key={opt.value}
-                  onClick={() => setActivityLevel(opt.value as ActivityLevel)}
-                  className={`p-3 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${
-                    activityLevel === opt.value
-                      ? 'bg-emerald-50/90 border-emerald-500 ring-2 ring-emerald-500/20 shadow-xs'
-                      : 'bg-white border-slate-200 hover:bg-slate-50'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-xs text-slate-900">{opt.label}</span>
-                    <input
-                      type="radio"
-                      name="profileActivity"
-                      checked={activityLevel === opt.value}
-                      onChange={() => {}}
-                      className="text-emerald-600 focus:ring-emerald-500"
-                    />
-                  </div>
-                  <p className="text-[11px] text-slate-500 mt-0.5">{opt.description}</p>
-                </label>
-              ))}
+              {ACTIVITY_LEVEL_OPTIONS.map((opt) => {
+                const label = t(`assessment.step1.activityLevels.${opt.value}.label`) || opt.label;
+                const desc = t(`assessment.step1.activityLevels.${opt.value}.desc`) || opt.description;
+
+                return (
+                  <label
+                    key={opt.value}
+                    onClick={() => setActivityLevel(opt.value as ActivityLevel)}
+                    className={`p-3 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${
+                      activityLevel === opt.value
+                        ? 'bg-emerald-50/90 border-emerald-500 ring-2 ring-emerald-500/20 shadow-xs'
+                        : 'bg-white border-slate-200 hover:bg-slate-50'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-xs text-slate-900">{label}</span>
+                      <input
+                        type="radio"
+                        name="profileActivity"
+                        checked={activityLevel === opt.value}
+                        onChange={() => {}}
+                        className="text-emerald-600 focus:ring-emerald-500"
+                      />
+                    </div>
+                    <p className="text-[11px] text-slate-500 mt-0.5">{desc}</p>
+                  </label>
+                );
+              })}
             </div>
           </div>
 
           {/* Primary Dietary Preference */}
           <div className="space-y-3 pt-2 border-t border-slate-100">
-            <h3 className="text-sm font-bold text-slate-900">Primary Dietary Pattern</h3>
+            <h3 className="text-sm font-bold text-slate-900">{t('profile.dietarySection')}</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {DIETARY_PREFERENCE_OPTIONS.map((opt) => (
-                <label
-                  key={opt.value}
-                  onClick={() => setDietaryPreference(opt.value as DietaryPreference)}
-                  className={`p-3 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${
-                    dietaryPreference === opt.value
-                      ? 'bg-emerald-50/90 border-emerald-500 ring-2 ring-emerald-500/20 shadow-xs'
-                      : 'bg-white border-slate-200 hover:bg-slate-50'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-xs text-slate-900">{opt.label}</span>
-                    <input
-                      type="radio"
-                      name="profileDiet"
-                      checked={dietaryPreference === opt.value}
-                      onChange={() => {}}
-                      className="text-emerald-600 focus:ring-emerald-500"
-                    />
-                  </div>
-                  <p className="text-[11px] text-slate-500 mt-0.5">{opt.description}</p>
-                </label>
-              ))}
+              {DIETARY_PREFERENCE_OPTIONS.map((opt) => {
+                const label = t(`assessment.step1.dietTypes.${opt.value}.label`) || opt.label;
+                const desc = t(`assessment.step1.dietTypes.${opt.value}.desc`) || opt.description;
+
+                return (
+                  <label
+                    key={opt.value}
+                    onClick={() => setDietaryPreference(opt.value as DietaryPreference)}
+                    className={`p-3 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${
+                      dietaryPreference === opt.value
+                        ? 'bg-emerald-50/90 border-emerald-500 ring-2 ring-emerald-500/20 shadow-xs'
+                        : 'bg-white border-slate-200 hover:bg-slate-50'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-xs text-slate-900">{label}</span>
+                      <input
+                        type="radio"
+                        name="profileDiet"
+                        checked={dietaryPreference === opt.value}
+                        onChange={() => {}}
+                        className="text-emerald-600 focus:ring-emerald-500"
+                      />
+                    </div>
+                    <p className="text-[11px] text-slate-500 mt-0.5">{desc}</p>
+                  </label>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -359,7 +371,7 @@ export default function ProfilePage() {
             href="/dashboard"
             className="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 text-xs font-semibold transition-all"
           >
-            Cancel
+            {t('common.cancel')}
           </Link>
           <button
             type="submit"
@@ -367,7 +379,7 @@ export default function ProfilePage() {
             className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white text-xs font-bold shadow-sm transition-all active:scale-98 disabled:opacity-50"
           >
             <Save className="w-3.5 h-3.5" />
-            <span>{isSaving ? 'Saving Changes...' : 'Save Profile'}</span>
+            <span>{isSaving ? t('profile.savingBtn') : t('profile.saveBtn')}</span>
           </button>
         </div>
       </form>

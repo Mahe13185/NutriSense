@@ -1,12 +1,17 @@
+'use client';
+
 import React from 'react';
 import { GuidelineSection } from '@/types';
 import { ExternalLink, CheckCircle2, Lightbulb } from 'lucide-react';
+import { useTranslation } from '@/lib/language-context';
 
 interface GuidelineCardProps {
   guideline: GuidelineSection;
 }
 
 export function GuidelineCard({ guideline }: GuidelineCardProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:shadow-card transition-all space-y-6">
       {/* Header */}
@@ -21,7 +26,7 @@ export function GuidelineCard({ guideline }: GuidelineCardProps) {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 hover:text-emerald-700 hover:underline"
           >
-            <span>Official Guidelines Portal</span>
+            <span>{t('guidelines.officialPortal')}</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </div>
@@ -37,7 +42,7 @@ export function GuidelineCard({ guideline }: GuidelineCardProps) {
       {/* Core Principles */}
       <div className="space-y-3">
         <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-          Core Dietary Benchmarks
+          {t('guidelines.coreBenchmarks')}
         </h4>
         <div className="space-y-2.5">
           {guideline.keyPoints.map((point, i) => (
@@ -53,7 +58,7 @@ export function GuidelineCard({ guideline }: GuidelineCardProps) {
       <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2 text-xs">
         <div className="flex items-center gap-1.5 font-bold text-slate-800">
           <Lightbulb className="w-4 h-4 text-amber-500" />
-          <span>Practical Action Insights:</span>
+          <span>{t('guidelines.practicalInsights')}</span>
         </div>
         <ul className="space-y-1 text-slate-600 list-disc list-inside">
           {guideline.practicalTips.map((tip, i) => (

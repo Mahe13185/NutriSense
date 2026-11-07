@@ -9,8 +9,6 @@ import {
   ActivityLevel,
   FoodFrequency,
   SymptomFrequency,
-  DietaryHabits,
-  SymptomsLifestyle,
 } from '@/types';
 import {
   DIETARY_PREFERENCE_OPTIONS,
@@ -53,6 +51,7 @@ import {
   Moon,
 } from 'lucide-react';
 import { useAuth } from '@/lib/auth-context';
+import { useTranslation } from '@/lib/language-context';
 import { saveAssessmentToSupabase } from '@/lib/supabaseStorage';
 
 const INITIAL_FORM_DATA: AssessmentFormData = {
@@ -104,31 +103,10 @@ const ICON_MAP: Record<string, any> = {
   Moon,
 };
 
-const FREQUENCY_LABEL_MAP: Record<FoodFrequency, string> = {
-  daily: 'Daily',
-  '4-6_per_week': '4–6 times per week',
-  '1-3_per_week': '1–3 times per week',
-  rarely: 'Rarely',
-  never: 'Never',
-};
-
-const SYMPTOM_VALUE_LABEL_MAP: Record<string, string> = {
-  frequently: 'Frequently',
-  sometimes: 'Sometimes',
-  rarely: 'Rarely',
-  never: 'Never',
-  adequate_daily: 'Daily (20+ minutes)',
-  moderate_weekly: 'A few times a week',
-  minimal_rare: 'Rarely or almost none',
-  often: 'Often or daily with meals',
-  good: '7 to 9 hours',
-  average: '6 to 7 hours',
-  poor: 'Less than 6 hours',
-};
-
 export default function AssessmentPage() {
   const router = useRouter();
   const { user, profile, loading } = useAuth();
+  const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [formData, setFormData] = useState<AssessmentFormData>(INITIAL_FORM_DATA);
   const [errors, setErrors] = useState<string[]>([]);
@@ -179,12 +157,12 @@ export default function AssessmentPage() {
 
     if (step === 1) {
       const { age, sex, heightCm, weightKg, activityLevel, dietaryPreference } = formData.basicInfo;
-      if (!age || Number(age) < 10 || Number(age) > 110) newErrors.push('Please enter a valid age between 10 and 110 years.');
-      if (!sex) newErrors.push('Please select your biological sex.');
-      if (!heightCm || Number(heightCm) < 80 || Number(heightCm) > 250) newErrors.push('Please enter a valid height in cm (80–250 cm).');
-      if (!weightKg || Number(weightKg) < 20 || Number(weightKg) > 300) newErrors.push('Please enter a valid weight in kg (20–300 kg).');
-      if (!activityLevel) newErrors.push('Please select how active you are on a typical day.');
-      if (!dietaryPreference) newErrors.push('Please select what type of diet you follow.');
+      if (!age || Number(age) < 10 || Number(age) > 110) newErrors.push(t('assessment.validation.age'));
+      if (!sex) newErrors.push(t('assessment.validation.sex'));
+      if (!heightCm || Number(heightCm) < 80 || Number(heightCm) > 250) newErrors.push(t('assessment.validation.height'));
+      if (!weightKg || Number(weightKg) < 20 || Number(weightKg) > 300) newErrors.push(t('assessment.validation.weight'));
+      if (!activityLevel) newErrors.push(t('assessment.validation.activity'));
+      if (!dietaryPreference) newErrors.push(t('assessment.validation.diet'));
     }
 
     if (step === 2) {
@@ -195,15 +173,15 @@ export default function AssessmentPage() {
         formData.basicInfo.dietaryPreference === 'vegan' ||
         formData.basicInfo.dietaryPreference === 'lacto_vegetarian';
 
-      if (!fruits) newErrors.push('Please select how often you eat Fruits.');
-      if (!vegetables) newErrors.push('Please select how often you eat Other Vegetables.');
-      if (!greenLeafy) newErrors.push('Please select how often you eat Green Leafy Vegetables.');
-      if (!pulsesLegumes) newErrors.push('Please select how often you eat Dal, Beans & Pulses.');
-      if (!dairyOrAlternatives) newErrors.push('Please select how often you consume Milk & Dairy Alternatives.');
-      if (!isVeg && !eggsMeatFish) newErrors.push('Please select how often you eat Eggs, Meat & Fish.');
-      if (!nutsSeeds) newErrors.push('Please select how often you eat Nuts & Seeds.');
-      if (!wholeGrainsMillets) newErrors.push('Please select how often you eat Whole Grains & Millets.');
-      if (!fortifiedFoods) newErrors.push('Please select how often you consume Fortified Foods.');
+      if (!fruits) newErrors.push(t('assessment.validation.foodGroup', { foodGroup: t('assessment.step2.foodGroups.fruits.title') }));
+      if (!vegetables) newErrors.push(t('assessment.validation.foodGroup', { foodGroup: t('assessment.step2.foodGroups.vegetables.title') }));
+      if (!greenLeafy) newErrors.push(t('assessment.validation.foodGroup', { foodGroup: t('assessment.step2.foodGroups.greenLeafy.title') }));
+      if (!pulsesLegumes) newErrors.push(t('assessment.validation.foodGroup', { foodGroup: t('assessment.step2.foodGroups.pulsesLegumes.title') }));
+      if (!dairyOrAlternatives) newErrors.push(t('assessment.validation.foodGroup', { foodGroup: t('assessment.step2.foodGroups.dairyOrAlternatives.title') }));
+      if (!isVeg && !eggsMeatFish) newErrors.push(t('assessment.validation.foodGroup', { foodGroup: t('assessment.step2.foodGroups.eggsMeatFish.title') }));
+      if (!nutsSeeds) newErrors.push(t('assessment.validation.foodGroup', { foodGroup: t('assessment.step2.foodGroups.nutsSeeds.title') }));
+      if (!wholeGrainsMillets) newErrors.push(t('assessment.validation.foodGroup', { foodGroup: t('assessment.step2.foodGroups.wholeGrainsMillets.title') }));
+      if (!fortifiedFoods) newErrors.push(t('assessment.validation.foodGroup', { foodGroup: t('assessment.step2.foodGroups.fortifiedFoods.title') }));
     }
 
     if (step === 3) {
@@ -219,16 +197,16 @@ export default function AssessmentPage() {
         teaCoffeeWithMeals,
         sleepQuality,
       } = formData.symptomsLifestyle;
-      if (!frequentFatigue) newErrors.push('Please answer how often you feel tired or low on energy.');
-      if (!generalWeakness) newErrors.push('Please answer how often you feel physically weak or get tired easily.');
-      if (!difficultyConcentrating) newErrors.push('Please answer how often you have trouble concentrating or remembering things.');
-      if (!paleAppearance) newErrors.push('Please answer if you have noticed unusual paleness or brittle nails.');
-      if (!muscleCrampsWeakness) newErrors.push('Please answer how often you experience muscle cramps or bone discomfort.');
-      if (!hairSkinChanges) newErrors.push('Please answer if you have noticed unusual hair loss or dry skin.');
-      if (!poorAppetite) newErrors.push('Please answer how often you experience a poor appetite or taste changes.');
-      if (!sunExposure) newErrors.push('Please select how much time you usually spend outdoors in daylight.');
-      if (!teaCoffeeWithMeals) newErrors.push('Please select how often you drink tea or coffee with or after meals.');
-      if (!sleepQuality) newErrors.push('Please select how many hours you usually sleep each night.');
+      if (!frequentFatigue) newErrors.push(t('assessment.validation.symptom', { symptom: t('assessment.step3.symptoms.frequentFatigue.title') }));
+      if (!generalWeakness) newErrors.push(t('assessment.validation.symptom', { symptom: t('assessment.step3.symptoms.generalWeakness.title') }));
+      if (!difficultyConcentrating) newErrors.push(t('assessment.validation.symptom', { symptom: t('assessment.step3.symptoms.difficultyConcentrating.title') }));
+      if (!paleAppearance) newErrors.push(t('assessment.validation.symptom', { symptom: t('assessment.step3.symptoms.paleAppearance.title') }));
+      if (!muscleCrampsWeakness) newErrors.push(t('assessment.validation.symptom', { symptom: t('assessment.step3.symptoms.muscleCrampsWeakness.title') }));
+      if (!hairSkinChanges) newErrors.push(t('assessment.validation.symptom', { symptom: t('assessment.step3.symptoms.hairSkinChanges.title') }));
+      if (!poorAppetite) newErrors.push(t('assessment.validation.symptom', { symptom: t('assessment.step3.symptoms.poorAppetite.title') }));
+      if (!sunExposure) newErrors.push(t('assessment.validation.sun'));
+      if (!teaCoffeeWithMeals) newErrors.push(t('assessment.validation.tea'));
+      if (!sleepQuality) newErrors.push(t('assessment.validation.sleep'));
     }
 
     setErrors(newErrors);
@@ -292,7 +270,7 @@ export default function AssessmentPage() {
   };
 
   const handleReset = () => {
-    if (confirm('Are you sure you want to reset all assessment answers?')) {
+    if (confirm(t('assessment.step4.resetConfirm'))) {
       setFormData(INITIAL_FORM_DATA);
       setCurrentStep(1);
       setErrors([]);
@@ -304,7 +282,7 @@ export default function AssessmentPage() {
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="text-center space-y-3">
           <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-sm text-slate-500 font-medium">Loading assessment wizard...</p>
+          <p className="text-sm text-slate-500 font-medium">{t('common.loading')}</p>
         </div>
       </div>
     );
@@ -316,13 +294,13 @@ export default function AssessmentPage() {
       <div className="text-center space-y-3">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold">
           <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-          <span>Nutritional Self-Assessment</span>
+          <span>{t('home.heroBadge')}</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-          Dietary & Lifestyle Questionnaire
+          {t('home.howItWorksTitle')}
         </h1>
         <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-          Please answer the questions across the sections below to evaluate your dietary habits and explore possible nutritional risk areas.
+          {t('home.howItWorksSubtitle')}
         </p>
       </div>
 
@@ -342,7 +320,7 @@ export default function AssessmentPage() {
         <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs space-y-1.5 animate-shake">
           <div className="flex items-center gap-2 font-bold text-rose-900">
             <AlertCircle className="w-4 h-4" />
-            <span>Please complete the following required fields before proceeding:</span>
+            <span>{t('common.notice')}:</span>
           </div>
           <ul className="list-disc list-inside space-y-0.5 pl-1">
             {errors.map((err, i) => (
@@ -359,22 +337,22 @@ export default function AssessmentPage() {
             <div>
               <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                 <User className="w-5 h-5 text-emerald-600" />
-                Step 1: Demographics & Dietary Preference
+                {t('assessment.step1.title')}
               </h2>
               <p className="text-xs text-slate-500">
-                Basic personal and dietary information to contextualize your nutritional needs.
+                {t('assessment.step1.subtitle')}
               </p>
             </div>
             <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
-              Step 1 of 4
+              {t('assessment.step')} 1 {t('assessment.of')} 4
             </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             {/* Age */}
             <QuestionCard
-              title="Age:"
-              subtitle="Age helps determine your daily nutrient needs."
+              title={t('assessment.step1.ageLabel')}
+              subtitle={t('assessment.step1.ageSubtitle')}
               required
             >
               <input
@@ -398,8 +376,8 @@ export default function AssessmentPage() {
 
             {/* Biological Sex */}
             <QuestionCard
-              title="Gender:"
-              subtitle="Accounts for differences in nutrient requirements like iron."
+              title={t('assessment.step1.genderLabel')}
+              subtitle={t('assessment.step1.genderSubtitle')}
               required
             >
               <div className="grid grid-cols-3 gap-2.5">
@@ -419,7 +397,7 @@ export default function AssessmentPage() {
                         : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                     }`}
                   >
-                    {s}
+                    {t(`assessment.step1.genders.${s}`)}
                   </button>
                 ))}
               </div>
@@ -427,8 +405,8 @@ export default function AssessmentPage() {
 
             {/* Height */}
             <QuestionCard
-              title="Height:"
-              subtitle="Enter your height in centimeters (cm)."
+              title={t('assessment.step1.heightLabel')}
+              subtitle={t('assessment.step1.heightSubtitle')}
               required
             >
               <input
@@ -452,8 +430,8 @@ export default function AssessmentPage() {
 
             {/* Weight & BMI Info */}
             <QuestionCard
-              title="Weight:"
-              subtitle="Enter your body weight in kilograms (kg)."
+              title={t('assessment.step1.weightLabel')}
+              subtitle={t('assessment.step1.weightSubtitle')}
               required
             >
               <input
@@ -477,13 +455,13 @@ export default function AssessmentPage() {
               {bmiInfo.bmi > 0 && (
                 <div className="mt-3 p-3 rounded-xl bg-emerald-50/80 border border-emerald-200/60 text-xs space-y-1">
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-600 font-medium">Estimated Body Mass Index (BMI):</span>
+                    <span className="text-slate-600 font-medium">{t('assessment.step1.bmiLabel')}</span>
                     <span className="font-bold text-emerald-800">
                       {bmiInfo.bmi} kg/m² ({bmiInfo.category})
                     </span>
                   </div>
                   <p className="text-[11px] text-slate-500">
-                    BMI provides contextual body composition info and is not a deficiency diagnosis.
+                    {t('assessment.step1.bmiContext')}
                   </p>
                 </div>
               )}
@@ -492,93 +470,102 @@ export default function AssessmentPage() {
 
           {/* Activity Level */}
           <QuestionCard
-            title="How active are you on a typical day?"
-            subtitle="Choose the option that best reflects your normal weekly routine."
+            title={t('assessment.step1.activityLabel')}
+            subtitle={t('assessment.step1.activitySubtitle')}
             required
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {ACTIVITY_LEVEL_OPTIONS.map((opt) => (
-                <label
-                  key={opt.value}
-                  onClick={() =>
-                    setFormData({
-                      ...formData,
-                      basicInfo: {
-                        ...formData.basicInfo,
-                        activityLevel: opt.value as ActivityLevel,
-                      },
-                    })
-                  }
-                  className={`p-3.5 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${
-                    formData.basicInfo.activityLevel === opt.value
-                      ? 'bg-emerald-50/90 border-emerald-500 ring-2 ring-emerald-500/20 shadow-xs'
-                      : 'bg-white border-slate-200 hover:bg-slate-50'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-sm text-slate-900">{opt.label}</span>
-                    <input
-                      type="radio"
-                      name="activityLevel"
-                      checked={formData.basicInfo.activityLevel === opt.value}
-                      onChange={() => {}}
-                      className="text-emerald-600 focus:ring-emerald-500"
-                    />
-                  </div>
-                  <p className="text-xs text-slate-500 mt-1">{opt.description}</p>
-                </label>
-              ))}
+              {ACTIVITY_LEVEL_OPTIONS.map((opt) => {
+                const label = t(`assessment.step1.activityLevels.${opt.value}.label`) || opt.label;
+                const desc = t(`assessment.step1.activityLevels.${opt.value}.desc`) || opt.description;
+
+                return (
+                  <label
+                    key={opt.value}
+                    onClick={() =>
+                      setFormData({
+                        ...formData,
+                        basicInfo: {
+                          ...formData.basicInfo,
+                          activityLevel: opt.value as ActivityLevel,
+                        },
+                      })
+                    }
+                    className={`p-3.5 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${
+                      formData.basicInfo.activityLevel === opt.value
+                        ? 'bg-emerald-50/90 border-emerald-500 ring-2 ring-emerald-500/20 shadow-xs'
+                        : 'bg-white border-slate-200 hover:bg-slate-50'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-sm text-slate-900">{label}</span>
+                      <input
+                        type="radio"
+                        name="activityLevel"
+                        checked={formData.basicInfo.activityLevel === opt.value}
+                        onChange={() => {}}
+                        className="text-emerald-600 focus:ring-emerald-500"
+                      />
+                    </div>
+                    <p className="text-xs text-slate-500 mt-1">{desc}</p>
+                  </label>
+                );
+              })}
             </div>
           </QuestionCard>
 
           {/* Dietary Preference */}
           <QuestionCard
-            title="What type of diet do you follow?"
-            subtitle="Helps identify which natural food sources of nutrients are part of your regular meals."
+            title={t('assessment.step1.dietLabel')}
+            subtitle={t('assessment.step1.dietSubtitle')}
             required
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {DIETARY_PREFERENCE_OPTIONS.map((opt) => (
-                <label
-                  key={opt.value}
-                  onClick={() => {
-                    const newDiet = opt.value as DietaryPreference;
-                    // If non-veg to vegan/veg, auto-set eggsMeatFish to never
-                    let newDietaryHabits = { ...formData.dietaryHabits };
-                    if (newDiet === 'vegan' || newDiet === 'vegetarian' || newDiet === 'lacto_vegetarian') {
-                      newDietaryHabits.eggsMeatFish = 'never';
-                    }
-                    if (newDiet === 'vegan') {
-                      newDietaryHabits.dairyOrAlternatives = 'rarely';
-                    }
-                    setFormData({
-                      ...formData,
-                      basicInfo: {
-                        ...formData.basicInfo,
-                        dietaryPreference: newDiet,
-                      },
-                      dietaryHabits: newDietaryHabits,
-                    });
-                  }}
-                  className={`p-3.5 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${
-                    formData.basicInfo.dietaryPreference === opt.value
-                      ? 'bg-emerald-50/90 border-emerald-500 ring-2 ring-emerald-500/20 shadow-xs'
-                      : 'bg-white border-slate-200 hover:bg-slate-50'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-sm text-slate-900">{opt.label}</span>
-                    <input
-                      type="radio"
-                      name="dietaryPreference"
-                      checked={formData.basicInfo.dietaryPreference === opt.value}
-                      onChange={() => {}}
-                      className="text-emerald-600 focus:ring-emerald-500"
-                    />
-                  </div>
-                  <p className="text-xs text-slate-500 mt-1">{opt.description}</p>
-                </label>
-              ))}
+              {DIETARY_PREFERENCE_OPTIONS.map((opt) => {
+                const label = t(`assessment.step1.dietTypes.${opt.value}.label`) || opt.label;
+                const desc = t(`assessment.step1.dietTypes.${opt.value}.desc`) || opt.description;
+
+                return (
+                  <label
+                    key={opt.value}
+                    onClick={() => {
+                      const newDiet = opt.value as DietaryPreference;
+                      let newDietaryHabits = { ...formData.dietaryHabits };
+                      if (newDiet === 'vegan' || newDiet === 'vegetarian' || newDiet === 'lacto_vegetarian') {
+                        newDietaryHabits.eggsMeatFish = 'never';
+                      }
+                      if (newDiet === 'vegan') {
+                        newDietaryHabits.dairyOrAlternatives = 'rarely';
+                      }
+                      setFormData({
+                        ...formData,
+                        basicInfo: {
+                          ...formData.basicInfo,
+                          dietaryPreference: newDiet,
+                        },
+                        dietaryHabits: newDietaryHabits,
+                      });
+                    }}
+                    className={`p-3.5 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${
+                      formData.basicInfo.dietaryPreference === opt.value
+                        ? 'bg-emerald-50/90 border-emerald-500 ring-2 ring-emerald-500/20 shadow-xs'
+                        : 'bg-white border-slate-200 hover:bg-slate-50'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-sm text-slate-900">{label}</span>
+                      <input
+                        type="radio"
+                        name="dietaryPreference"
+                        checked={formData.basicInfo.dietaryPreference === opt.value}
+                        onChange={() => {}}
+                        className="text-emerald-600 focus:ring-emerald-500"
+                      />
+                    </div>
+                    <p className="text-xs text-slate-500 mt-1">{desc}</p>
+                  </label>
+                );
+              })}
             </div>
           </QuestionCard>
         </div>
@@ -591,14 +578,14 @@ export default function AssessmentPage() {
             <div>
               <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                 <Utensils className="w-5 h-5 text-emerald-600" />
-                Step 2: Food Group Consumption Frequency
+                {t('assessment.step2.title')}
               </h2>
               <p className="text-xs text-slate-500">
-                How often do you typically eat foods from each of these 9 categories?
+                {t('assessment.step2.subtitle')}
               </p>
             </div>
             <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
-              Step 2 of 4
+              {t('assessment.step')} 2 {t('assessment.of')} 4
             </span>
           </div>
 
@@ -606,6 +593,11 @@ export default function AssessmentPage() {
             {DIETARY_QUESTIONS_CONFIG.map((q) => {
               const Icon = ICON_MAP[q.iconName] || Utensils;
               const currentValue = formData.dietaryHabits[q.key];
+
+              const localizedTitle = t(`assessment.step2.foodGroups.${q.key}.question`) || q.question;
+              const localizedBadge = t(`assessment.step2.foodGroups.${q.key}.title`) || q.name;
+              const localizedSubtitle = t(`assessment.step2.foodGroups.${q.key}.subtitle`) || q.subtitle;
+              const localizedExamples = t(`assessment.step2.foodGroups.${q.key}.examples`) || q.examples;
 
               // If vegetarian/vegan and this is eggsMeatFish, disable/mark as N/A
               const isMeatQuestion = q.key === 'eggsMeatFish';
@@ -618,44 +610,51 @@ export default function AssessmentPage() {
                 <QuestionCard
                   key={q.key}
                   icon={Icon}
-                  title={q.question}
-                  badge={q.name}
-                  subtitle={q.subtitle}
-                  examples={q.examples}
+                  title={localizedTitle}
+                  badge={localizedBadge}
+                  subtitle={localizedSubtitle}
+                  examples={localizedExamples}
                   required
                 >
                   {isMeatQuestion && isVegUser ? (
                     <div className="p-3 rounded-xl bg-slate-100 text-slate-600 text-xs flex items-center justify-between">
-                      <span>Automatically marked as &ldquo;Never&rdquo; based on your vegetarian diet in Step 1.</span>
-                      <span className="font-bold text-emerald-700 uppercase">Never (Vegetarian)</span>
+                      <span>{t('assessment.step2.foodGroups.eggsMeatFish.subtitle')}</span>
+                      <span className="font-bold text-emerald-700 uppercase">
+                        {t('assessment.step2.frequencies.never.label')} ({t('assessment.step1.dietTypes.vegetarian.label').split(' ')[0]})
+                      </span>
                     </div>
                   ) : (
                     <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-1">
-                      {FOOD_FREQUENCY_OPTIONS.map((opt) => (
-                        <button
-                          key={opt.value}
-                          type="button"
-                          onClick={() =>
-                            setFormData({
-                              ...formData,
-                              dietaryHabits: {
-                                ...formData.dietaryHabits,
-                                [q.key]: opt.value,
-                              },
-                            })
-                          }
-                          className={`p-2.5 rounded-xl border text-center transition-all flex flex-col items-center justify-center gap-0.5 ${
-                            currentValue === opt.value
-                              ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
-                              : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                          }`}
-                        >
-                          <span className="text-xs font-bold">{opt.label}</span>
-                          <span className={`text-[10px] truncate max-w-full ${currentValue === opt.value ? 'text-emerald-100' : 'text-slate-400'}`}>
-                            {opt.description}
-                          </span>
-                        </button>
-                      ))}
+                      {FOOD_FREQUENCY_OPTIONS.map((opt) => {
+                        const optLabel = t(`assessment.step2.frequencies.${opt.value}.label`) || opt.label;
+                        const optDesc = t(`assessment.step2.frequencies.${opt.value}.desc`) || opt.description;
+
+                        return (
+                          <button
+                            key={opt.value}
+                            type="button"
+                            onClick={() =>
+                              setFormData({
+                                ...formData,
+                                dietaryHabits: {
+                                  ...formData.dietaryHabits,
+                                  [q.key]: opt.value,
+                                },
+                              })
+                            }
+                            className={`p-2.5 rounded-xl border text-center transition-all flex flex-col items-center justify-center gap-0.5 ${
+                              currentValue === opt.value
+                                ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                                : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                            }`}
+                          >
+                            <span className="text-xs font-bold">{optLabel}</span>
+                            <span className={`text-[10px] truncate max-w-full ${currentValue === opt.value ? 'text-emerald-100' : 'text-slate-400'}`}>
+                              {optDesc}
+                            </span>
+                          </button>
+                        );
+                      })}
                     </div>
                   )}
                 </QuestionCard>
@@ -672,14 +671,14 @@ export default function AssessmentPage() {
             <div>
               <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                 <Activity className="w-5 h-5 text-emerald-600" />
-                Step 3: Self-Reported Indicators & Lifestyle Factors
+                {t('assessment.step3.title')}
               </h2>
               <p className="text-xs text-slate-500">
-                Simple questions about everyday energy, physical cues, and daily habits.
+                {t('assessment.step3.subtitle')}
               </p>
             </div>
             <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
-              Step 3 of 4
+              {t('assessment.step')} 3 {t('assessment.of')} 4
             </span>
           </div>
 
@@ -688,41 +687,48 @@ export default function AssessmentPage() {
           <div className="space-y-4">
             {SYMPTOM_QUESTIONS_CONFIG.map((q) => {
               const currentValue = formData.symptomsLifestyle[q.key];
+              const localizedTitle = t(`assessment.step3.symptoms.${q.key}.title`) || q.title;
+              const localizedSubtitle = t(`assessment.step3.symptoms.${q.key}.subtitle`) || q.subtitle;
 
               if (q.type === 'sun' || q.type === 'tea' || q.type === 'sleep') {
                 return (
                   <QuestionCard
                     key={q.key}
-                    title={q.title}
-                    subtitle={q.subtitle}
+                    title={localizedTitle}
+                    subtitle={localizedSubtitle}
                     required
                   >
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
-                      {q.options?.map((opt) => (
-                        <button
-                          key={opt.value}
-                          type="button"
-                          onClick={() =>
-                            setFormData({
-                              ...formData,
-                              symptomsLifestyle: {
-                                ...formData.symptomsLifestyle,
-                                [q.key]: opt.value,
-                              },
-                            })
-                          }
-                          className={`p-3 rounded-xl border text-left transition-all flex flex-col justify-between ${
-                            currentValue === opt.value
-                              ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
-                              : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                          }`}
-                        >
-                          <span className="text-xs font-bold">{opt.label}</span>
-                          <span className={`text-[11px] mt-1 ${currentValue === opt.value ? 'text-emerald-100' : 'text-slate-500'}`}>
-                            {opt.description}
-                          </span>
-                        </button>
-                      ))}
+                      {q.options?.map((opt) => {
+                        const optLabel = t(`assessment.step3.symptoms.${q.key}.options.${opt.value}.label`) || opt.label;
+                        const optDesc = t(`assessment.step3.symptoms.${q.key}.options.${opt.value}.desc`) || opt.description;
+
+                        return (
+                          <button
+                            key={opt.value}
+                            type="button"
+                            onClick={() =>
+                              setFormData({
+                                ...formData,
+                                symptomsLifestyle: {
+                                  ...formData.symptomsLifestyle,
+                                  [q.key]: opt.value,
+                                },
+                              })
+                            }
+                            className={`p-3 rounded-xl border text-left transition-all flex flex-col justify-between ${
+                              currentValue === opt.value
+                                ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                                : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                            }`}
+                          >
+                            <span className="text-xs font-bold">{optLabel}</span>
+                            <span className={`text-[11px] mt-1 ${currentValue === opt.value ? 'text-emerald-100' : 'text-slate-500'}`}>
+                              {optDesc}
+                            </span>
+                          </button>
+                        );
+                      })}
                     </div>
                   </QuestionCard>
                 );
@@ -732,36 +738,41 @@ export default function AssessmentPage() {
               return (
                 <QuestionCard
                   key={q.key}
-                  title={q.title}
-                  subtitle={q.subtitle}
+                  title={localizedTitle}
+                  subtitle={localizedSubtitle}
                   required
                 >
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
-                    {SYMPTOM_FREQUENCY_OPTIONS.map((opt) => (
-                      <button
-                        key={opt.value}
-                        type="button"
-                        onClick={() =>
-                          setFormData({
-                            ...formData,
-                            symptomsLifestyle: {
-                              ...formData.symptomsLifestyle,
-                              [q.key]: opt.value as SymptomFrequency,
-                            },
-                          })
-                        }
-                        className={`p-2.5 rounded-xl border text-center transition-all flex flex-col items-center justify-center gap-0.5 ${
-                          currentValue === opt.value
-                            ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
-                            : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                        }`}
-                      >
-                        <span className="text-xs font-bold">{opt.label}</span>
-                        <span className={`text-[10px] truncate max-w-full ${currentValue === opt.value ? 'text-emerald-100' : 'text-slate-400'}`}>
-                          {opt.description}
-                        </span>
-                      </button>
-                    ))}
+                    {SYMPTOM_FREQUENCY_OPTIONS.map((opt) => {
+                      const optLabel = t(`assessment.step3.symptomFrequencies.${opt.value}.label`) || opt.label;
+                      const optDesc = t(`assessment.step3.symptomFrequencies.${opt.value}.desc`) || opt.description;
+
+                      return (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() =>
+                            setFormData({
+                              ...formData,
+                              symptomsLifestyle: {
+                                ...formData.symptomsLifestyle,
+                                [q.key]: opt.value as SymptomFrequency,
+                              },
+                            })
+                          }
+                          className={`p-2.5 rounded-xl border text-center transition-all flex flex-col items-center justify-center gap-0.5 ${
+                            currentValue === opt.value
+                              ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                              : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                          }`}
+                        >
+                          <span className="text-xs font-bold">{optLabel}</span>
+                          <span className={`text-[10px] truncate max-w-full ${currentValue === opt.value ? 'text-emerald-100' : 'text-slate-400'}`}>
+                            {optDesc}
+                          </span>
+                        </button>
+                      );
+                    })}
                   </div>
                 </QuestionCard>
               );
@@ -777,14 +788,14 @@ export default function AssessmentPage() {
             <div>
               <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                 <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-                Step 4: Review Your Responses Before Analysis
+                {t('assessment.step4.title')}
               </h2>
               <p className="text-xs text-slate-500">
-                Please review your entered responses. You can click &ldquo;Edit&rdquo; on any section to adjust your answers.
+                {t('assessment.step4.subtitle')}
               </p>
             </div>
             <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
-              Step 4 of 4
+              {t('assessment.step')} 4 {t('assessment.of')} 4
             </span>
           </div>
 
@@ -797,7 +808,7 @@ export default function AssessmentPage() {
                     <User className="w-4 h-4" />
                   </div>
                   <h3 className="text-sm font-bold text-slate-900">
-                    1. Demographics & Dietary Pattern
+                    {t('assessment.step4.section1Title')}
                   </h3>
                 </div>
                 <button
@@ -806,50 +817,52 @@ export default function AssessmentPage() {
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-emerald-700 hover:text-emerald-800 hover:bg-emerald-50 transition-colors"
                 >
                   <Edit2 className="w-3.5 h-3.5" />
-                  <span>Edit Section</span>
+                  <span>{t('assessment.step4.editSection')}</span>
                 </button>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                  <span className="text-slate-400 block text-[11px]">Age:</span>
+                  <span className="text-slate-400 block text-[11px]">{t('assessment.step1.ageLabel')}</span>
                   <span className="font-bold text-slate-800">
-                    {formData.basicInfo.age ? `${formData.basicInfo.age} years` : 'Not answered'}
+                    {formData.basicInfo.age ? `${formData.basicInfo.age}` : '—'}
                   </span>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                  <span className="text-slate-400 block text-[11px]">Biological Sex:</span>
+                  <span className="text-slate-400 block text-[11px]">{t('assessment.step1.genderLabel')}</span>
                   <span className="font-bold text-slate-800 capitalize">
-                    {formData.basicInfo.sex === 'female'
-                      ? 'Female'
-                      : formData.basicInfo.sex === 'male'
-                      ? 'Male'
-                      : formData.basicInfo.sex || 'Not answered'}
+                    {formData.basicInfo.sex
+                      ? t(`assessment.step1.genders.${formData.basicInfo.sex}`)
+                      : '—'}
                   </span>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                  <span className="text-slate-400 block text-[11px]">Height / Weight:</span>
+                  <span className="text-slate-400 block text-[11px]">{t('assessment.step1.heightLabel')} / {t('assessment.step1.weightLabel')}</span>
                   <span className="font-bold text-slate-800">
                     {formData.basicInfo.heightCm ? `${formData.basicInfo.heightCm} cm` : '—'} •{' '}
                     {formData.basicInfo.weightKg ? `${formData.basicInfo.weightKg} kg` : '—'}
                   </span>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                  <span className="text-slate-400 block text-[11px]">Body Mass Index (BMI):</span>
+                  <span className="text-slate-400 block text-[11px]">{t('assessment.step1.bmiLabel')}</span>
                   <span className="font-bold text-emerald-800">
                     {bmiInfo.bmi > 0 ? `${bmiInfo.bmi} kg/m² (${bmiInfo.category})` : 'N/A'}
                   </span>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                  <span className="text-slate-400 block text-[11px]">Daily Activity:</span>
+                  <span className="text-slate-400 block text-[11px]">{t('assessment.step1.activityLabel')}</span>
                   <span className="font-bold text-slate-800">
-                    {ACTIVITY_LEVEL_OPTIONS.find((o) => o.value === formData.basicInfo.activityLevel)?.label || 'Not answered'}
+                    {formData.basicInfo.activityLevel
+                      ? t(`assessment.step1.activityLevels.${formData.basicInfo.activityLevel}.label`)
+                      : '—'}
                   </span>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                  <span className="text-slate-400 block text-[11px]">Dietary Pattern:</span>
+                  <span className="text-slate-400 block text-[11px]">{t('assessment.step1.dietLabel')}</span>
                   <span className="font-bold text-slate-800">
-                    {DIETARY_PREFERENCE_OPTIONS.find((o) => o.value === formData.basicInfo.dietaryPreference)?.label || 'Not answered'}
+                    {formData.basicInfo.dietaryPreference
+                      ? t(`assessment.step1.dietTypes.${formData.basicInfo.dietaryPreference}.label`)
+                      : '—'}
                   </span>
                 </div>
               </div>
@@ -863,7 +876,7 @@ export default function AssessmentPage() {
                     <Utensils className="w-4 h-4" />
                   </div>
                   <h3 className="text-sm font-bold text-slate-900">
-                    2. Food Group Consumption Frequency
+                    {t('assessment.step4.section2Title')}
                   </h3>
                 </div>
                 <button
@@ -872,7 +885,7 @@ export default function AssessmentPage() {
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-emerald-700 hover:text-emerald-800 hover:bg-emerald-50 transition-colors"
                 >
                   <Edit2 className="w-3.5 h-3.5" />
-                  <span>Edit Section</span>
+                  <span>{t('assessment.step4.editSection')}</span>
                 </button>
               </div>
 
@@ -885,15 +898,19 @@ export default function AssessmentPage() {
                     formData.basicInfo.dietaryPreference === 'lacto_vegetarian';
                   const displayVal =
                     q.key === 'eggsMeatFish' && isVeg
-                      ? 'Never (Vegetarian)'
-                      : FREQUENCY_LABEL_MAP[val as FoodFrequency] || 'Not answered';
+                      ? `${t('assessment.step2.frequencies.never.label')} (${t('assessment.step1.dietTypes.vegetarian.label').split(' ')[0]})`
+                      : val
+                      ? t(`assessment.step2.frequencies.${val}.label`)
+                      : '—';
+
+                  const localizedName = t(`assessment.step2.foodGroups.${q.key}.title`) || q.name;
 
                   return (
                     <div
                       key={q.key}
                       className="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between gap-2"
                     >
-                      <span className="text-slate-600 font-medium">{q.name}:</span>
+                      <span className="text-slate-600 font-medium">{localizedName}:</span>
                       <span className="font-bold text-slate-900 text-right">{displayVal}</span>
                     </div>
                   );
@@ -909,7 +926,7 @@ export default function AssessmentPage() {
                     <Activity className="w-4 h-4" />
                   </div>
                   <h3 className="text-sm font-bold text-slate-900">
-                    3. Self-Reported Indicators & Lifestyle Factors
+                    {t('assessment.step4.section3Title')}
                   </h3>
                 </div>
                 <button
@@ -918,21 +935,30 @@ export default function AssessmentPage() {
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-emerald-700 hover:text-emerald-800 hover:bg-emerald-50 transition-colors"
                 >
                   <Edit2 className="w-3.5 h-3.5" />
-                  <span>Edit Section</span>
+                  <span>{t('assessment.step4.editSection')}</span>
                 </button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
                 {SYMPTOM_QUESTIONS_CONFIG.map((q) => {
                   const val = formData.symptomsLifestyle[q.key];
-                  const displayVal = SYMPTOM_VALUE_LABEL_MAP[val as string] || val || 'Not answered';
+                  let displayVal = '—';
+                  if (val) {
+                    if (q.type === 'sun' || q.type === 'tea' || q.type === 'sleep') {
+                      displayVal = t(`assessment.step3.symptoms.${q.key}.options.${val}.label`) || val;
+                    } else {
+                      displayVal = t(`assessment.step3.symptomFrequencies.${val}.label`) || val;
+                    }
+                  }
+
+                  const localizedTitle = t(`assessment.step3.symptoms.${q.key}.title`) || q.title;
 
                   return (
                     <div
                       key={q.key}
                       className="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-start justify-between gap-3"
                     >
-                      <span className="text-slate-600 font-medium leading-snug">{q.title}</span>
+                      <span className="text-slate-600 font-medium leading-snug">{localizedTitle}</span>
                       <span className="font-bold text-slate-900 shrink-0 text-right">{displayVal}</span>
                     </div>
                   );
@@ -955,7 +981,7 @@ export default function AssessmentPage() {
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 text-sm font-semibold transition-all"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Back</span>
+              <span>{t('common.back')}</span>
             </button>
           ) : (
             <button
@@ -964,7 +990,7 @@ export default function AssessmentPage() {
               className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-slate-500 hover:text-slate-700 hover:bg-slate-100 text-xs font-medium transition-all"
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              <span>Reset</span>
+              <span>{t('common.reset')}</span>
             </button>
           )}
         </div>
@@ -976,7 +1002,7 @@ export default function AssessmentPage() {
               onClick={handleNext}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow-md shadow-emerald-600/20 transition-all active:scale-98"
             >
-              <span>Continue to Step {currentStep + 1}</span>
+              <span>{t('common.next')} ({t('assessment.step')} {currentStep + 1})</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           ) : (
@@ -987,7 +1013,7 @@ export default function AssessmentPage() {
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white text-base font-bold shadow-lg shadow-emerald-600/25 transition-all active:scale-98 disabled:opacity-50"
             >
               <Sparkles className="w-5 h-5" />
-              <span>{isSubmitting ? 'Analyzing Responses...' : 'Generate Nutrition Report'}</span>
+              <span>{isSubmitting ? t('assessment.step4.evaluatingBtn') : t('assessment.step4.evaluateBtn')}</span>
               <ArrowRight className="w-5 h-5" />
             </button>
           )}

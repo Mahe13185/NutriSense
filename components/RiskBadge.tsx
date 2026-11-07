@@ -1,6 +1,9 @@
+'use client';
+
 import React from 'react';
 import { RiskLevel } from '@/types';
 import { ShieldCheck, AlertCircle, AlertTriangle } from 'lucide-react';
+import { useTranslation } from '@/lib/language-context';
 
 interface RiskBadgeProps {
   level: RiskLevel;
@@ -10,23 +13,25 @@ interface RiskBadgeProps {
 }
 
 export function RiskBadge({ level, showIcon = true, size = 'md', className = '' }: RiskBadgeProps) {
+  const { t } = useTranslation();
+
   const configs = {
     low: {
-      label: 'Low Risk Indication',
+      labelKey: 'common.riskLevels.low',
       bg: 'bg-emerald-50 text-emerald-700 border-emerald-200/80',
       icon: ShieldCheck,
       iconColor: 'text-emerald-600',
       dotColor: 'bg-emerald-500',
     },
     moderate: {
-      label: 'Moderate Risk Indication',
+      labelKey: 'common.riskLevels.moderate',
       bg: 'bg-amber-50 text-amber-800 border-amber-200/80',
       icon: AlertCircle,
       iconColor: 'text-amber-600',
       dotColor: 'bg-amber-500',
     },
     elevated: {
-      label: 'Elevated Risk Indication',
+      labelKey: 'common.riskLevels.elevated',
       bg: 'bg-rose-50 text-rose-700 border-rose-200/80',
       icon: AlertTriangle,
       iconColor: 'text-rose-600',
@@ -51,7 +56,7 @@ export function RiskBadge({ level, showIcon = true, size = 'md', className = '' 
       ) : (
         <span className={`w-1.5 h-1.5 rounded-full ${configs.dotColor}`} />
       )}
-      <span>{configs.label}</span>
+      <span>{t(configs.labelKey)}</span>
     </span>
   );
 }

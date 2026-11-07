@@ -6,6 +6,7 @@ import { FOODS_DATABASE } from '@/data/foods';
 import { FoodCard } from '@/components/FoodCard';
 import { DisclaimerBanner } from '@/components/DisclaimerBanner';
 import { SectionHeader } from '@/components/SectionHeader';
+import { useTranslation } from '@/lib/language-context';
 import {
   Search,
   Filter,
@@ -18,25 +19,8 @@ import {
   SlidersHorizontal,
 } from 'lucide-react';
 
-const NUTRIENT_FILTERS = [
-  { id: 'all', label: 'All Nutrients' },
-  { id: 'iron', label: 'Iron (Fe)' },
-  { id: 'vitamin_b12', label: 'Vitamin B12' },
-  { id: 'vitamin_d', label: 'Vitamin D' },
-  { id: 'calcium', label: 'Calcium' },
-  { id: 'vitamin_a', label: 'Vitamin A' },
-  { id: 'folate', label: 'Folate (B9)' },
-  { id: 'protein', label: 'Protein' },
-];
-
-const DIET_FILTERS = [
-  { id: 'all', label: 'All Diets' },
-  { id: 'vegan', label: 'Vegan Only' },
-  { id: 'vegetarian', label: 'Vegetarian' },
-  { id: 'non_vegetarian', label: 'Non-Vegetarian' },
-];
-
 function FoodsContent() {
+  const { t } = useTranslation();
   const searchParams = useSearchParams();
   const initialNutrientParam = searchParams.get('nutrient') || 'all';
 
@@ -44,6 +28,24 @@ function FoodsContent() {
   const [selectedNutrient, setSelectedNutrient] = useState<string>(initialNutrientParam);
   const [selectedDiet, setSelectedDiet] = useState<string>('all');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+
+  const nutrientFilters = useMemo(() => [
+    { id: 'all', label: t('foods.allNutrients') },
+    { id: 'iron', label: t('nutrients.iron') },
+    { id: 'vitamin_b12', label: t('nutrients.vitamin_b12') },
+    { id: 'vitamin_d', label: t('nutrients.vitamin_d') },
+    { id: 'calcium', label: t('nutrients.calcium') },
+    { id: 'vitamin_a', label: t('nutrients.vitamin_a') },
+    { id: 'folate', label: t('nutrients.folate') },
+    { id: 'protein', label: t('nutrients.protein') },
+  ], [t]);
+
+  const dietFilters = useMemo(() => [
+    { id: 'all', label: t('foods.allDiets') },
+    { id: 'vegan', label: t('foods.veganOnly') },
+    { id: 'vegetarian', label: t('foods.vegetarian') },
+    { id: 'non_vegetarian', label: t('foods.nonVegetarian') },
+  ], [t]);
 
   const filteredFoods = useMemo(() => {
     return FOODS_DATABASE.filter((food) => {
@@ -85,9 +87,9 @@ function FoodsContent() {
       {/* Header */}
       <div className="space-y-3">
         <SectionHeader
-          badge="ICMR-NIN Aligned Food Database"
-          title="Nutrient-Dense Food Explorer"
-          subtitle="Discover regional Indian foods, fruits, grains, pulses, dairy, and seeds rich in vital micronutrients with evidence-backed preparation and bioavailability tips."
+          badge={t('foods.badge')}
+          title={t('foods.title')}
+          subtitle={t('foods.subtitle')}
         />
         <DisclaimerBanner variant="compact" />
       </div>
@@ -99,7 +101,7 @@ function FoodsContent() {
           <Search className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search by food name, regional name (e.g. Moringa, Ragi, Palak, Halim, Dahi)..."
+            placeholder={t('foods.searchPlaceholder')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-11 pr-10 py-3.5 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 text-sm font-medium text-slate-900 shadow-xs"
@@ -119,19 +121,19 @@ function FoodsContent() {
           <div className="flex items-center justify-between text-xs text-slate-500 font-semibold uppercase tracking-wider">
             <span className="flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-              Filter by Nutrient Area
+              {t('foods.filterByNutrient')}
             </span>
             {(selectedNutrient !== 'all' || selectedDiet !== 'all' || searchTerm) && (
               <button
                 onClick={handleResetFilters}
                 className="text-emerald-700 hover:text-emerald-800 lowercase text-xs font-semibold hover:underline"
               >
-                reset filters
+                {t('foods.resetFilters')}
               </button>
             )}
           </div>
           <div className="flex flex-wrap gap-2">
-            {NUTRIENT_FILTERS.map((nf) => (
+            {nutrientFilters.map((nf) => (
               <button
                 key={nf.id}
                 onClick={() => setSelectedNutrient(nf.id)}
@@ -150,9 +152,9 @@ function FoodsContent() {
         {/* Dietary Preference Filter Bar */}
         <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-slate-100">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-slate-500">Diet Type:</span>
+            <span className="text-xs font-semibold text-slate-500">{t('foods.dietType')}</span>
             <div className="flex flex-wrap gap-1.5">
-              {DIET_FILTERS.map((df) => (
+              {dietFilters.map((df) => (
                 <button
                   key={df.id}
                   onClick={() => setSelectedDiet(df.id)}
@@ -169,8 +171,8 @@ function FoodsContent() {
           </div>
 
           <div className="text-xs font-medium text-slate-500">
-            Showing <strong className="text-slate-900">{filteredFoods.length}</strong> of{' '}
-            {FOODS_DATABASE.length} foods
+            {t('foods.showing')} <strong className="text-slate-900">{filteredFoods.length}</strong> {t('foods.of')}{' '}
+            {FOODS_DATABASE.length} {t('foods.foodsCount')}
           </div>
         </div>
       </div>
@@ -188,16 +190,16 @@ function FoodsContent() {
             <Utensils className="w-6 h-6" />
           </div>
           <div className="space-y-1">
-            <h3 className="text-base font-bold text-slate-900">No foods match your criteria</h3>
+            <h3 className="text-base font-bold text-slate-900">{t('foods.noFoodsMatch')}</h3>
             <p className="text-xs text-slate-500">
-              Try adjusting your search keywords or clearing active nutrient and diet filters.
+              {t('foods.noFoodsMatchDesc')}
             </p>
           </div>
           <button
             onClick={handleResetFilters}
             className="px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-bold hover:bg-emerald-700 transition-colors"
           >
-            Reset All Filters
+            {t('foods.resetAllFilters')}
           </button>
         </div>
       )}

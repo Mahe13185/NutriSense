@@ -3,20 +3,15 @@
 import React from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/lib/auth-context';
+import { useTranslation } from '@/lib/language-context';
 import {
   Sparkles,
   ArrowRight,
   ShieldCheck,
   Activity,
-  Heart,
   BookOpen,
-  CheckCircle2,
   Utensils,
-  Leaf,
   Compass,
-  FileCheck,
-  AlertTriangle,
-  ExternalLink,
   ChevronRight,
   BarChart3,
   Lock,
@@ -27,6 +22,7 @@ import { SectionHeader } from '@/components/SectionHeader';
 
 export default function LandingPage() {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const assessmentHref = user ? '/assessment' : '/login?redirect=/assessment';
 
   return (
@@ -46,20 +42,20 @@ export default function LandingPage() {
             {/* Methodology Badge */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold shadow-xs">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Informed by ICMR-NIN (2024) Dietary Guidelines for Indians</span>
+              <span>{t('home.heroBadge')}</span>
             </div>
 
             {/* Main Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.15]">
-              Understand Your Nutrition.{' '}
+              {t('home.heroTitle1')}{' '}
               <span className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 bg-clip-text text-transparent">
-                Build Better Habits.
+                {t('home.heroTitle2')}
               </span>
             </h1>
 
             {/* Subtitle */}
             <p className="text-base sm:text-lg lg:text-xl text-slate-600 leading-relaxed font-normal max-w-2xl mx-auto">
-              A smart, rule-based nutrition awareness platform that evaluates your dietary habits and self-reported lifestyle factors to highlight possible micronutrient risk areas with evidence-backed dietary recommendations.
+              {t('home.heroSubtitle')}
             </p>
 
             {/* Action Buttons */}
@@ -69,7 +65,7 @@ export default function LandingPage() {
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-2xl text-base font-bold text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 shadow-md shadow-emerald-600/20 hover:shadow-lg transition-all active:scale-98"
               >
                 <Sparkles className="w-5 h-5" />
-                <span>Start Free Assessment</span>
+                <span>{t('home.startAssessmentBtn')}</span>
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
@@ -77,7 +73,7 @@ export default function LandingPage() {
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl text-base font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200/90 shadow-xs hover:border-slate-300 transition-all"
               >
                 <BookOpen className="w-4 h-4 text-slate-500" />
-                <span>Explore Guidelines</span>
+                <span>{t('home.exploreGuidelinesBtn')}</span>
               </Link>
             </div>
 
@@ -85,15 +81,15 @@ export default function LandingPage() {
             <div className="pt-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs text-slate-500 font-medium">
               <div className="flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                <span>Non-Diagnostic Awareness</span>
+                <span>{t('common.badge')}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <Lock className="w-4 h-4 text-teal-600" />
-                <span>Secure User Accounts</span>
+                <span>{t('footer.zeroCloud')} {t('footer.zeroCloudDesc')}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <BarChart3 className="w-4 h-4 text-emerald-600" />
-                <span>Rule-Based Transparency</span>
+                <span>{t('guidelines.badge')}</span>
               </div>
             </div>
           </div>
@@ -112,9 +108,9 @@ export default function LandingPage() {
         <div className="bg-gradient-to-b from-white to-slate-50/60 rounded-3xl border border-slate-200/90 p-6 sm:p-10 lg:p-12 shadow-xs space-y-10">
           <SectionHeader
             centered
-            badge="Simple 4-Step Process"
-            title="How NutriSense Evaluates Your Nutritional Patterns"
-            subtitle="Our structured workflow compares your self-reported dietary habits with Indian dietary benchmarks to provide explainable preliminary risk indications."
+            badge={t('home.howItWorksBadge')}
+            title={t('home.howItWorksTitle')}
+            subtitle={t('home.howItWorksSubtitle')}
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -124,10 +120,10 @@ export default function LandingPage() {
                 01
               </div>
               <h3 className="text-base font-bold text-slate-900">
-                1. Basic Demographics
+                1. {t('home.step1Title')}
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Provide basic information (age, sex, height, weight, activity level, and dietary preference) to align your profile with standard dietary reference targets.
+                {t('home.step1Desc')}
               </p>
             </div>
 
@@ -137,10 +133,10 @@ export default function LandingPage() {
                 02
               </div>
               <h3 className="text-base font-bold text-slate-900">
-                2. Dietary Frequencies
+                2. {t('home.step2Title')}
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Log how frequently you consume 9 core food groups including green leafy vegetables, pulses, dairy, fruits, millets, and fortified staples.
+                {t('home.step2Desc')}
               </p>
             </div>
 
@@ -150,10 +146,10 @@ export default function LandingPage() {
                 03
               </div>
               <h3 className="text-base font-bold text-slate-900">
-                3. Lifestyle & Cues
+                3. {t('home.step3Title')}
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Report non-clinical lifestyle cues (such as sun exposure and mealtime tea habits) and non-specific self-reported indicators.
+                {t('home.step3Desc')}
               </p>
             </div>
 
@@ -163,10 +159,10 @@ export default function LandingPage() {
                 04
               </div>
               <h3 className="text-base font-bold text-slate-900">
-                4. Awareness Report
+                4. {t('home.step4Title')}
               </h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Receive interactive radar charts, explainable risk indications, nutrient synergies, and food recommendations.
+                {t('home.step4Desc')}
               </p>
             </div>
           </div>
@@ -176,7 +172,7 @@ export default function LandingPage() {
               href={assessmentHref}
               className="inline-flex items-center gap-2 text-sm font-bold text-emerald-700 hover:text-emerald-800 hover:underline"
             >
-              <span>Take the 3-minute assessment now</span>
+              <span>{t('home.ctaButton')}</span>
               <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
@@ -188,55 +184,58 @@ export default function LandingPage() {
       {/* ============================================================ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <SectionHeader
-          badge="Evaluated Nutrients"
-          title="7 Vital Micronutrients & Macronutrients Analyzed"
-          subtitle="Explore the key nutrients evaluated by our rule engine to understand their functions, dietary sources, and common deficiency indicators."
+          badge={t('home.nutrientsBadge')}
+          title={t('home.nutrientsTitle')}
+          subtitle={t('home.nutrientsSubtitle')}
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {NUTRIENTS_DATA.map((nutrient) => (
-            <div
-              key={nutrient.id}
-              className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md hover:border-emerald-300 transition-all flex flex-col justify-between space-y-4"
-            >
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-slate-100 text-slate-700">
-                    {nutrient.category}
-                  </span>
-                  <span className="text-xs text-slate-400 font-medium">
-                    ICMR 2024
-                  </span>
-                </div>
-                <h3 className="text-xl font-bold text-slate-900">
-                  {nutrient.name}
-                </h3>
-                <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                  {nutrient.tagline}
-                </p>
-              </div>
-
-              <div className="space-y-3 pt-3 border-t border-slate-100">
-                <div className="space-y-1">
-                  <span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider block">
-                    Key Biological Roles:
-                  </span>
-                  <ul className="text-xs text-slate-600 space-y-0.5 list-disc list-inside">
-                    {nutrient.keyFunctions.slice(0, 2).map((fn, i) => (
-                      <li key={i} className="truncate">{fn}</li>
-                    ))}
-                  </ul>
+          {NUTRIENTS_DATA.map((nutrient) => {
+            const localizedName = t(`nutrients.${nutrient.id}`) || nutrient.name;
+            return (
+              <div
+                key={nutrient.id}
+                className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md hover:border-emerald-300 transition-all flex flex-col justify-between space-y-4"
+              >
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-slate-100 text-slate-700">
+                      {nutrient.category}
+                    </span>
+                    <span className="text-xs text-slate-400 font-medium">
+                      ICMR 2024
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900">
+                    {localizedName}
+                  </h3>
+                  <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                    {nutrient.tagline}
+                  </p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-emerald-50/60 border border-emerald-100 text-xs text-emerald-900">
-                  <span className="font-semibold block mb-0.5">Top Food Sources:</span>
-                  <span className="text-[11px] text-emerald-800">
-                    {nutrient.topFoodSources.vegetarian.slice(0, 3).join(', ')}
-                  </span>
+                <div className="space-y-3 pt-3 border-t border-slate-100">
+                  <div className="space-y-1">
+                    <span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider block">
+                      {t('results.reportedSymptoms')}:
+                    </span>
+                    <ul className="text-xs text-slate-600 space-y-0.5 list-disc list-inside">
+                      {nutrient.keyFunctions.slice(0, 2).map((fn, i) => (
+                        <li key={i} className="truncate">{fn}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-emerald-50/60 border border-emerald-100 text-xs text-emerald-900">
+                    <span className="font-semibold block mb-0.5">{t('results.topFoods')}</span>
+                    <span className="text-[11px] text-emerald-800">
+                      {nutrient.topFoodSources.vegetarian.slice(0, 3).join(', ')}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -248,13 +247,13 @@ export default function LandingPage() {
           <div className="max-w-2xl space-y-3">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Core Principles</span>
+              <span>{t('guidelines.badge')}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Why Transparent, Rule-Based Assessment?
+              {t('about.title')}
             </h2>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Unlike opaque AI black-boxes, NutriSense utilizes a deterministic, explainable rule engine that provides transparent reasoning for every flagged risk area.
+              {t('about.solutionText')}
             </p>
           </div>
 
@@ -263,9 +262,9 @@ export default function LandingPage() {
               <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
                 <Activity className="w-5 h-5" />
               </div>
-              <h3 className="text-base font-bold text-white">Indian Diet Focus</h3>
+              <h3 className="text-base font-bold text-white">{t('guidelines.sectionA')}</h3>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Specifically models phytate-iron binding in Indian high-cereal diets, Vitamin B12 gaps in vegetarian traditions, and Vitamin D sunshine factors.
+                {t('home.heroBadge')}
               </p>
             </div>
 
@@ -273,9 +272,9 @@ export default function LandingPage() {
               <div className="w-9 h-9 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center">
                 <Compass className="w-5 h-5" />
               </div>
-              <h3 className="text-base font-bold text-white">Absorption Science</h3>
+              <h3 className="text-base font-bold text-white">{t('guidelines.sectionC')}</h3>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Considers bio-enhancers (such as Vitamin C with plant iron) and inhibitors (such as tannins in midday tea/coffee).
+                {t('about.subtitle')}
               </p>
             </div>
 
@@ -283,9 +282,9 @@ export default function LandingPage() {
               <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
                 <Lock className="w-5 h-5" />
               </div>
-              <h3 className="text-base font-bold text-white">User Accounts & RLS</h3>
+              <h3 className="text-base font-bold text-white">{t('footer.zeroCloud')}</h3>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Save and track your assessment history in your personal account with PostgreSQL Row Level Security (RLS).
+                {t('footer.zeroCloudDesc')}
               </p>
             </div>
           </div>
@@ -300,20 +299,20 @@ export default function LandingPage() {
           <div className="max-w-2xl space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold border border-emerald-400/30">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Ready in 3 Minutes</span>
+              <span>{t('home.ctaBadge')}</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
-              Begin Your Nutritional Self-Assessment Today
+              {t('home.ctaTitle')}
             </h2>
             <p className="text-sm sm:text-base text-slate-100 leading-relaxed">
-              Discover which food groups your diet excels in and where simple, traditional dietary additions could enhance your daily vitality.
+              {t('home.ctaSubtitle')}
             </p>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
               <Link
                 href={assessmentHref}
                 className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl text-base font-bold text-slate-900 bg-white hover:bg-slate-100 shadow-lg transition-all active:scale-98"
               >
-                <span>Start Assessment</span>
+                <span>{t('home.ctaButton')}</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
@@ -321,7 +320,7 @@ export default function LandingPage() {
                 className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl text-base font-semibold text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700 transition-all"
               >
                 <Utensils className="w-4 h-4 text-emerald-400" />
-                <span>Explore 45+ Superfoods</span>
+                <span>{t('dashboard.foodDatabase')}</span>
               </Link>
             </div>
           </div>

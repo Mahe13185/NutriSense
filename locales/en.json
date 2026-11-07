@@ -1,0 +1,676 @@
+{
+  "common": {
+    "appName": "NutriSense",
+    "tagline": "Nutritional Risk Awareness Portal",
+    "badge": "Nutritional Awareness • Non-Diagnostic",
+    "loading": "Loading...",
+    "save": "Save Changes",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "reset": "Reset",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "print": "Print Report",
+    "share": "Share",
+    "copied": "Copied link to clipboard!",
+    "all": "All",
+    "search": "Search...",
+    "close": "Close",
+    "menu": "Menu",
+    "yes": "Yes",
+    "no": "No",
+    "or": "or",
+    "required": "Required",
+    "keyExamples": "Key examples:",
+    "notice": "Notice",
+    "disclaimerTitle": "Important Health Notice",
+    "disclaimerNonDiagnostic": "Non-Diagnostic",
+    "disclaimerText": "NutriSense is a rule-based nutritional awareness portal. It maps self-reported dietary habits and symptoms to general nutrition science benchmarks. It does NOT medically diagnose nutritional deficiencies, prescribe therapeutic doses, or replace blood tests (e.g. Ferritin, Vitamin D, or B12 panels). If you experience persistent symptoms, consult a qualified physician or registered dietitian.",
+    "disclaimerCompact": "Preliminary nutritional risk indication only — not a clinical medical diagnosis.",
+    "disclaimerSubtleTitle": "Health Notice & Scope",
+    "disclaimerSubtleText": "NutriSense provides dietary habit analysis and preliminary risk indications. All recommendations are derived from ICMR-NIN 2024 guidelines and do not replace laboratory testing or professional medical advice.",
+    "riskLevels": {
+      "low": "Low Risk Indication",
+      "moderate": "Moderate Risk Indication",
+      "elevated": "Elevated Risk Indication"
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "assessment": "Assessment",
+    "guidelines": "Guidelines",
+    "foods": "Foods",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "about": "About",
+    "login": "Login",
+    "signup": "Sign Up",
+    "logout": "Logout",
+    "selectLanguage": "Select Language"
+  },
+  "footer": {
+    "description": "A Smart Nutritional Deficiency Detection and Awareness Portal. Helping individuals evaluate dietary habits, understand micronutrient synergy, and identify possible risk patterns based on evidence-backed nutritional benchmarks.",
+    "explorePortal": "Explore Portal",
+    "startAssessment": "Start Assessment",
+    "resultsDashboard": "Results Dashboard",
+    "foodExplorer": "Food & Nutrient Explorer",
+    "icmrGuidelines": "ICMR & WHO Guidelines",
+    "systemArch": "System Architecture & About",
+    "referenceSources": "Reference Sources",
+    "icmrReference": "ICMR-NIN Guidelines (2024)",
+    "whoReference": "WHO Healthy Diet (Factsheet 394)",
+    "fssaiReference": "FSSAI +F Fortification Standards",
+    "rdaBenchmark": "Mapped to 2024 Recommended Dietary Allowances (RDA) for Indians.",
+    "localArchitecture": "Local Architecture",
+    "localArchDesc": "Built using Next.js 14, TypeScript, Tailwind CSS, and Recharts. All rule evaluation executes locally in your browser with zero external server or database tracking.",
+    "zeroCloud": "Zero Cloud Leakage:",
+    "zeroCloudDesc": "Assessment data is retained only in your browser's localStorage.",
+    "healthNotice": "Important Health & Non-Diagnostic Notice:",
+    "healthNoticeDesc": "NutriSense is a nutritional awareness platform. It provides general dietary insights and preliminary risk indications based on user-entered answers. It does NOT constitute medical diagnosis, clinical advice, or a substitute for laboratory testing. Always consult a qualified physician or registered dietitian for medical evaluation.",
+    "copyright": "NutriSense — Smart Nutritional Deficiency Detection and Awareness Portal.",
+    "craftedWith": "Crafted with evidence-based nutrition science"
+  },
+  "auth": {
+    "loginTitle": "Welcome Back",
+    "loginSubtitle": "Access your saved nutrition assessments and dietary history.",
+    "signupTitle": "Create Your Account",
+    "signupSubtitle": "Start tracking your nutritional awareness and food recommendations.",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "your.email@example.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "••••••••",
+    "nameLabel": "Full Name",
+    "namePlaceholder": "e.g. Priya Sharma",
+    "confirmPasswordLabel": "Confirm Password",
+    "confirmPasswordPlaceholder": "••••••••",
+    "signInButton": "Sign In",
+    "signingIn": "Signing In...",
+    "signUpButton": "Create Free Account",
+    "signingUp": "Creating Account...",
+    "dontHaveAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "guestContinue": "Or continue without an account",
+    "startGuestAssessment": "Start assessment as guest",
+    "successSignUp": "Account created successfully! Check your email to confirm your account, or sign in now.",
+    "validation": {
+      "fillCredentials": "Please enter both your email and password.",
+      "enterName": "Please enter your full name.",
+      "validEmail": "Please enter a valid email address.",
+      "passwordLength": "Password must be at least 6 characters long.",
+      "passwordMismatch": "Passwords do not match. Please verify and try again.",
+      "invalidCredentials": "Invalid email or password. Please try again."
+    }
+  },
+  "home": {
+    "heroBadge": "Informed by ICMR-NIN (2024) Dietary Guidelines for Indians",
+    "heroTitle1": "Understand Your Nutrition.",
+    "heroTitle2": "Build Better Habits.",
+    "heroSubtitle": "A smart, rule-based nutrition awareness platform that evaluates your dietary habits and self-reported lifestyle factors to highlight possible micronutrient risk areas with evidence-backed dietary recommendations.",
+    "startAssessmentBtn": "Start Free Assessment",
+    "exploreGuidelinesBtn": "Explore Guidelines",
+    "howItWorksBadge": "How NutriSense Works",
+    "howItWorksTitle": "Transparent 4-Step Nutritional Evaluation",
+    "howItWorksSubtitle": "No black-box algorithms. Every risk score is calculated directly in your browser against verified nutritional guidelines.",
+    "step1Title": "Demographics & Diet",
+    "step1Desc": "Tell us your age, gender, typical activity level, and dietary preference (vegetarian, vegan, etc.).",
+    "step2Title": "Food Group Frequency",
+    "step2Desc": "Share how often you eat 9 staple food groups including greens, lentils, dairy, and fortified foods.",
+    "step3Title": "Lifestyle & Symptoms",
+    "step3Desc": "Log everyday indicators such as tiredness, sunlight exposure, sleep hours, and tea/coffee habits.",
+    "step4Title": "Actionable Insights",
+    "step4Desc": "Get explainable risk indications, nutrient targets, and traditional Indian food recommendations.",
+    "nutrientsBadge": "Nutrients Covered",
+    "nutrientsTitle": "7 Essential Micronutrients & Minerals",
+    "nutrientsSubtitle": "NutriSense assesses the vital nutrients most commonly lacking in typical Indian diets.",
+    "ctaBadge": "Get Started Today",
+    "ctaTitle": "Ready to assess your nutritional habits?",
+    "ctaSubtitle": "Take a 3-minute self-assessment to discover your dietary patterns and explore nutrient-rich food options.",
+    "ctaButton": "Begin Assessment Now"
+  },
+  "assessment": {
+    "step": "Step",
+    "of": "of",
+    "steps": {
+      "step1Title": "Basic Info",
+      "step1Subtitle": "Demographics & Diet Type",
+      "step2Title": "Dietary Habits",
+      "step2Subtitle": "Food Group Frequency",
+      "step3Title": "Symptoms & Lifestyle",
+      "step3Subtitle": "Self-Reported Indicators",
+      "step4Title": "Review & Analyze",
+      "step4Subtitle": "Verify Answers"
+    },
+    "step1": {
+      "title": "Step 1: Demographics & Dietary Preference",
+      "subtitle": "Basic details to personalize daily nutrient reference requirements.",
+      "ageLabel": "Age:",
+      "ageSubtitle": "Age helps determine your daily nutrient needs.",
+      "genderLabel": "Gender:",
+      "genderSubtitle": "Accounts for differences in nutrient requirements like iron.",
+      "heightLabel": "Height:",
+      "heightSubtitle": "Enter your height in centimeters (cm).",
+      "weightLabel": "Weight:",
+      "weightSubtitle": "Enter your body weight in kilograms (kg).",
+      "activityLabel": "How active are you on a typical day?",
+      "activitySubtitle": "Your activity level influences total energy and nutrient demands.",
+      "dietLabel": "What type of diet do you follow?",
+      "dietSubtitle": "Helps identify food sources you consume or exclude.",
+      "bmiLabel": "Estimated Body Mass Index (BMI):",
+      "bmiContext": "Contextual reference only • Not a deficiency diagnosis",
+      "genders": {
+        "female": "Female",
+        "male": "Male",
+        "other": "Other"
+      },
+      "activityLevels": {
+        "sedentary": {
+          "label": "Sedentary",
+          "desc": "Mostly sitting during the day with little or no regular exercise (such as a desk job)."
+        },
+        "lightly_active": {
+          "label": "Lightly Active",
+          "desc": "Light daily movement or walking 1 to 3 days a week."
+        },
+        "moderately_active": {
+          "label": "Moderately Active",
+          "desc": "Moderate exercise, sports, or brisk walking 3 to 5 days a week."
+        },
+        "very_active": {
+          "label": "Very Active / Heavy Work",
+          "desc": "Heavy daily exercise, sports training, or physically demanding work."
+        }
+      },
+      "dietTypes": {
+        "vegetarian": {
+          "label": "Vegetarian (Lacto-Vegetarian)",
+          "desc": "Plant foods and dairy (milk, curd, paneer). No eggs, meat, or fish."
+        },
+        "ovo_vegetarian": {
+          "label": "Ovo-Vegetarian",
+          "desc": "Plant foods and eggs. No dairy, meat, or fish."
+        },
+        "vegan": {
+          "label": "Vegan",
+          "desc": "Only plant foods. No dairy, eggs, meat, or animal products."
+        },
+        "pescatarian": {
+          "label": "Pescatarian",
+          "desc": "Plant foods, dairy, eggs, and fish or seafood. No meat or poultry."
+        },
+        "non_vegetarian": {
+          "label": "Non-Vegetarian",
+          "desc": "All food types, including meat, poultry, fish, eggs, and dairy."
+        }
+      }
+    },
+    "step2": {
+      "title": "Step 2: Food Group Consumption Frequency",
+      "subtitle": "How frequently do you consume each of these 9 key Indian food categories?",
+      "examplesPrefix": "Examples:",
+      "frequencies": {
+        "daily": {
+          "label": "Daily",
+          "desc": "Every day"
+        },
+        "4-6_per_week": {
+          "label": "4–6 times / week",
+          "desc": "Most days"
+        },
+        "1-3_per_week": {
+          "label": "1–3 times / week",
+          "desc": "A few days"
+        },
+        "rarely": {
+          "label": "Rarely",
+          "desc": "Once in a while"
+        },
+        "never": {
+          "label": "Never",
+          "desc": "Do not eat this"
+        }
+      },
+      "foodGroups": {
+        "fruits": {
+          "title": "Fruits",
+          "question": "How often do you eat fruits?",
+          "subtitle": "Fresh whole fruits in your regular meals or snacks.",
+          "examples": "Apples, bananas, papaya, oranges, guava, and amla."
+        },
+        "vegetables": {
+          "title": "Other Vegetables",
+          "question": "How often do you eat other vegetables (besides leafy greens)?",
+          "subtitle": "Cooked or raw vegetables consumed throughout the week.",
+          "examples": "Carrots, tomatoes, gourds, pumpkin, cauliflower, and capsicum."
+        },
+        "greenLeafy": {
+          "title": "Green Leafy Vegetables",
+          "question": "How often do you eat green leafy vegetables?",
+          "subtitle": "Cooked greens, saag, or leafy additions to dals and curries.",
+          "examples": "Palak (spinach), methi, drumstick (moringa) leaves, amaranth, and sarson."
+        },
+        "pulsesLegumes": {
+          "title": "Dal, Beans & Pulses",
+          "question": "How often do you eat dal, beans, or lentils?",
+          "subtitle": "Lentil soups, whole pulses, and legume dishes.",
+          "examples": "Toor dal, moong dal, chickpeas (chana), rajma, and sprouted beans."
+        },
+        "dairyOrAlternatives": {
+          "title": "Milk & Dairy Alternatives",
+          "question": "How often do you have milk, curd, or dairy alternatives?",
+          "subtitle": "Dairy products or fortified plant-based milk drinks.",
+          "examples": "Milk, curd (dahi), paneer, buttermilk (chaas), or fortified soy/almond milk."
+        },
+        "eggsMeatFish": {
+          "title": "Eggs, Meat & Fish",
+          "question": "How often do you eat eggs, poultry, meat, or fish?",
+          "subtitle": "Animal-source foods (automatically marked as Never for vegetarian/vegan diets).",
+          "examples": "Eggs, chicken, fish, mutton, or other seafood."
+        },
+        "nutsSeeds": {
+          "title": "Nuts & Seeds",
+          "question": "How often do you eat nuts or seeds?",
+          "subtitle": "Nuts, dry fruits, and edible seeds eaten raw or added to meals.",
+          "examples": "Almonds, walnuts, peanuts, sesame seeds (til), and chia or flaxseeds."
+        },
+        "wholeGrainsMillets": {
+          "title": "Whole Grains & Millets",
+          "question": "How often do you eat whole grains or traditional millets?",
+          "subtitle": "Whole grain rotis, millets, and unrefined grains.",
+          "examples": "Ragi, bajra, jowar, whole wheat roti, brown rice, or oats."
+        },
+        "fortifiedFoods": {
+          "title": "Fortified Foods",
+          "question": "How often do you consume fortified foods?",
+          "subtitle": "Common packaged staples enriched with essential vitamins and minerals.",
+          "examples": "Double fortified salt (iron + iodine), and packaged milk or oil with added vitamins."
+        }
+      }
+    },
+    "step3": {
+      "title": "Step 3: Self-Reported Indicators & Lifestyle Factors",
+      "subtitle": "Common symptoms and daily lifestyle habits that influence nutrient absorption.",
+      "relatedIndicators": "Related Indicators:",
+      "symptomFrequencies": {
+        "frequently": {
+          "label": "Frequently",
+          "desc": "On most days"
+        },
+        "sometimes": {
+          "label": "Sometimes",
+          "desc": "1 to 2 times a week"
+        },
+        "rarely": {
+          "label": "Rarely",
+          "desc": "Only once in a while"
+        },
+        "never": {
+          "label": "Never",
+          "desc": "Not experienced"
+        }
+      },
+      "symptoms": {
+        "frequentFatigue": {
+          "title": "Do you often feel tired or low on energy?",
+          "subtitle": "Feeling drained or lacking energy during normal daily activities."
+        },
+        "generalWeakness": {
+          "title": "Do you often feel physically weak or get tired easily?",
+          "subtitle": "Lack of physical muscle strength or tiring quickly during ordinary tasks."
+        },
+        "difficultyConcentrating": {
+          "title": "Do you often have trouble concentrating or remembering things?",
+          "subtitle": "Mental fatigue, difficulty staying focused, or occasional memory lapses."
+        },
+        "paleAppearance": {
+          "title": "Have you noticed unusual paleness or brittle nails?",
+          "subtitle": "Unusually pale skin, pale inner eyelids, or easily broken nails."
+        },
+        "muscleCrampsWeakness": {
+          "title": "Do you often experience muscle cramps or bone discomfort?",
+          "subtitle": "Frequent calf cramps, muscle spasms, or dull body and joint aches."
+        },
+        "hairSkinChanges": {
+          "title": "Have you noticed unusual hair loss or dry skin?",
+          "subtitle": "Noticeable hair shedding, dry or rough skin patches, or slow healing of small cuts."
+        },
+        "poorAppetite": {
+          "title": "Do you often have a poor appetite or changes in your sense of taste?",
+          "subtitle": "Reduced desire to eat or noticeable changes in how food tastes."
+        },
+        "sunExposure": {
+          "title": "How much time do you usually spend outdoors in daylight?",
+          "subtitle": "Sunlight exposure helps your body naturally produce Vitamin D.",
+          "options": {
+            "adequate_daily": {
+              "label": "Daily (20+ minutes)",
+              "desc": "Regular time spent outdoors in daylight on most days."
+            },
+            "moderate_weekly": {
+              "label": "A few times a week",
+              "desc": "Some time outdoors or occasional daylight exposure."
+            },
+            "minimal_rare": {
+              "label": "Rarely or almost none",
+              "desc": "Mostly indoors during daylight hours."
+            }
+          }
+        },
+        "teaCoffeeWithMeals": {
+          "title": "How often do you drink tea or coffee with or immediately after meals?",
+          "subtitle": "Drinking tea or coffee close to meals can reduce how well your body absorbs iron from food.",
+          "options": {
+            "often": {
+              "label": "Often or daily with meals",
+              "desc": "Regularly drink tea or coffee during or right after meals."
+            },
+            "sometimes": {
+              "label": "Sometimes",
+              "desc": "A few times a week with meals."
+            },
+            "rarely": {
+              "label": "Rarely or never",
+              "desc": "Usually keep a gap of an hour or more from meals."
+            }
+          }
+        },
+        "sleepQuality": {
+          "title": "How many hours do you usually sleep each night?",
+          "subtitle": "Adequate rest supports daily energy and overall recovery.",
+          "options": {
+            "good": {
+              "label": "7 to 9 hours",
+              "desc": "Adequate rest on most nights."
+            },
+            "average": {
+              "label": "6 to 7 hours",
+              "desc": "Moderate sleep duration."
+            },
+            "poor": {
+              "label": "Less than 6 hours",
+              "desc": "Short or interrupted sleep."
+            }
+          }
+        }
+      }
+    },
+    "step4": {
+      "title": "Step 4: Review Your Responses Before Analysis",
+      "subtitle": "Please check your answers below. You can edit any step before evaluating your nutritional profile.",
+      "section1Title": "1. Demographics & Diet",
+      "section2Title": "2. Food Group Consumption Frequency",
+      "section3Title": "3. Symptoms & Lifestyle Factors",
+      "editSection": "Edit Step",
+      "evaluateBtn": "Evaluate & View Results",
+      "evaluatingBtn": "Evaluating Nutritional Profile...",
+      "resetBtn": "Reset All Answers",
+      "resetConfirm": "Are you sure you want to reset all assessment answers?"
+    },
+    "buttons": {
+      "nextStep": "Continue to Next Step",
+      "prevStep": "Back to Previous Step",
+      "submitAssessment": "Evaluate My Nutrition Profile",
+      "reset": "Reset Form"
+    },
+    "validation": {
+      "age": "Please enter a valid age between 10 and 110 years.",
+      "sex": "Please select your biological sex.",
+      "height": "Please enter a valid height in cm (80–250 cm).",
+      "weight": "Please enter a valid weight in kg (20–300 kg).",
+      "activity": "Please select how active you are on a typical day.",
+      "diet": "Please select what type of diet you follow.",
+      "foodGroup": "Please select how often you eat {foodGroup}.",
+      "symptom": "Please answer how often you experience {symptom}.",
+      "sun": "Please select how much time you usually spend outdoors in daylight.",
+      "tea": "Please select how often you drink tea or coffee with or after meals.",
+      "sleep": "Please select how many hours you usually sleep each night."
+    }
+  },
+  "results": {
+    "title": "Nutritional Risk Indication Report",
+    "subtitle": "Preliminary analysis based on your self-reported dietary frequency, symptoms, and ICMR-NIN (2024) guidelines.",
+    "overallSummaryTitle": "Overall Dietary Risk Summary",
+    "retakeBtn": "Retake Assessment",
+    "printBtn": "Print Report",
+    "shareBtn": "Share",
+    "radarTitle": "Nutrient Profile Radar",
+    "distributionTitle": "Risk Score Overview",
+    "detailedTitle": "Detailed Nutrient Breakdown",
+    "whyFlagged": "Why this area was flagged:",
+    "topFoods": "Top Foods:",
+    "moreFoods": "+{count} more",
+    "benchmark": "ICMR Benchmark Target:",
+    "contributingFactors": "Contributing Dietary Habits:",
+    "reportedSymptoms": "Reported Physical Indicators:",
+    "foodRecommendations": "Recommended Dietary Food Sources:",
+    "practicalTips": "Practical Dietary Tips:",
+    "absorptionTips": "Nutrient Absorption Tips:",
+    "exploreAllFoods": "Explore All Recommended Foods",
+    "viewGuidelines": "View Scientific Guidelines",
+    "scoreLabel": "Risk Score",
+    "intakeScore": "Intake Score",
+    "symptomScore": "Symptom Burden",
+    "noElevated": "No elevated risk areas detected. Your reported dietary habits show balanced micronutrient intake."
+  },
+  "dashboard": {
+    "badge": "User Dashboard",
+    "subtitle": "Personal Nutrition Awareness",
+    "welcome": "Welcome back,",
+    "welcomeSubtitle": "Track your nutritional assessments, view risk areas, and explore tailored food recommendations.",
+    "startNewBtn": "Start New Assessment",
+    "latestAssessmentTitle": "Latest Nutritional Assessment",
+    "completedOn": "Completed on",
+    "viewFullResultsBtn": "View Full Results",
+    "noAssessmentTitle": "No assessments completed yet.",
+    "noAssessmentDesc": "Take your first 3-minute nutritional self-assessment to discover your dietary profile.",
+    "takeFirstBtn": "Take First Assessment",
+    "elevatedBadge": "Elevated Risk Areas",
+    "moderateBadge": "Moderate Risk Areas",
+    "lowBadge": "Low Risk Areas",
+    "historyTitle": "Recent Assessment History",
+    "viewAllHistory": "View All History",
+    "dateCol": "Date",
+    "overallRiskCol": "Overall Indication",
+    "elevatedNutrientsCol": "Elevated Areas",
+    "actionsCol": "Actions",
+    "quickLinksTitle": "Quick Navigation",
+    "manageProfile": "Manage Profile",
+    "foodDatabase": "Food & Nutrient Database",
+    "guidelinesLink": "ICMR & WHO Guidelines"
+  },
+  "foods": {
+    "badge": "ICMR-NIN Aligned Food Database",
+    "title": "Nutrient-Dense Food Explorer",
+    "subtitle": "Discover regional Indian foods, fruits, grains, pulses, dairy, and seeds rich in vital micronutrients with evidence-backed preparation and bioavailability tips.",
+    "searchPlaceholder": "Search by food name, regional name (e.g. Moringa, Ragi, Palak, Halim, Dahi)...",
+    "filterByNutrient": "Filter by Nutrient Area",
+    "resetFilters": "reset filters",
+    "dietType": "Diet Type:",
+    "allNutrients": "All Nutrients",
+    "allDiets": "All Diets",
+    "allCategories": "All Categories",
+    "veganOnly": "Vegan Only",
+    "vegetarian": "Vegetarian",
+    "nonVegetarian": "Non-Vegetarian",
+    "showing": "Showing",
+    "of": "of",
+    "foodsCount": "foods",
+    "noFoodsMatch": "No foods match your criteria",
+    "noFoodsMatchDesc": "Try adjusting your search keywords or clearing active nutrient and diet filters.",
+    "resetAllFilters": "Reset All Filters",
+    "loading": "Loading Food Explorer...",
+    "alsoKnownAs": "Also known as:",
+    "richIn": "Rich In Nutrients:",
+    "servingSize": "Serving Size:",
+    "nutrientContent": "Approx Nutrient Content:",
+    "healthBenefits": "Health Benefits:",
+    "prepTip": "ICMR Preparation Tip:"
+  },
+  "guidelines": {
+    "badge": "Evidence-Based Foundations",
+    "title": "Nutrition Guidelines & Methodology",
+    "subtitle": "Explore the scientific references, rule-based inference models, Recommended Dietary Allowances (RDA), and evidence-based methodology powering the NutriSense portal.",
+    "officialPortal": "Official Guidelines Portal",
+    "coreBenchmarks": "Core Dietary Benchmarks",
+    "practicalInsights": "Practical Action Insights:",
+    "sectionA": "Section A",
+    "sectionATitle": "Our Primary Scientific References",
+    "sectionADesc": "NutriSense references established public health standards published by premier Indian and international health authorities.",
+    "sectionsBC": "Sections B & C",
+    "sectionsBCTitle": "Data Collection & Mapping Methodology",
+    "sectionsBCDesc": "How user inputs are structured and matched against nutritional criteria.",
+    "whatWeCollectTitle": "What We Collect",
+    "collectDemoLabel": "Basic Demographics:",
+    "collectDemoDesc": "Age, biological sex, height, weight (BMI calculation), and physical activity level.",
+    "collectDietLabel": "Dietary Pattern:",
+    "collectDietDesc": "Vegetarian (lacto), vegan, non-vegetarian, ovo-vegetarian, or pescatarian habits.",
+    "collectFoodLabel": "Food Group Frequencies:",
+    "collectFoodDesc": "Frequency of consuming fruits, vegetables, green leafy vegetables, pulses, dairy/alternatives, animal proteins, nuts/seeds, whole grains, and fortified items.",
+    "collectLifestyleLabel": "Self-Reported Cues & Lifestyle:",
+    "collectLifestyleDesc": "Energy levels, skin/hair texture, muscle cramps, direct sunlight exposure, and mealtime tea/coffee habits.",
+    "whatWeConsiderTitle": "What We Consider",
+    "considerBioLabel": "Dietary Bioavailability:",
+    "considerBioDesc": "Distinguishes between plant-based (non-heme) and animal-based (heme) micronutrients, accounting for absorption enhancers and inhibitors.",
+    "considerInhibitorLabel": "Inhibitor Synergy:",
+    "considerInhibitorDesc": "Accounts for tannins in mealtime tea/coffee which suppress plant iron absorption by up to 60–80%.",
+    "considerSexLabel": "Physiological Sex Scaling:",
+    "considerSexDesc": "Applies elevated iron requirements for biological women (29 mg vs 19 mg per ICMR).",
+    "considerSynthesisLabel": "Endogenous Synthesis Factors:",
+    "considerSynthesisDesc": "Considers sunlight duration for Vitamin D and dietary fats for fat-soluble vitamins (A & D).",
+    "sectionD": "Section D",
+    "sectionDTitle": "Assessment System Workflow",
+    "sectionDDesc": "A step-by-step visual representation of how user input transforms into explainable nutritional recommendations.",
+    "testWorkflowBtn": "Test The Interactive Workflow",
+    "referenceDataBadge": "Reference Data",
+    "rdaTableTitle": "ICMR-NIN (2024) Recommended Dietary Allowances (RDA)",
+    "rdaTableDesc": "Daily nutrient targets for reference Indian adults used as evaluation baselines in NutriSense.",
+    "tableNutrient": "Nutrient",
+    "tableMen": "Adult Men RDA",
+    "tableWomen": "Adult Women RDA",
+    "tableRole": "Primary Biological Role",
+    "sectionE": "Section E",
+    "sectionETitle": "System Limitations & Ethical Disclaimers",
+    "sectionEDesc": "Essential boundaries regarding system capabilities and medical non-diagnostic framing.",
+    "workflow": {
+      "step1Title": "User Profile & Context",
+      "step1Desc": "Collects age, biological sex, anthropometrics (BMI calculation), physical activity level, and dietary preference (vegetarian, vegan, non-veg).",
+      "step2Title": "Food Group Frequency Mapping",
+      "step2Desc": "Evaluates weekly consumption frequencies across 9 crucial food groups against ICMR-NIN recommended dietary frequencies.",
+      "step3Title": "Self-Reported Lifestyle & Indicators",
+      "step3Desc": "Screens for self-reported physical sensations (fatigue, cramps, skin changes) alongside lifestyle factors (sunlight, tea habits).",
+      "step4Title": "Rule-Based Pattern Synthesis",
+      "step4Desc": "Cross-evaluates dietary intake deficits against reported indicator weights using transparent, rule-based scoring algorithms.",
+      "step5Title": "Nutritional Risk Indications",
+      "step5Desc": "Generates non-diagnostic risk levels (Low, Moderate, Elevated) with human-readable rationale and ICMR-aligned whole-food recommendations."
+    },
+    "limitations": {
+      "lim1Title": "Strictly Non-Diagnostic Scope",
+      "lim1Desc": "NutriSense is an educational nutritional awareness platform developed to foster dietary awareness. It does NOT provide clinical diagnoses or replace professional laboratory blood work (such as serum ferritin, 25-OH Vitamin D, or serum B12 tests).",
+      "lim2Title": "Self-Reported Data Reliance",
+      "lim2Desc": "Assessment accuracy is directly contingent upon the completeness and fidelity of user-entered answers regarding food frequency and physical indicators.",
+      "lim3Title": "Non-Linear Biological Variations",
+      "lim3Desc": "Individual nutrient absorption is governed by genetics, gastrointestinal health, prescription medications, microbiome diversity, and underlying chronic conditions not accounted for in simple screening questionnaires.",
+      "lim4Title": "Requirement for Healthcare Consultation",
+      "lim4Desc": "Any persistent or severe symptoms (such as chronic exhaustion, chest discomfort, severe dizziness, or neurological numbness) warrant immediate in-person evaluation by a qualified medical doctor or registered dietitian."
+    },
+    "rdaRoles": {
+      "iron": "Hemoglobin, cellular oxygenation, cognitive focus",
+      "vitamin_b12": "Nerve sheath integrity, RBC maturation, DNA synthesis",
+      "vitamin_d": "Intestinal calcium uptake, bone mineralization, immunity",
+      "calcium": "Bone density, neuromuscular transmission, muscle contraction",
+      "vitamin_a": "Rhodopsin dark adaptation, mucosal epithelial barrier defense",
+      "folate": "Cell division, rapid tissue growth, neural tube protection",
+      "protein": "Muscle mass maintenance, enzyme & antibody synthesis"
+    }
+  },
+  "about": {
+    "badge": "Platform Architecture",
+    "title": "About NutriSense: Objectives & Methodology",
+    "subtitle": "An evidence-informed platform designed to evaluate nutritional risk patterns and raise public dietary awareness through transparent, rule-based analysis.",
+    "overviewBadge": "Overview",
+    "overviewTitle": "Platform Objective & Purpose",
+    "problemLabel": "The Problem:",
+    "problemDesc": "Micronutrient deficiencies (often termed 'hidden hunger') affect a substantial proportion of the global population, particularly across diverse Indian dietary settings. Low intake of bioavailable iron, Vitamin B12 in strict vegetarian diets, minimal sunlight-derived Vitamin D in urban lifestyles, and inadequate dietary diversity often go unnoticed until clinical symptoms become severe.",
+    "solutionLabel": "Our Solution:",
+    "solutionDesc": "NutriSense provides an accessible, evidence-backed self-assessment tool that bridges the gap between daily food habits and clinical nutrition benchmarks (such as ICMR-NIN 2024 and WHO guidelines). It analyzes self-reported food group frequencies and lifestyle factors to generate transparent, explainable preliminary risk indications with whole-food dietary adjustments.",
+    "techBadge": "Tech Stack",
+    "techTitle": "System Architecture & Zero-Backend Design",
+    "techSubtitle": "Engineered entirely client-side with Next.js and TypeScript for privacy, speed, and reliability.",
+    "techCards": {
+      "nextjsTitle": "Next.js 14 & React",
+      "nextjsDesc": "App Router architecture providing fast client-side routing, server-rendered static guidelines, and accessible UI components.",
+      "tsTitle": "TypeScript & Tailwind",
+      "tsDesc": "Strict type safety across assessment data structures and clean, responsive health-tech design system with curated accessible contrast.",
+      "rechartsTitle": "Recharts Visualizations",
+      "rechartsDesc": "Interactive multi-axis radar charts and progress distributions illustrating nutrient adequacy vs risk vulnerability.",
+      "ruleTitle": "Rule-Based Inference",
+      "ruleDesc": "Deterministic, explainable rule engine that cross-references dietary intakes, antinutrient inhibitors (tannins/phytates), and biological sex.",
+      "zeroBackendTitle": "Zero Server / Zero DB",
+      "zeroBackendDesc": "No Spring Boot, Java backend, MySQL, Firebase, or cloud database tracking. Safe from cloud data leaks and external API downtime.",
+      "storageTitle": "LocalStorage Storage",
+      "storageDesc": "Assessment responses and evaluation summaries survive page reloads securely within the user's own local browser storage."
+    },
+    "methodologyBadge": "Explainable AI / Logic",
+    "methodologyTitle": "Assessment Rule Methodology",
+    "methodologySubtitle": "Every score and risk level generated by NutriSense is deterministic and directly traceable back to specific user answers.",
+    "methodologyPoints": {
+      "point1Title": "1. Dietary Adequacy Scoring:",
+      "point1Desc": "Food group frequencies are weighted based on their nutrient density and biological availability. For example, plant-based iron is scored alongside Vitamin C consumption (which triples non-heme absorption) and mealtime tea/coffee habits (which inhibit uptake).",
+      "point2Title": "2. Self-Reported Indicator Weighting:",
+      "point2Desc": "Reported cues (fatigue, pale appearance, cramps, skin changes) are treated as secondary weighting multipliers that elevate risk when dietary intake is suboptimal.",
+      "point3Title": "3. Non-Diagnostic Risk Classification:",
+      "point3Desc": "Results are stratified into 'Low Risk Indication' (< 35 score), 'Moderate Risk Indication' (35–59 score), and 'Elevated Risk Indication' (≥ 60 score), accompanied by transparent explanations and ICMR food sources."
+    },
+    "ctaTitle": "Ready to test the assessment workflow?",
+    "ctaDesc": "Experience the 4-step wizard and discover personalized dietary insights.",
+    "ctaBtn": "Start Assessment"
+  },
+  "profile": {
+    "title": "User Profile",
+    "subtitle": "Manage your basic demographic and dietary information to pre-fill future assessments.",
+    "savedSuccess": "Profile updated successfully!",
+    "saveError": "Failed to update profile. Please try again.",
+    "personalSection": "Personal Information",
+    "dietarySection": "Dietary Preference",
+    "saveBtn": "Save Profile",
+    "savingBtn": "Saving Changes..."
+  },
+  "history": {
+    "title": "Assessment History",
+    "subtitle": "Review and track your past nutritional assessments over time.",
+    "backBtn": "Back to Dashboard",
+    "takeNewBtn": "Take New Assessment",
+    "dateHeader": "Date Completed",
+    "indicationHeader": "Overall Indication",
+    "elevatedHeader": "Elevated Areas",
+    "actionsHeader": "Actions",
+    "viewResults": "View Results",
+    "deleteBtn": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this historical assessment? This action cannot be undone.",
+    "noHistoryTitle": "No assessment history found.",
+    "noHistoryDesc": "You haven't completed any nutritional assessments yet. Take your first assessment to track your dietary habits over time."
+  },
+  "nutrients": {
+    "iron": "Iron (Fe)",
+    "vitamin_b12": "Vitamin B12",
+    "vitamin_d": "Vitamin D",
+    "calcium": "Calcium",
+    "vitamin_a": "Vitamin A",
+    "folate": "Folate (B9)",
+    "protein": "Protein"
+  },
+  "foodCategories": {
+    "leafy_greens": "Leafy Greens",
+    "vegetables": "Vegetables",
+    "fruits": "Fruits",
+    "pulses_legumes": "Pulses & Legumes",
+    "dairy": "Dairy",
+    "nuts_seeds": "Nuts & Seeds",
+    "whole_grains": "Whole Grains",
+    "animal_foods": "Animal Foods",
+    "fortified": "Fortified Foods"
+  }
+}

@@ -11,6 +11,7 @@ import {
   Tooltip,
 } from 'recharts';
 import { NutrientRiskAssessment } from '@/types';
+import { useTranslation } from '@/lib/language-context';
 
 interface NutritionRadarChartProps {
   nutrients: NutrientRiskAssessment[];
@@ -18,6 +19,7 @@ interface NutritionRadarChartProps {
 
 export function NutritionRadarChart({ nutrients }: NutritionRadarChartProps) {
   const [isMounted, setIsMounted] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setIsMounted(true);
@@ -27,7 +29,7 @@ export function NutritionRadarChart({ nutrients }: NutritionRadarChartProps) {
     return (
       <div className="w-full h-80 flex items-center justify-center bg-slate-50/50 rounded-2xl border border-slate-200">
         <div className="text-xs text-slate-400 font-medium animate-pulse">
-          Rendering dynamic nutrient chart...
+          {t('common.loading')}
         </div>
       </div>
     );
@@ -35,20 +37,14 @@ export function NutritionRadarChart({ nutrients }: NutritionRadarChartProps) {
 
   // Format data for radar chart: Map adequacy score (0-100) and risk score (0-100)
   const chartData = nutrients.map((n) => {
-    let shortName = n.name;
-    if (n.nutrientId === 'iron') shortName = 'Iron';
-    if (n.nutrientId === 'vitamin_b12') shortName = 'Vit B12';
-    if (n.nutrientId === 'vitamin_d') shortName = 'Vit D';
-    if (n.nutrientId === 'calcium') shortName = 'Calcium';
-    if (n.nutrientId === 'vitamin_a') shortName = 'Vit A';
-    if (n.nutrientId === 'folate') shortName = 'Folate';
-    if (n.nutrientId === 'protein') shortName = 'Protein';
+    const localizedName = t(`nutrients.${n.nutrientId}`) || n.name;
+    const shortName = localizedName.split(' ')[0];
 
     return {
       subject: shortName,
       adequacy: n.adequacyScore,
       risk: n.riskScore,
-      fullName: n.name,
+      fullName: localizedName,
       status: n.statusLabel,
     };
   });
@@ -60,16 +56,13 @@ export function NutritionRadarChart({ nutrients }: NutritionRadarChartProps) {
         <div className="bg-slate-900/95 text-white p-3 rounded-xl shadow-xl border border-slate-700 text-xs space-y-1.5 backdrop-blur-md">
           <p className="font-bold text-emerald-400 text-sm">{data.fullName}</p>
           <div className="flex items-center justify-between gap-4">
-            <span className="text-slate-300">Intake Adequacy:</span>
+            <span className="text-slate-300">{t('results.intakeScore')}:</span>
             <span className="font-semibold text-emerald-300">{data.adequacy} / 100</span>
           </div>
           <div className="flex items-center justify-between gap-4">
-            <span className="text-slate-300">Risk Indication:</span>
+            <span className="text-slate-300">{t('results.scoreLabel')}:</span>
             <span className="font-semibold text-amber-300">{data.risk} / 100</span>
           </div>
-          <p className="text-[11px] text-slate-400 pt-1 border-t border-slate-800">
-            {data.status}
-          </p>
         </div>
       );
     }
@@ -81,20 +74,20 @@ export function NutritionRadarChart({ nutrients }: NutritionRadarChartProps) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
         <div>
           <h3 className="text-base font-bold text-slate-900">
-            Nutrient Adequacy & Risk Radar
+            {t('results.radarTitle')}
           </h3>
           <p className="text-xs text-slate-500">
-            Comparative multi-nutrient balance based on your reported intake and indicators
+            {t('results.subtitle')}
           </p>
         </div>
         <div className="flex items-center gap-4 text-xs font-medium">
           <div className="flex items-center gap-1.5">
             <span className="w-3 h-3 rounded bg-emerald-500/80" />
-            <span className="text-slate-700">Estimated Adequacy</span>
+            <span className="text-slate-700">{t('results.intakeScore')}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="w-3 h-3 rounded bg-rose-500/80" />
-            <span className="text-slate-700">Risk Indication</span>
+            <span className="text-slate-700">{t('results.scoreLabel')}</span>
           </div>
         </div>
       </div>
@@ -114,14 +107,14 @@ export function NutritionRadarChart({ nutrients }: NutritionRadarChartProps) {
               stroke="#cbd5e1"
             />
             <Radar
-              name="Adequacy Score"
+              name={t('results.intakeScore')}
               dataKey="adequacy"
               stroke="#10b981"
               fill="#10b981"
               fillOpacity={0.4}
             />
             <Radar
-              name="Risk Indication"
+              name={t('results.scoreLabel')}
               dataKey="risk"
               stroke="#f43f5e"
               fill="#f43f5e"
@@ -131,9 +124,6 @@ export function NutritionRadarChart({ nutrients }: NutritionRadarChartProps) {
           </RadarChart>
         </ResponsiveContainer>
       </div>
-      <p className="text-[11px] text-slate-400 text-center">
-        *Adequacy represents estimated dietary sufficiency (higher is better). Risk represents calculated vulnerability (lower is better).
-      </p>
     </div>
   );
 }

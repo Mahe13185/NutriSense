@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
+import { useTranslation } from '@/lib/language-context';
 import { getUserAssessments } from '@/lib/supabaseStorage';
 import { SavedAssessmentRecord } from '@/types';
 import { DisclaimerBanner } from '@/components/DisclaimerBanner';
@@ -16,7 +17,6 @@ import {
   Calendar,
   AlertTriangle,
   CheckCircle2,
-  ShieldCheck,
   Activity,
   ChevronRight,
   Apple,
@@ -25,6 +25,7 @@ import {
 export default function DashboardPage() {
   const router = useRouter();
   const { user, profile, loading, signOut } = useAuth();
+  const { t } = useTranslation();
   const [assessments, setAssessments] = useState<SavedAssessmentRecord[]>([]);
   const [fetchingData, setFetchingData] = useState<boolean>(true);
 
@@ -57,7 +58,7 @@ export default function DashboardPage() {
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="text-center space-y-3">
           <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-sm text-slate-500 font-medium">Loading your dashboard...</p>
+          <p className="text-sm text-slate-500 font-medium">{t('common.loading')}</p>
         </div>
       </div>
     );
@@ -95,15 +96,15 @@ export default function DashboardPage() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
-              User Dashboard
+              {t('dashboard.badge')}
             </span>
-            <span className="text-xs text-slate-400">Personal Nutrition Awareness</span>
+            <span className="text-xs text-slate-400">{t('dashboard.subtitle')}</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
-            Welcome, <span className="text-emerald-700">{displayName}</span>
+            {t('dashboard.welcome')} <span className="text-emerald-700">{displayName}</span>
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Manage your dietary profiles, review previous assessment indications, and explore food insights.
+            {t('dashboard.welcomeSubtitle')}
           </p>
         </div>
 
@@ -114,14 +115,14 @@ export default function DashboardPage() {
             className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-slate-700 shadow-xs transition-all"
           >
             <User className="w-3.5 h-3.5 text-slate-500" />
-            <span>Profile</span>
+            <span>{t('nav.profile')}</span>
           </Link>
           <button
             onClick={handleLogout}
             className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 text-xs font-semibold text-slate-700 shadow-xs transition-all"
           >
             <LogOut className="w-3.5 h-3.5 text-slate-500 hover:text-rose-600" />
-            <span>Logout</span>
+            <span>{t('nav.logout')}</span>
           </button>
         </div>
       </div>
@@ -131,13 +132,13 @@ export default function DashboardPage() {
         <div className="space-y-2 max-w-xl z-10">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/15 backdrop-blur-sm text-emerald-100 text-xs font-semibold">
             <Sparkles className="w-3.5 h-3.5 text-emerald-300" />
-            <span>Smart Nutrition Evaluation</span>
+            <span>{t('home.heroBadge')}</span>
           </div>
           <h2 className="text-xl sm:text-2xl font-bold tracking-tight">
-            Ready to Evaluate Your Dietary Habits?
+            {t('home.ctaTitle')}
           </h2>
           <p className="text-xs sm:text-sm text-emerald-100/90 leading-relaxed">
-            Answer our 3-step dietary and lifestyle questionnaire to explore explainable nutritional risk patterns informed by ICMR-NIN (2024) reference guidelines.
+            {t('home.heroSubtitle')}
           </p>
         </div>
 
@@ -147,7 +148,7 @@ export default function DashboardPage() {
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-white text-emerald-800 hover:bg-emerald-50 text-sm font-bold shadow-md transition-all active:scale-98"
           >
             <Sparkles className="w-4 h-4 text-emerald-600" />
-            <span>Take New Assessment</span>
+            <span>{t('dashboard.startNewBtn')}</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -161,22 +162,21 @@ export default function DashboardPage() {
         {/* Completed Assessments Count */}
         <div className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs space-y-2">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-semibold uppercase tracking-wider">Completed Assessments</span>
+            <span className="text-xs font-semibold uppercase tracking-wider">{t('history.title')}</span>
             <Activity className="w-4 h-4 text-emerald-600" />
           </div>
           <div className="flex items-baseline gap-2">
             <span className="text-3xl font-extrabold text-slate-900">{assessments.length}</span>
-            <span className="text-xs text-slate-500 font-medium">recorded</span>
           </div>
           <p className="text-xs text-slate-500">
-            {assessments.length > 0 ? 'Saved securely in your account' : 'No assessments completed yet'}
+            {assessments.length > 0 ? t('footer.zeroCloudDesc') : t('dashboard.noAssessmentTitle')}
           </p>
         </div>
 
         {/* Most Recent Assessment Date */}
         <div className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs space-y-2">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-semibold uppercase tracking-wider">Latest Assessment</span>
+            <span className="text-xs font-semibold uppercase tracking-wider">{t('dashboard.latestAssessmentTitle')}</span>
             <Calendar className="w-4 h-4 text-teal-600" />
           </div>
           <div className="flex items-baseline gap-2">
@@ -187,29 +187,29 @@ export default function DashboardPage() {
                     day: 'numeric',
                     year: 'numeric',
                   })
-                : 'None yet'}
+                : '—'}
             </span>
           </div>
           <p className="text-xs text-slate-500">
-            {latestAssessment ? 'Most recent analysis date' : 'Complete an assessment to view'}
+            {latestAssessment ? t('dashboard.completedOn') : t('dashboard.noAssessmentDesc')}
           </p>
         </div>
 
         {/* Focus Areas Requiring Attention */}
         <div className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs space-y-2">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-semibold uppercase tracking-wider">Focus Areas</span>
+            <span className="text-xs font-semibold uppercase tracking-wider">{t('dashboard.elevatedBadge')}</span>
             <AlertTriangle className="w-4 h-4 text-amber-500" />
           </div>
           <div className="flex items-baseline gap-2">
             <span className="text-xl font-bold text-slate-900">
-              {latestResult ? `${latestResult.topRiskAreas.length} Flagged` : '0 Areas'}
+              {latestResult ? `${latestResult.topRiskAreas.length}` : '0'}
             </span>
           </div>
           <p className="text-xs text-slate-500 truncate">
             {latestResult && latestResult.topRiskAreas.length > 0
               ? latestResult.topRiskAreas.join(', ')
-              : 'No areas requiring attention'}
+              : t('results.noElevated')}
           </p>
         </div>
       </div>
@@ -221,10 +221,10 @@ export default function DashboardPage() {
             <div>
               <div className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200 mb-1">
                 <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>Latest Nutrition Risk Overview</span>
+                <span>{t('dashboard.latestAssessmentTitle')}</span>
               </div>
               <h3 className="text-lg sm:text-xl font-bold text-slate-900">
-                Nutrient Indications from Last Assessment
+                {t('results.detailedTitle')}
               </h3>
             </div>
             <div className="flex items-center gap-2">
@@ -232,7 +232,7 @@ export default function DashboardPage() {
                 href={`/results?id=${latestAssessment.id}`}
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-xs font-bold text-white shadow-xs transition-all"
               >
-                <span>View Full Report</span>
+                <span>{t('dashboard.viewFullResultsBtn')}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -242,24 +242,24 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
             <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-between">
               <div>
-                <span className="text-rose-800 font-bold block">Elevated Indication</span>
-                <span className="text-rose-600 text-[11px]">Potential dietary deficit</span>
+                <span className="text-rose-800 font-bold block">{t('common.riskLevels.elevated')}</span>
+                <span className="text-rose-600 text-[11px]">{t('dashboard.elevatedBadge')}</span>
               </div>
               <span className="text-lg font-extrabold text-rose-900">{elevatedAreas.length}</span>
             </div>
 
             <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-between">
               <div>
-                <span className="text-amber-800 font-bold block">Moderate Indication</span>
-                <span className="text-amber-600 text-[11px]">May benefit from attention</span>
+                <span className="text-amber-800 font-bold block">{t('common.riskLevels.moderate')}</span>
+                <span className="text-amber-600 text-[11px]">{t('dashboard.moderateBadge')}</span>
               </div>
               <span className="text-lg font-extrabold text-amber-900">{moderateAreas.length}</span>
             </div>
 
             <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-between">
               <div>
-                <span className="text-emerald-800 font-bold block">Low Indication</span>
-                <span className="text-emerald-600 text-[11px]">Adequate intake patterns</span>
+                <span className="text-emerald-800 font-bold block">{t('common.riskLevels.low')}</span>
+                <span className="text-emerald-600 text-[11px]">{t('dashboard.lowBadge')}</span>
               </div>
               <span className="text-lg font-extrabold text-emerald-900">{lowAreas.length}</span>
             </div>
@@ -269,44 +269,47 @@ export default function DashboardPage() {
           {latestResult.topRiskAreas.length > 0 && (
             <div className="space-y-3 pt-2">
               <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                Nutrient Areas Requiring Attention:
+                {t('results.detailedTitle')}:
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {latestResult.nutrients
                   .filter((n) => n.riskLevel === 'elevated' || n.riskLevel === 'moderate')
-                  .map((nutrient) => (
-                    <div
-                      key={nutrient.nutrientId}
-                      className={`p-3.5 rounded-xl border text-xs space-y-1.5 ${
-                        nutrient.riskLevel === 'elevated'
-                          ? 'bg-rose-50/60 border-rose-200'
-                          : 'bg-amber-50/60 border-amber-200'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="font-bold text-slate-900">{nutrient.name}</span>
-                        <span
-                          className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                            nutrient.riskLevel === 'elevated'
-                              ? 'bg-rose-100 text-rose-800'
-                              : 'bg-amber-100 text-amber-800'
-                          }`}
-                        >
-                          {nutrient.riskLevel === 'elevated' ? 'Elevated Indication' : 'Moderate Indication'}
-                        </span>
+                  .map((nutrient) => {
+                    const localizedName = t(`nutrients.${nutrient.nutrientId}`) || nutrient.name;
+                    return (
+                      <div
+                        key={nutrient.nutrientId}
+                        className={`p-3.5 rounded-xl border text-xs space-y-1.5 ${
+                          nutrient.riskLevel === 'elevated'
+                            ? 'bg-rose-50/60 border-rose-200'
+                            : 'bg-amber-50/60 border-amber-200'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="font-bold text-slate-900">{localizedName}</span>
+                          <span
+                            className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                              nutrient.riskLevel === 'elevated'
+                                ? 'bg-rose-100 text-rose-800'
+                                : 'bg-amber-100 text-amber-800'
+                            }`}
+                          >
+                            {t(`common.riskLevels.${nutrient.riskLevel}`)}
+                          </span>
+                        </div>
+                        <p className="text-slate-600 text-[11px] line-clamp-2">
+                          {nutrient.reasons[0] || t('results.subtitle')}
+                        </p>
                       </div>
-                      <p className="text-slate-600 text-[11px] line-clamp-2">
-                        {nutrient.reasons[0] || 'Dietary frequency indicates potential room for optimization.'}
-                      </p>
-                    </div>
-                  ))}
+                    );
+                  })}
               </div>
             </div>
           )}
 
           {/* Quick summary text */}
           <p className="text-xs text-slate-500 italic pt-1">
-            *Preliminary nutritional risk indication. Informed by documented nutrition references including ICMR-NIN 2024. Not a clinical diagnosis.
+            *{t('common.disclaimerCompact')}
           </p>
         </div>
       ) : (
@@ -316,16 +319,16 @@ export default function DashboardPage() {
             <Sparkles className="w-6 h-6" />
           </div>
           <div className="space-y-1 max-w-md mx-auto">
-            <h3 className="text-lg font-bold text-slate-900">No Assessment History Found</h3>
+            <h3 className="text-lg font-bold text-slate-900">{t('dashboard.noAssessmentTitle')}</h3>
             <p className="text-xs sm:text-sm text-slate-500">
-              You have not saved any dietary assessments yet. Complete your first assessment to start building your nutritional awareness profile.
+              {t('dashboard.noAssessmentDesc')}
             </p>
           </div>
           <Link
             href="/assessment"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition-all"
           >
-            <span>Start First Assessment</span>
+            <span>{t('dashboard.takeFirstBtn')}</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -343,9 +346,9 @@ export default function DashboardPage() {
             </div>
             <div>
               <span className="text-xs font-bold text-slate-900 block group-hover:text-emerald-700 transition-colors">
-                Assessment History
+                {t('dashboard.historyTitle')}
               </span>
-              <span className="text-[11px] text-slate-500">View past assessments</span>
+              <span className="text-[11px] text-slate-500">{t('dashboard.viewAllHistory')}</span>
             </div>
           </div>
           <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-emerald-600 group-hover:translate-x-0.5 transition-all" />
@@ -361,9 +364,9 @@ export default function DashboardPage() {
             </div>
             <div>
               <span className="text-xs font-bold text-slate-900 block group-hover:text-emerald-700 transition-colors">
-                Profile Settings
+                {t('profile.title')}
               </span>
-              <span className="text-[11px] text-slate-500">Update basic info & diet</span>
+              <span className="text-[11px] text-slate-500">{t('profile.subtitle')}</span>
             </div>
           </div>
           <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-emerald-600 group-hover:translate-x-0.5 transition-all" />
@@ -379,9 +382,9 @@ export default function DashboardPage() {
             </div>
             <div>
               <span className="text-xs font-bold text-slate-900 block group-hover:text-emerald-700 transition-colors">
-                Food Explorer
+                {t('foods.title')}
               </span>
-              <span className="text-[11px] text-slate-500">Search nutrient-dense foods</span>
+              <span className="text-[11px] text-slate-500">{t('foods.badge')}</span>
             </div>
           </div>
           <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-emerald-600 group-hover:translate-x-0.5 transition-all" />

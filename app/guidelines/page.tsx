@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import {
@@ -9,6 +11,7 @@ import {
 import { GuidelineCard } from '@/components/GuidelineCard';
 import { DisclaimerBanner } from '@/components/DisclaimerBanner';
 import { SectionHeader } from '@/components/SectionHeader';
+import { useTranslation } from '@/lib/language-context';
 import {
   BookOpen,
   ArrowRight,
@@ -33,15 +36,27 @@ const WORKFLOW_ICONS: Record<string, any> = {
   FileText,
 };
 
+const NUTRIENT_KEYS = [
+  'iron',
+  'vitamin_b12',
+  'vitamin_d',
+  'calcium',
+  'vitamin_a',
+  'folate',
+  'protein',
+];
+
 export default function GuidelinesPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12">
       {/* Header */}
       <div className="space-y-4">
         <SectionHeader
-          badge="Evidence-Based Foundations"
-          title="Nutrition Guidelines & Methodology"
-          subtitle="Explore the scientific references, rule-based inference models, Recommended Dietary Allowances (RDA), and evidence-based methodology powering the NutriSense portal."
+          badge={t('guidelines.badge')}
+          title={t('guidelines.title')}
+          subtitle={t('guidelines.subtitle')}
         />
         <DisclaimerBanner variant="full" />
       </div>
@@ -52,13 +67,13 @@ export default function GuidelinesPage() {
       <section className="space-y-6">
         <div className="border-b border-slate-200 pb-3">
           <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">
-            Section A
+            {t('guidelines.sectionA')}
           </span>
           <h2 className="text-2xl font-bold text-slate-900">
-            Our Primary Scientific References
+            {t('guidelines.sectionATitle')}
           </h2>
           <p className="text-xs sm:text-sm text-slate-500">
-            NutriSense references established public health standards published by premier Indian and international health authorities.
+            {t('guidelines.sectionADesc')}
           </p>
         </div>
 
@@ -75,13 +90,13 @@ export default function GuidelinesPage() {
       <section className="space-y-6">
         <div className="border-b border-slate-200 pb-3">
           <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">
-            Sections B & C
+            {t('guidelines.sectionsBC')}
           </span>
           <h2 className="text-2xl font-bold text-slate-900">
-            Data Collection & Mapping Methodology
+            {t('guidelines.sectionsBCTitle')}
           </h2>
           <p className="text-xs sm:text-sm text-slate-500">
-            How user inputs are structured and matched against nutritional criteria.
+            {t('guidelines.sectionsBCDesc')}
           </p>
         </div>
 
@@ -93,32 +108,32 @@ export default function GuidelinesPage() {
                 <Layers className="w-5 h-5" />
               </div>
               <h3 className="text-lg font-bold text-slate-900">
-                What We Collect
+                {t('guidelines.whatWeCollectTitle')}
               </h3>
             </div>
             <ul className="space-y-3 text-xs sm:text-sm text-slate-600">
               <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-slate-900 font-semibold">Basic Demographics:</strong> Age, biological sex, height, weight (BMI calculation), and physical activity level.
+                  <strong className="text-slate-900 font-semibold">{t('guidelines.collectDemoLabel')}</strong> {t('guidelines.collectDemoDesc')}
                 </div>
               </li>
               <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-slate-900 font-semibold">Dietary Pattern:</strong> Vegetarian (lacto), vegan, non-vegetarian, ovo-vegetarian, or pescatarian habits.
+                  <strong className="text-slate-900 font-semibold">{t('guidelines.collectDietLabel')}</strong> {t('guidelines.collectDietDesc')}
                 </div>
               </li>
               <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-slate-900 font-semibold">Food Group Frequencies:</strong> Frequency of consuming fruits, vegetables, green leafy vegetables, pulses, dairy/alternatives, animal proteins, nuts/seeds, whole grains, and fortified items.
+                  <strong className="text-slate-900 font-semibold">{t('guidelines.collectFoodLabel')}</strong> {t('guidelines.collectFoodDesc')}
                 </div>
               </li>
               <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-slate-900 font-semibold">Self-Reported Cues & Lifestyle:</strong> Energy levels, skin/hair texture, muscle cramps, direct sunlight exposure, and mealtime tea/coffee habits.
+                  <strong className="text-slate-900 font-semibold">{t('guidelines.collectLifestyleLabel')}</strong> {t('guidelines.collectLifestyleDesc')}
                 </div>
               </li>
             </ul>
@@ -131,32 +146,32 @@ export default function GuidelinesPage() {
                 <Cpu className="w-5 h-5" />
               </div>
               <h3 className="text-lg font-bold text-slate-900">
-                What We Consider
+                {t('guidelines.whatWeConsiderTitle')}
               </h3>
             </div>
             <ul className="space-y-3 text-xs sm:text-sm text-slate-600">
               <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-slate-900 font-semibold">Dietary Bioavailability:</strong> Distinguishes between plant-based (non-heme) and animal-based (heme) micronutrients, accounting for absorption enhancers and inhibitors.
+                  <strong className="text-slate-900 font-semibold">{t('guidelines.considerBioLabel')}</strong> {t('guidelines.considerBioDesc')}
                 </div>
               </li>
               <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-slate-900 font-semibold">Inhibitor Synergy:</strong> Accounts for tannins in mealtime tea/coffee which suppress plant iron absorption by up to 60–80%.
+                  <strong className="text-slate-900 font-semibold">{t('guidelines.considerInhibitorLabel')}</strong> {t('guidelines.considerInhibitorDesc')}
                 </div>
               </li>
               <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-slate-900 font-semibold">Physiological Sex Scaling:</strong> Applies elevated iron requirements for biological women (29 mg vs 19 mg per ICMR).
+                  <strong className="text-slate-900 font-semibold">{t('guidelines.considerSexLabel')}</strong> {t('guidelines.considerSexDesc')}
                 </div>
               </li>
               <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-slate-900 font-semibold">Endogenous Synthesis Factors:</strong> Considers sunlight duration for Vitamin D and dietary fats for fat-soluble vitamins (A & D).
+                  <strong className="text-slate-900 font-semibold">{t('guidelines.considerSynthesisLabel')}</strong> {t('guidelines.considerSynthesisDesc')}
                 </div>
               </li>
             </ul>
@@ -170,20 +185,23 @@ export default function GuidelinesPage() {
       <section className="space-y-6">
         <div className="border-b border-slate-200 pb-3">
           <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">
-            Section D
+            {t('guidelines.sectionD')}
           </span>
           <h2 className="text-2xl font-bold text-slate-900">
-            Assessment System Workflow
+            {t('guidelines.sectionDTitle')}
           </h2>
           <p className="text-xs sm:text-sm text-slate-500">
-            A step-by-step visual representation of how user input transforms into explainable nutritional recommendations.
+            {t('guidelines.sectionDDesc')}
           </p>
         </div>
 
         <div className="p-6 sm:p-10 rounded-3xl bg-gradient-to-b from-slate-900 to-slate-800 text-white shadow-xl space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4 relative">
-            {WORKFLOW_STEPS.map((step, index) => {
+            {WORKFLOW_STEPS.map((step) => {
               const Icon = WORKFLOW_ICONS[step.icon] || Sparkles;
+              const stepTitle = t(`guidelines.workflow.step${step.step}Title`) || step.title;
+              const stepDesc = t(`guidelines.workflow.step${step.step}Desc`) || step.description;
+
               return (
                 <div
                   key={step.step}
@@ -197,10 +215,10 @@ export default function GuidelinesPage() {
                   </div>
                   <div className="space-y-1">
                     <h4 className="text-sm font-bold text-white leading-snug">
-                      {step.title}
+                      {stepTitle}
                     </h4>
                     <p className="text-[11px] text-slate-300 leading-relaxed">
-                      {step.description}
+                      {stepDesc}
                     </p>
                   </div>
                 </div>
@@ -213,7 +231,7 @@ export default function GuidelinesPage() {
               href="/assessment"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all"
             >
-              <span>Test The Interactive Workflow</span>
+              <span>{t('guidelines.testWorkflowBtn')}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -226,13 +244,13 @@ export default function GuidelinesPage() {
       <section className="space-y-6">
         <div className="border-b border-slate-200 pb-3">
           <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">
-            Reference Data
+            {t('guidelines.referenceDataBadge')}
           </span>
           <h2 className="text-2xl font-bold text-slate-900">
-            ICMR-NIN (2024) Recommended Dietary Allowances (RDA)
+            {t('guidelines.rdaTableTitle')}
           </h2>
           <p className="text-xs sm:text-sm text-slate-500">
-            Daily nutrient targets for reference Indian adults used as evaluation baselines in NutriSense.
+            {t('guidelines.rdaTableDesc')}
           </p>
         </div>
 
@@ -240,21 +258,27 @@ export default function GuidelinesPage() {
           <table className="w-full text-left text-xs sm:text-sm border-collapse">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200 text-slate-700 font-bold uppercase tracking-wider text-[11px]">
-                <th className="py-3.5 px-4">Nutrient</th>
-                <th className="py-3.5 px-4">Adult Men RDA</th>
-                <th className="py-3.5 px-4">Adult Women RDA</th>
-                <th className="py-3.5 px-4">Primary Biological Role</th>
+                <th className="py-3.5 px-4">{t('guidelines.tableNutrient')}</th>
+                <th className="py-3.5 px-4">{t('guidelines.tableMen')}</th>
+                <th className="py-3.5 px-4">{t('guidelines.tableWomen')}</th>
+                <th className="py-3.5 px-4">{t('guidelines.tableRole')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-700 font-medium">
-              {RDA_TABLE_DATA.map((row, i) => (
-                <tr key={i} className="hover:bg-slate-50/70 transition-colors">
-                  <td className="py-3.5 px-4 font-bold text-slate-900">{row.nutrient}</td>
-                  <td className="py-3.5 px-4 font-mono text-emerald-800">{row.men}</td>
-                  <td className="py-3.5 px-4 font-mono text-teal-800">{row.women}</td>
-                  <td className="py-3.5 px-4 text-slate-600 text-xs">{row.keyRole}</td>
-                </tr>
-              ))}
+              {RDA_TABLE_DATA.map((row, i) => {
+                const nutKey = NUTRIENT_KEYS[i];
+                const localizedRole = nutKey ? t(`guidelines.rdaRoles.${nutKey}`) : row.keyRole;
+                const localizedNutrient = nutKey ? t(`nutrients.${nutKey}`) : row.nutrient;
+
+                return (
+                  <tr key={i} className="hover:bg-slate-50/70 transition-colors">
+                    <td className="py-3.5 px-4 font-bold text-slate-900">{localizedNutrient || row.nutrient}</td>
+                    <td className="py-3.5 px-4 font-mono text-emerald-800">{row.men}</td>
+                    <td className="py-3.5 px-4 font-mono text-teal-800">{row.women}</td>
+                    <td className="py-3.5 px-4 text-slate-600 text-xs">{localizedRole || row.keyRole}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -266,31 +290,36 @@ export default function GuidelinesPage() {
       <section className="space-y-6">
         <div className="border-b border-slate-200 pb-3">
           <span className="text-xs font-bold uppercase tracking-wider text-rose-700">
-            Section E
+            {t('guidelines.sectionE')}
           </span>
           <h2 className="text-2xl font-bold text-slate-900">
-            System Limitations & Ethical Disclaimers
+            {t('guidelines.sectionETitle')}
           </h2>
           <p className="text-xs sm:text-sm text-slate-500">
-            Essential boundaries regarding system capabilities and medical non-diagnostic framing.
+            {t('guidelines.sectionEDesc')}
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-          {METHODOLOGY_LIMITATIONS.map((lim, i) => (
-            <div
-              key={i}
-              className="p-5 sm:p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2"
-            >
-              <div className="flex items-center gap-2 text-rose-700 font-bold text-sm">
-                <ShieldAlert className="w-4 h-4 shrink-0" />
-                <span>{lim.title}</span>
+          {METHODOLOGY_LIMITATIONS.map((lim, i) => {
+            const limTitle = t(`guidelines.limitations.lim${i + 1}Title`) || lim.title;
+            const limDesc = t(`guidelines.limitations.lim${i + 1}Desc`) || lim.description;
+
+            return (
+              <div
+                key={i}
+                className="p-5 sm:p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2"
+              >
+                <div className="flex items-center gap-2 text-rose-700 font-bold text-sm">
+                  <ShieldAlert className="w-4 h-4 shrink-0" />
+                  <span>{limTitle}</span>
+                </div>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  {limDesc}
+                </p>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                {lim.description}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
     </div>
